@@ -21,10 +21,10 @@ public class KakaoLoginController {
 
     private final KakaoService kakaoService;
 
-    @Value("${spring.security.oauth2.client.registration.kakao.client_id}")
+    @Value("${spring.security.oauth2.client.registration.kakao.client-id}")
     private String client_id;
 
-    @Value("${spring.security.oauth2.client.registration.kakao.redirect_uri}")
+    @Value("${spring.security.oauth2.client.registration.kakao.redirect-uri}")
     private String redirect_uri;
 
 
@@ -35,18 +35,18 @@ public class KakaoLoginController {
         return "login";
     }
 
-//    //토큰 발급받을 Redirect URL
-//    @GetMapping("/kakao_auth")
-//    public ResponseEntity<?> callback (@RequestParam("code") String code) {
-//        String accessToken = kakaoService.getAccessTokenFromKakao(code);
-//        KakaoUserInfoResponseDto userInfo = kakaoService.getUserInfo(accessToken);
-//        return new ResponseEntity<>(HttpStatus.OK);
-//    }
-
-
+    //토큰 발급받을 Redirect URL
     @GetMapping("/kakao_auth")
-    public @ResponseBody String kakaoCallback(String code) { // Data를 리턴해주는 컨트롤러 함수, 쿼리스트링에 있는 code값을 받을 수 있음
-        return "카카오 인증 완료" + code;
+    public ResponseEntity<?> callback (@RequestParam("code") String code) {
+        String accessToken = kakaoService.getAccessTokenFromKakao(code);
+        KakaoUserInfoResponseDto userInfo = kakaoService.getUserInfo(accessToken);
+        return new ResponseEntity<>(HttpStatus.OK);
     }
+
+
+//    @GetMapping("/kakao_auth")
+//    public @ResponseBody String kakaoCallback(String code) { // Data를 리턴해주는 컨트롤러 함수, 쿼리스트링에 있는 code값을 받을 수 있음
+//        return "카카오 인증 완료" + code;
+//    }
 
 }
