@@ -19,6 +19,8 @@ public class Member {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @Column(nullable = false)
+    private String username;
 
     @OneToMany(mappedBy = "member")
     private List<Feed> feeds = new ArrayList<>();

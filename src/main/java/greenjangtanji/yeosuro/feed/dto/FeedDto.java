@@ -14,10 +14,10 @@ public class FeedDto {
     public static class Post {
 
         private Long memberID;
-        @NotBlank
+        //@NotBlank
         private String title;
 
-        @NotBlank
+        //@NotBlank
         private String content;
 
         private String imageUrl;

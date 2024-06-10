@@ -1,4 +1,15 @@
 spring:
+  datasource:
+    url: ${DATABASE_URL}
+    username: ${DATABASE_USERNAME}
+    password:  ${DATABASE_PASSWORD}
+    driver-class-name: org.postgresql.Driver
+  jpa:
+    hibernate:
+      ddl-auto: update
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.PostgreSQLDialect
   security:
     oauth2:
       client:
@@ -19,4 +30,3 @@ spring:
             scope:
               - profile_nickname
               - profile_image
-              - account_email(필요시 동의항목에서 설정한 ID 임력)

@@ -12,28 +12,29 @@ import org.springframework.boot.autoconfigure.domain.EntityScan;
 @Getter
 @Setter
 @Entity
+@Table(name = "feed")
 public class Feed {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(nullable = false)
+   // @Column(nullable = false)
     private String title;
 
-    @Column(nullable = false)
+    //@Column(nullable = false)
     private String content;
 
-    @Column(nullable = false)
-    private int view;
+   // @Column(nullable = false)
+    private int view = 1;
 
-    @Column(nullable = false)
+   // @Column(nullable = false)
     private String imageUrl;
 
     private long boardLikesCount;
 
-    @Column(nullable = false)
-    @Enumerated(value = EnumType.STRING)
-    private FeedCategory category;
+//    @Column(nullable = false)
+//    @Enumerated(value = EnumType.STRING)
+//    private FeedCategory category;
 
     @ManyToOne
     @JoinColumn(name = "MEMBER_ID")
@@ -41,8 +42,8 @@ public class Feed {
     private Member member;
 
 
-    public enum FeedCategory{
-
-    }
+//    public enum FeedCategory{
+//
+//    }
 
 }
