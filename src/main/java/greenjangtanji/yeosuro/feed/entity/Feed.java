@@ -5,6 +5,7 @@ import greenjangtanji.yeosuro.config.Timestamped;
 import greenjangtanji.yeosuro.feed.dto.FeedRequestDto;
 import greenjangtanji.yeosuro.member.entity.Member;
 import jakarta.persistence.*;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import java.time.LocalDate;
@@ -38,12 +39,15 @@ public class Feed extends Timestamped {
     private Member member;
 
 
-    public Feed (FeedRequestDto.Post requestDto){
-        this.id = requestDto.getMemberID();
-        this.title = requestDto.getTitle();
-        this.content = requestDto.getContent();
-        this.imageUrl = requestDto.getImageUrl();
+    public static Feed createFeed (FeedRequestDto.Post requestDto){
+        Feed feed = new Feed();
+        feed.id = requestDto.getMemberID();
+        feed.title = requestDto.getTitle();
+        feed.content = requestDto.getContent();
+        feed.imageUrl = requestDto.getImageUrl();
+        return feed;
     }
+
 
     public void updateTitle (String title){
         this.title= title;

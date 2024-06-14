@@ -23,7 +23,7 @@ public class FeedService {
 
     //게시글 생성
     public Feed createFeed (FeedRequestDto.Post requestDto){
-        Feed feed = new Feed(requestDto);
+        Feed feed = Feed.createFeed(requestDto);
         return feedRepository.save(feed);
     }
     //모든 게시글 조회(최신순으로)
