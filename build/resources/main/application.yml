@@ -1,4 +1,15 @@
 spring:
+  datasource:
+    url: jdbc:postgresql://ec2-3-36-75-226.ap-northeast-2.compute.amazonaws.com:5432/testdb
+    username: postgres
+    password:  1234
+    driver-class-name: org.postgresql.Driver
+  jpa:
+    hibernate:
+      ddl-auto: update
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.PostgreSQLDialect
   security:
     oauth2:
       client:
