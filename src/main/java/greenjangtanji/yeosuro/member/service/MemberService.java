@@ -1,7 +1,7 @@
 package greenjangtanji.yeosuro.member.service;
 
 import greenjangtanji.yeosuro.member.entity.Member;
-import greenjangtanji.yeosuro.member.repository.MemberRepository;
+import greenjangtanji.yeosuro.member.repostory.MemberRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 

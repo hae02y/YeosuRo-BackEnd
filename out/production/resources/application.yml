@@ -1,8 +1,8 @@
 spring:
   datasource:
-    url: jdbc:postgresql://ec2-3-36-75-226.ap-northeast-2.compute.amazonaws.com:5432/testdb
-    username: postgres
-    password:  1234
+    url: ${DATABASE_URL}
+    username: ${DATABASE_USERNAME}
+    password:  ${DATABASE_PASSWORD}
     driver-class-name: org.postgresql.Driver
   jpa:
     hibernate:
@@ -30,4 +30,3 @@ spring:
             scope:
               - profile_nickname
               - profile_image
-              - account_email(필요시 동의항목에서 설정한 ID 임력)

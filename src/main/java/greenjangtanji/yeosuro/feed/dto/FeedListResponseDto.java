@@ -1,30 +1,40 @@
 package greenjangtanji.yeosuro.feed.dto;
 
 import greenjangtanji.yeosuro.feed.entity.Feed;
+import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-import java.time.LocalDateTime;
+import org.springframework.data.repository.query.Param;
 
-@Getter
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.util.Optional;
+
 @NoArgsConstructor
-public class FeedResponseDto {
+@AllArgsConstructor
+@Getter
+public class FeedListResponseDto {
 
     private Long id;
     private String title;
-    private String content;
     private String imageUrl;
-    private int view;
     private LocalDateTime createAt;
     private LocalDateTime modifiedAt;
 
-    public FeedResponseDto (Feed feed){
+    public FeedListResponseDto (Feed feed){
         this.id = feed.getId();
         this.title = feed.getTitle();
-        this.content = feed.getContent();
         this.imageUrl = feed.getImageUrl();
-        this.view = feed.getView();
         this.createAt = feed.getCreateAt();
         this.modifiedAt = feed.getModifiedAt();
+    }
+
+    public FeedListResponseDto (Optional<Feed> feed){
+        this.id = feed.get().getId();
+        this.title = feed.get().getTitle();
+        this.imageUrl = feed.get().getImageUrl();
+        this.createAt = feed.get().getCreateAt();
+        this.modifiedAt = feed.get().getModifiedAt();
     }
 
 }
