@@ -4,11 +4,14 @@ import com.fasterxml.jackson.annotation.JsonBackReference;
 import greenjangtanji.yeosuro.config.Timestamped;
 import greenjangtanji.yeosuro.feed.dto.FeedRequestDto;
 import greenjangtanji.yeosuro.member.entity.Member;
+import greenjangtanji.yeosuro.reply.entity.Reply;
 import jakarta.persistence.*;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.List;
 
 @NoArgsConstructor
 @Getter
@@ -31,20 +34,22 @@ public class Feed extends Timestamped {
     @Column(nullable = false)
     private String imageUrl;
 
-    private long boardLikesCount;
+    private long LikesCount;
 
     @ManyToOne
-    @JoinColumn(name = "MEMBER_ID")
+    @JoinColumn(name = "member_id")
     @JsonBackReference
     private Member member;
 
+    @OneToMany(mappedBy = "feed", cascade = {CascadeType.PERSIST,CascadeType.REMOVE})
+    private List<Reply> replies = new ArrayList<>();
 
-    public static Feed createFeed (FeedRequestDto.Post requestDto){
+    public static Feed createFeed (FeedRequestDto.Post requestDto, Member member){
         Feed feed = new Feed();
-        feed.id = requestDto.getMemberID();
         feed.title = requestDto.getTitle();
         feed.content = requestDto.getContent();
         feed.imageUrl = requestDto.getImageUrl();
+        feed.member = member;
         return feed;
     }
 

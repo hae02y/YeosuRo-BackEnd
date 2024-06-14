@@ -7,18 +7,19 @@ import org.hibernate.validator.constraints.NotBlank;
 public class FeedRequestDto {
     @Getter
     @NoArgsConstructor
-        public static class Post {
+    public static class Post {
 
-                private Long memberID;
+        private Long memberId;
 
-                @NotBlank
-                private String title;
+        @NotBlank
+        private String title;
 
-                @NotBlank
-                private String content;
+        @NotBlank
+        private String content;
 
-                private String imageUrl;
-        }
+        private String imageUrl;
+
+    }
 
 
     @Getter
