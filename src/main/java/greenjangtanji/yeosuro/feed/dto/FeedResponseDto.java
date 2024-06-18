@@ -10,6 +10,7 @@ import java.time.LocalDateTime;
 public class FeedResponseDto {
 
     private Long id;
+    private Long memberID;
     private String title;
     private String content;
     private String imageUrl;
@@ -19,6 +20,7 @@ public class FeedResponseDto {
 
     public FeedResponseDto (Feed feed){
         this.id = feed.getId();
+        this.memberID = feed.getMember().getId();
         this.title = feed.getTitle();
         this.content = feed.getContent();
         this.imageUrl = feed.getImageUrl();
