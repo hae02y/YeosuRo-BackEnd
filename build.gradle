@@ -5,7 +5,7 @@ plugins {
 }
 
 group = 'greenjangtanji'
-version = '0.0.1-SNAPSHOT'
+version = 'snap'
 
 java {
 	sourceCompatibility = '17'
@@ -32,6 +32,11 @@ dependencies {
 	testImplementation 'org.springframework.security:spring-security-test'
 	testRuntimeOnly 'org.junit.platform:junit-platform-launcher'
 }
+
+jar {
+	enabled = false
+}
+
 
 tasks.named('test') {
 	useJUnitPlatform()
