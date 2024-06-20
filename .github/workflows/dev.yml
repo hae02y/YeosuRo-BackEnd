@@ -48,19 +48,12 @@ jobs:
     - name: List build artifacts
       run: ls -al build/libs
 
-    - name: Upload artifact
-      uses: actions/upload-artifact@v2
-      with:
-        name: yeosuroServer
-        path: build/libs/snap.jar
-        if-no-files-found: warn
-
     # 빌드해서 생긴 JAR 파일을 깃허브 아티팩트로 업로드!!
     - name: Upload build artifact
       uses: actions/upload-artifact@v2
       with:
         name: yeosuroServer
-        path: build/libs/snap.jar
+        path: build/libs/yeosuro-snap.jar
 
   # 배포 **
   deploy:
@@ -84,6 +77,6 @@ jobs:
       run: |
         echo "${{ secrets.EC2_SSH_KEY }}" > private_key.pem
         chmod 600 private_key.pem
-        scp -i private_key.pem -o StrictHostKeyChecking=no build/libs/snap.jar ${{ secrets.EC2_USERNAME }}@${{ secrets.EC2_HOST }}:/home/${{ secrets.EC2_USERNAME }}/yeosurodev/snap.jar
+        scp -i private_key.pem -o StrictHostKeyChecking=no build/libs/yeosuro-snap.jar ${{ secrets.EC2_USERNAME }}@${{ secrets.EC2_HOST }}:/home/${{ secrets.EC2_USERNAME }}/yeosurodev/snap.jar
         ssh -i private_key.pem -o StrictHostKeyChecking=no ${{ secrets.EC2_USERNAME }}@${{ secrets.EC2_HOST }} "pgrep java | xargs kill -9; nohup java -jar /home/${{ secrets.EC2_USERNAME }}/yeosurodev/snap.jar > app.log 2>&1 &"
         rm -f private_key.pem
