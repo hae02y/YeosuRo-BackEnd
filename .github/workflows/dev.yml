@@ -78,5 +78,5 @@ jobs:
         echo "${{ secrets.EC2_SSH_KEY }}" > private_key.pem
         chmod 600 private_key.pem
         scp -i private_key.pem -P 2222 -o StrictHostKeyChecking=no build/libs/yeosuro-snap.jar ${{ secrets.EC2_USERNAME }}@${{ secrets.EC2_HOST }}:/home/${{ secrets.EC2_USERNAME }}/yeosurodev/snap.jar
-        ssh -i private_key.pem -p 2222 -o StrictHostKeyChecking=no ${{ secrets.EC2_USERNAME }}@${{ secrets.EC2_HOST }} "pm2 stop 0; pm2 start /home/${{ secrets.EC2_USERNAME }}/server.json"
+        ssh -i private_key.pem -p 2222 -o StrictHostKeyChecking=no ${{ secrets.EC2_USERNAME }}@${{ secrets.EC2_HOST }} "/home/ubuntu/.nvm/versions/node/v20.14.0/bin/pm2 stop 0; /home/ubuntu/.nvm/versions/node/v20.14.0/bin/pm2 start /home/${{ secrets.EC2_USERNAME }}/server.json"
         rm -f private_key.pem
