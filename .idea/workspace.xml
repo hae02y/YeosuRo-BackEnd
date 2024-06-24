@@ -4,7 +4,24 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="5ddf4466-8432-4f6d-b1af-343f62cc8045" name="변경" comment="" />
+    <list default="true" id="5ddf4466-8432-4f6d-b1af-343f62cc8045" name="변경" comment="">
+      <change afterPath="$PROJECT_DIR$/.idea/vcs.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/dataSources/40cc5cd2-e22d-4e33-8bc2-417523119f2f.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/dataSources/40cc5cd2-e22d-4e33-8bc2-417523119f2f.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/dataSources/40cc5cd2-e22d-4e33-8bc2-417523119f2f/storage_v2/_src_/database/mydb.Kl8zAA/schema/information_schema.FNRwLQ.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/dataSources/40cc5cd2-e22d-4e33-8bc2-417523119f2f/storage_v2/_src_/database/mydb.Kl8zAA/schema/information_schema.FNRwLQ.zip" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/dataSources/40cc5cd2-e22d-4e33-8bc2-417523119f2f/storage_v2/_src_/database/mydb.Kl8zAA/schema/public.abK9xQ.meta" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/dataSources/40cc5cd2-e22d-4e33-8bc2-417523119f2f/storage_v2/_src_/database/mydb.Kl8zAA/schema/public.abK9xQ.meta" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/classes/java/main/greenjangtanji/yeosuro/feed/dto/FeedRequestDto$Post.class" beforeDir="false" afterPath="$PROJECT_DIR$/build/classes/java/main/greenjangtanji/yeosuro/feed/dto/FeedRequestDto$Post.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/classes/java/main/greenjangtanji/yeosuro/feed/entity/Feed.class" beforeDir="false" afterPath="$PROJECT_DIR$/build/classes/java/main/greenjangtanji/yeosuro/feed/entity/Feed.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/classes/java/main/greenjangtanji/yeosuro/feed/service/FeedService.class" beforeDir="false" afterPath="$PROJECT_DIR$/build/classes/java/main/greenjangtanji/yeosuro/feed/service/FeedService.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/classes/java/main/greenjangtanji/yeosuro/member/entity/Member.class" beforeDir="false" afterPath="$PROJECT_DIR$/build/classes/java/main/greenjangtanji/yeosuro/member/entity/Member.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/classes/java/main/greenjangtanji/yeosuro/reply/dto/ReplyRequestDto$Post.class" beforeDir="false" afterPath="$PROJECT_DIR$/build/classes/java/main/greenjangtanji/yeosuro/reply/dto/ReplyRequestDto$Post.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/classes/java/main/greenjangtanji/yeosuro/reply/dto/ReplyResponseDto.class" beforeDir="false" afterPath="$PROJECT_DIR$/build/classes/java/main/greenjangtanji/yeosuro/reply/dto/ReplyResponseDto.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/classes/java/main/greenjangtanji/yeosuro/reply/entity/Reply.class" beforeDir="false" afterPath="$PROJECT_DIR$/build/classes/java/main/greenjangtanji/yeosuro/reply/entity/Reply.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/classes/java/main/greenjangtanji/yeosuro/reply/service/ReplyService.class" beforeDir="false" afterPath="$PROJECT_DIR$/build/classes/java/main/greenjangtanji/yeosuro/reply/service/ReplyService.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/tmp/compileJava/previous-compilation-data.bin" beforeDir="false" afterPath="$PROJECT_DIR$/build/tmp/compileJava/previous-compilation-data.bin" afterDir="false" />
+    </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -45,15 +62,15 @@
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
   </component>
-  <component name="KubernetesApiProvider"><![CDATA[{
-  "isMigrated": true
-}]]></component>
+  <component name="KubernetesApiProvider">{
+  &quot;isMigrated&quot;: true
+}</component>
   <component name="MarkdownSettingsMigration">
     <option name="stateVersion" value="1" />
   </component>
-  <component name="ProjectColorInfo"><![CDATA[{
-  "associatedIndex": 4
-}]]></component>
+  <component name="ProjectColorInfo">{
+  &quot;associatedIndex&quot;: 4
+}</component>
   <component name="ProjectId" id="2i3DhjOXPnxxXF2paXDF8u9uLEB" />
   <component name="ProjectLevelVcsManager">
     <ConfirmationsSetting value="2" id="Add" />
@@ -75,7 +92,7 @@
     "RunOnceActivity.ShowReadmeOnStart": "true",
     "SHARE_PROJECT_CONFIGURATION_FILES": "true",
     "Spring Boot.YeosuroApplication.executor": "Run",
-    "git-widget-placeholder": "main",
+    "git-widget-placeholder": "dev",
     "kotlin-language-version-configured": "true",
     "last_opened_file_path": "/Users/vestellalab/Desktop/Study/YeosuRo-BackEnd",
     "node.js.detected.package.eslint": "true",
@@ -128,6 +145,7 @@
       <option name="presentableId" value="Default" />
       <updated>1718710488048</updated>
       <workItem from="1718710489204" duration="9508000" />
+      <workItem from="1719045137673" duration="3529000" />
     </task>
     <servers />
   </component>
