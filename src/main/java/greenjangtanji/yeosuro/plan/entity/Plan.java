@@ -1,7 +1,7 @@
 package greenjangtanji.yeosuro.plan.entity;
 
 import greenjangtanji.yeosuro.config.Timestamped;
-import greenjangtanji.yeosuro.member.entity.Member;
+import greenjangtanji.yeosuro.user.entity.Member;
 import jakarta.persistence.*;
 
 

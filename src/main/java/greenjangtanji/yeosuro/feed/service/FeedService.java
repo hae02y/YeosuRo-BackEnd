@@ -2,12 +2,10 @@ package greenjangtanji.yeosuro.feed.service;
 
 import greenjangtanji.yeosuro.feed.dto.FeedListResponseDto;
 import greenjangtanji.yeosuro.feed.dto.FeedRequestDto;
-import greenjangtanji.yeosuro.feed.dto.FeedResponseDto;
 import greenjangtanji.yeosuro.feed.entity.Feed;
 import greenjangtanji.yeosuro.feed.repository.FeedRepository;
-import greenjangtanji.yeosuro.member.entity.Member;
-import greenjangtanji.yeosuro.member.repostory.MemberRepository;
-import lombok.AllArgsConstructor;
+import greenjangtanji.yeosuro.user.entity.Member;
+import greenjangtanji.yeosuro.user.repostory.MemberRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
@@ -15,7 +13,6 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
 
 @Slf4j
 @Service

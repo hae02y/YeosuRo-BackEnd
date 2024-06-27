@@ -3,7 +3,7 @@ package greenjangtanji.yeosuro.reply.entity;
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import greenjangtanji.yeosuro.config.Timestamped;
 import greenjangtanji.yeosuro.feed.entity.Feed;
-import greenjangtanji.yeosuro.member.entity.Member;
+import greenjangtanji.yeosuro.user.entity.Member;
 import greenjangtanji.yeosuro.reply.dto.ReplyRequestDto;
 import jakarta.persistence.*;
 import lombok.Getter;

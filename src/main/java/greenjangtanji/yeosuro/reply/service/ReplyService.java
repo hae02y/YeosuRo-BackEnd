@@ -2,8 +2,8 @@ package greenjangtanji.yeosuro.reply.service;
 
 import greenjangtanji.yeosuro.feed.entity.Feed;
 import greenjangtanji.yeosuro.feed.repository.FeedRepository;
-import greenjangtanji.yeosuro.member.entity.Member;
-import greenjangtanji.yeosuro.member.repostory.MemberRepository;
+import greenjangtanji.yeosuro.user.entity.Member;
+import greenjangtanji.yeosuro.user.repostory.MemberRepository;
 import greenjangtanji.yeosuro.reply.dto.ReplyRequestDto;
 import greenjangtanji.yeosuro.reply.entity.Reply;
 import greenjangtanji.yeosuro.reply.repository.ReplyRepository;

@@ -3,13 +3,12 @@ package greenjangtanji.yeosuro.feed.entity;
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import greenjangtanji.yeosuro.config.Timestamped;
 import greenjangtanji.yeosuro.feed.dto.FeedRequestDto;
-import greenjangtanji.yeosuro.member.entity.Member;
+import greenjangtanji.yeosuro.user.entity.Member;
 import greenjangtanji.yeosuro.reply.entity.Reply;
 import jakarta.persistence.*;
-import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-import java.time.LocalDate;
+
 import java.util.ArrayList;
 import java.util.List;
 
