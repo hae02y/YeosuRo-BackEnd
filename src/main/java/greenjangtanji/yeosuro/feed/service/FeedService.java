@@ -4,8 +4,8 @@ import greenjangtanji.yeosuro.feed.dto.FeedListResponseDto;
 import greenjangtanji.yeosuro.feed.dto.FeedRequestDto;
 import greenjangtanji.yeosuro.feed.entity.Feed;
 import greenjangtanji.yeosuro.feed.repository.FeedRepository;
-import greenjangtanji.yeosuro.user.entity.Member;
-import greenjangtanji.yeosuro.user.repostory.MemberRepository;
+import greenjangtanji.yeosuro.user.entity.User;
+import greenjangtanji.yeosuro.user.repostory.UserRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
@@ -20,14 +20,14 @@ import java.util.List;
 public class FeedService {
 
     private final FeedRepository feedRepository;
-    private final MemberRepository memberRepository;
+    private final UserRepository userRepository;
 
     //게시글 생성
     public Feed createFeed (FeedRequestDto.Post requestDto){
-        Member member = memberRepository.findById(requestDto.getMemberId()).orElseThrow(
+        User user = userRepository.findById(requestDto.getMemberId()).orElseThrow(
                 () -> new IllegalArgumentException("유저 정보가 없습니다.")
         );
-        Feed feed = Feed.createFeed(requestDto, member);
+        Feed feed = Feed.createFeed(requestDto, user);
         return feedRepository.save(feed);
     }
     //모든 게시글 조회(최신순으로)

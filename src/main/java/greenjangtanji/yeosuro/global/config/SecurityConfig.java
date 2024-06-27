@@ -10,7 +10,7 @@ import greenjangtanji.yeosuro.global.login.filter.CustomJsonUsernamePasswordAuth
 import greenjangtanji.yeosuro.global.login.handler.LoginFailureHandler;
 import greenjangtanji.yeosuro.global.login.handler.LoginSuccessHandler;
 import greenjangtanji.yeosuro.global.login.service.LoginService;
-import greenjangtanji.yeosuro.member.repostory.UserRepository;
+import greenjangtanji.yeosuro.user.repostory.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.boot.autoconfigure.security.servlet.PathRequest;
 import org.springframework.context.annotation.Bean;
@@ -68,7 +68,7 @@ public class SecurityConfig {
 
                 // URL별 권한 관리 옵션
                 .authorizeHttpRequests((auth) -> auth
-                        .requestMatchers("/", "/css/**", "/images/**", "/js/**", "/favicon.ico","/h2-console/**").permitAll()
+                        .requestMatchers("/", "/css/**", "/images/**", "/js/**", "/favicon.ico").permitAll()
                         .requestMatchers("/index.html").permitAll()
                         .requestMatchers("/sign-up", "/jwt-test").permitAll() // 회원가입, 로그인 접근 가능
                         .requestMatchers(PathRequest.toStaticResources().atCommonLocations()).permitAll()

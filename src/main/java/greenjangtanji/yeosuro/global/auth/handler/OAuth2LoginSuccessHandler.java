@@ -2,8 +2,8 @@ package greenjangtanji.yeosuro.global.auth.handler;
 
 import greenjangtanji.yeosuro.global.auth.CustomOAuth2User;
 import greenjangtanji.yeosuro.global.jwt.service.JwtService;
-import greenjangtanji.yeosuro.member.entity.Role;
-import greenjangtanji.yeosuro.member.repostory.UserRepository;
+import greenjangtanji.yeosuro.user.entity.Role;
+import greenjangtanji.yeosuro.user.repostory.UserRepository;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;

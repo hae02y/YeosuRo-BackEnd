@@ -2,11 +2,11 @@ package greenjangtanji.yeosuro.reply.service;
 
 import greenjangtanji.yeosuro.feed.entity.Feed;
 import greenjangtanji.yeosuro.feed.repository.FeedRepository;
-import greenjangtanji.yeosuro.user.entity.Member;
-import greenjangtanji.yeosuro.user.repostory.MemberRepository;
+import greenjangtanji.yeosuro.user.entity.User;
 import greenjangtanji.yeosuro.reply.dto.ReplyRequestDto;
 import greenjangtanji.yeosuro.reply.entity.Reply;
 import greenjangtanji.yeosuro.reply.repository.ReplyRepository;
+import greenjangtanji.yeosuro.user.repostory.UserRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
@@ -20,11 +20,11 @@ import java.util.List;
 public class ReplyService {
     private final ReplyRepository replyRepository;
     private final FeedRepository feedRepository;
-    private final MemberRepository memberRepository;
+    private final UserRepository userRepository;
 
     //댓글 생성
     public Reply createReply (ReplyRequestDto.Post requestDto){
-        Member member = memberRepository.findById(requestDto.getMemberId()).orElseThrow(
+        User user = userRepository.findById(requestDto.getMemberId()).orElseThrow(
                 () -> new IllegalArgumentException("유저 정보가 없습니다.")
         );
 
@@ -32,7 +32,7 @@ public class ReplyService {
                 () -> new IllegalArgumentException("게시글 정보가 없습니다.")
         );
 
-        Reply reply = Reply.createReply(requestDto, member, feed);
+        Reply reply = Reply.createReply(requestDto, user, feed);
         return replyRepository.save(reply);
     }
 

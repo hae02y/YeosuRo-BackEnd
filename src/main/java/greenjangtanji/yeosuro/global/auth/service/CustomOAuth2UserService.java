@@ -2,9 +2,9 @@ package greenjangtanji.yeosuro.global.auth.service;
 
 import greenjangtanji.yeosuro.global.auth.CustomOAuth2User;
 import greenjangtanji.yeosuro.global.auth.OAuthAttributes;
-import greenjangtanji.yeosuro.member.entity.SocialType;
-import greenjangtanji.yeosuro.member.entity.User;
-import greenjangtanji.yeosuro.member.repostory.UserRepository;
+import greenjangtanji.yeosuro.user.entity.SocialType;
+import greenjangtanji.yeosuro.user.entity.User;
+import greenjangtanji.yeosuro.user.repostory.UserRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;

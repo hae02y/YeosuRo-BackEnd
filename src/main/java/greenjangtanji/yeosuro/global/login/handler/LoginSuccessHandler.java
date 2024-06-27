@@ -1,7 +1,7 @@
 package greenjangtanji.yeosuro.global.login.handler;
 
 import greenjangtanji.yeosuro.global.jwt.service.JwtService;
-import greenjangtanji.yeosuro.member.repostory.UserRepository;
+import greenjangtanji.yeosuro.user.repostory.UserRepository;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;

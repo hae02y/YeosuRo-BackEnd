@@ -1,7 +1,7 @@
 package greenjangtanji.yeosuro.global.login.service;
 
-import greenjangtanji.yeosuro.member.entity.User;
-import greenjangtanji.yeosuro.member.repostory.UserRepository;
+import greenjangtanji.yeosuro.user.entity.User;
+import greenjangtanji.yeosuro.user.repostory.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;

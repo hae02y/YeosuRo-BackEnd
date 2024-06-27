@@ -2,8 +2,8 @@ package greenjangtanji.yeosuro.global.jwt.filter;
 
 import greenjangtanji.yeosuro.global.jwt.service.JwtService;
 import greenjangtanji.yeosuro.global.jwt.util.PasswordUtil;
-import greenjangtanji.yeosuro.member.entity.User;
-import greenjangtanji.yeosuro.member.repostory.UserRepository;
+import greenjangtanji.yeosuro.user.entity.User;
+import greenjangtanji.yeosuro.user.repostory.UserRepository;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;

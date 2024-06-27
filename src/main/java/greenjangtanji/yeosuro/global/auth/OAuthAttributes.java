@@ -3,9 +3,9 @@ package greenjangtanji.yeosuro.global.auth;
 import greenjangtanji.yeosuro.global.auth.userinfo.GoogleOAuth2UserInfo;
 import greenjangtanji.yeosuro.global.auth.userinfo.KakaoOAuth2UserInfo;
 import greenjangtanji.yeosuro.global.auth.userinfo.OAuth2UserInfo;
-import greenjangtanji.yeosuro.member.entity.Role;
-import greenjangtanji.yeosuro.member.entity.SocialType;
-import greenjangtanji.yeosuro.member.entity.User;
+import greenjangtanji.yeosuro.user.entity.Role;
+import greenjangtanji.yeosuro.user.entity.SocialType;
+import greenjangtanji.yeosuro.user.entity.User;
 import lombok.Builder;
 import lombok.Getter;
 

@@ -1,10 +1,10 @@
 package greenjangtanji.yeosuro.reply.entity;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
-import greenjangtanji.yeosuro.config.Timestamped;
 import greenjangtanji.yeosuro.feed.entity.Feed;
-import greenjangtanji.yeosuro.user.entity.Member;
+import greenjangtanji.yeosuro.global.config.Timestamped;
 import greenjangtanji.yeosuro.reply.dto.ReplyRequestDto;
+import greenjangtanji.yeosuro.user.entity.User;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -26,9 +26,9 @@ public class Reply extends Timestamped {
 
 
     @ManyToOne
-    @JoinColumn(name = "member_id")
+    @JoinColumn(name = "user_id")
     @JsonBackReference
-    private Member member;
+    private User user;
 
 
     @ManyToOne
@@ -37,11 +37,11 @@ public class Reply extends Timestamped {
     private Feed feed;
 
 
-    public static Reply createReply (ReplyRequestDto.Post requestDto, Member member, Feed feed){
+    public static Reply createReply (ReplyRequestDto.Post requestDto, User user, Feed feed){
         Reply reply = new Reply();
         reply.content = requestDto.getContent();
         reply.feed = feed;
-        reply.member = member;
+        reply.user = user;
         return reply;
     }
 

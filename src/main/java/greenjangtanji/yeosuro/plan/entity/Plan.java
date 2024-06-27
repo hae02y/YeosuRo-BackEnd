@@ -1,7 +1,7 @@
 package greenjangtanji.yeosuro.plan.entity;
 
-import greenjangtanji.yeosuro.config.Timestamped;
-import greenjangtanji.yeosuro.user.entity.Member;
+import greenjangtanji.yeosuro.global.config.Timestamped;
+import greenjangtanji.yeosuro.user.entity.User;
 import jakarta.persistence.*;
 
 
@@ -20,6 +20,6 @@ public class Plan extends Timestamped {
     private String date;
 
     @ManyToOne
-    private Member member;
+    private User user;
 
 }

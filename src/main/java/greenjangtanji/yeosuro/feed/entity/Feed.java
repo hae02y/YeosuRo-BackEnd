@@ -1,10 +1,10 @@
 package greenjangtanji.yeosuro.feed.entity;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
-import greenjangtanji.yeosuro.config.Timestamped;
 import greenjangtanji.yeosuro.feed.dto.FeedRequestDto;
-import greenjangtanji.yeosuro.user.entity.Member;
+import greenjangtanji.yeosuro.global.config.Timestamped;
 import greenjangtanji.yeosuro.reply.entity.Reply;
+import greenjangtanji.yeosuro.user.entity.User;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -36,19 +36,19 @@ public class Feed extends Timestamped {
     private long LikesCount;
 
     @ManyToOne
-    @JoinColumn(name = "member_id")
+    @JoinColumn(name = "user_id")
     @JsonBackReference
-    private Member member;
+    private User user;
 
     @OneToMany(mappedBy = "feed", cascade = {CascadeType.PERSIST,CascadeType.REMOVE})
     private List<Reply> replies = new ArrayList<>();
 
-    public static Feed createFeed (FeedRequestDto.Post requestDto, Member member){
+    public static Feed createFeed (FeedRequestDto.Post requestDto, User user){
         Feed feed = new Feed();
         feed.title = requestDto.getTitle();
         feed.content = requestDto.getContent();
         feed.imageUrl = requestDto.getImageUrl();
-        feed.member = member;
+        feed.user = user;
         return feed;
     }
 

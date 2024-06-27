@@ -1,6 +1,6 @@
 package greenjangtanji.yeosuro.global.auth;
 
-import greenjangtanji.yeosuro.member.entity.Role;
+import greenjangtanji.yeosuro.user.entity.Role;
 import lombok.Getter;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.oauth2.core.user.DefaultOAuth2User;
