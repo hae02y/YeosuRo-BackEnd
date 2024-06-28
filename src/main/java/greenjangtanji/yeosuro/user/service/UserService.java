@@ -20,23 +20,49 @@ public class UserService {
     private final UserRepository userRepository;
     private final PasswordEncoder passwordEncoder;
 
-    public User createMember(UserRequestDto.SignUpDto signUpDto) throws Exception{
+    public User createMember(UserRequestDto.SignUp signUp) throws Exception{
 
-        checkNickname(signUpDto.getNickname());
-        checkEmail(signUpDto.getEmail());
+        checkNickname(signUp.getNickname());
+        checkEmail(signUp.getEmail());
 
         User user = User.builder()
-                .email(signUpDto.getEmail())
-                .password(signUpDto.getPassword())
-                .nickname(signUpDto.getNickname())
+                .email(signUp.getEmail())
+                .password(signUp.getPassword())
+                .nickname(signUp.getNickname())
                 .profileImageUrl("기본이미지 주소")
-                .agree(signUpDto.getAgree())
+                .agree(signUp.getAgree())
                 .role(Role.USER)
                 .build();
 
         user.passwordEncode(passwordEncoder);
         userRepository.save(user);
         return user;
+    }
+
+    //회원정보 수정
+    @Transactional
+    public User updateUserInfo (Long userId, UserRequestDto.Patch patch) throws Exception {
+        User user =  checkUser(userId);
+
+        if (patch.getNickname() != null){
+            user.updateNickname(patch.getNickname());
+        }
+        if (patch.getProfileImageUrl() != null){
+            user.updateProfileImageUrl(patch.getProfileImageUrl());
+        }
+
+        return user;
+    }
+
+    //회원 탈퇴
+
+
+    //회원 확인
+    private User checkUser (Long userId) throws Exception{
+        User existingUser = userRepository.findById(userId).orElseThrow(
+                () -> new Exception("존재하지 않는 회원입니다.")
+        );
+        return existingUser;
     }
 
     //닉네님 중복확인

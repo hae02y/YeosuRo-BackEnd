@@ -17,14 +17,27 @@ public class UserController {
     private final UserService userService;
 
 
+    //자체 회원가입
     @PostMapping("/sign-up")
-    public ResponseEntity signUp(@RequestBody UserRequestDto.SignUpDto signUpDto) throws Exception {
-        User user = userService.createMember(signUpDto);
+    public ResponseEntity signUp(@RequestBody UserRequestDto.SignUp signUp) throws Exception {
+        User user = userService.createMember(signUp);
         UserResponseDto responseDto = new UserResponseDto(user);
         return new ResponseEntity<>(responseDto, HttpStatus.OK);
     }
 
 
+    //회원 정보 수정
+    @PatchMapping ("/users/{user-id}")
+    public ResponseEntity updateUserInfo (@PathVariable("user-id") Long userId, @RequestBody UserRequestDto.Patch patchDto) throws Exception {
+        User user = userService.updateUserInfo(userId, patchDto);
+        UserResponseDto userResponseDto = new UserResponseDto(user);
+
+        return new ResponseEntity<>(userResponseDto, HttpStatus.OK);
+    }
+
+    //회원 탈퇴
+
+    //테스트
     @GetMapping("/jwt-test")
     public String jwtTest() {
         return "jwtTest 요청 성공";
