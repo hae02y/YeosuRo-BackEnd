@@ -19,7 +19,7 @@ public class ReplyResponseDto {
     public ReplyResponseDto (Reply reply){
         this.id = reply.getId();
         this.feedID = reply.getFeed().getId();
-        this.memberID = reply.getMember().getId();
+        this.memberID = reply.getUser().getId();
         this.content = reply.getContent();
         this.createAt = reply.getCreateAt();
         this.modifiedAt = reply.getModifiedAt();

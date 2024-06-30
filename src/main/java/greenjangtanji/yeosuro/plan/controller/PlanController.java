@@ -8,7 +8,7 @@ import org.springframework.web.bind.annotation.*;
 @RequestMapping("/plan")
 public class PlanController {
 
-    @GetMapping()
+    @GetMapping("/byBody")
     public ResponseEntity<?> getPlan(@RequestBody(required = false) String body) {
         return new ResponseEntity<>(HttpStatus.OK);
     }

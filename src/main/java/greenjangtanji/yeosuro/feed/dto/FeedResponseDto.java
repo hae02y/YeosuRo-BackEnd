@@ -20,7 +20,7 @@ public class FeedResponseDto {
 
     public FeedResponseDto (Feed feed){
         this.id = feed.getId();
-        this.memberID = feed.getMember().getId();
+        this.memberID = feed.getUser().getId();
         this.title = feed.getTitle();
         this.content = feed.getContent();
         this.imageUrl = feed.getImageUrl();
