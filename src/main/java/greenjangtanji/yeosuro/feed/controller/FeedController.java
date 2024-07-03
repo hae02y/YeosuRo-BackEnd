@@ -36,7 +36,6 @@ public class FeedController {
         Feed feed = feedService.createFeed(userId,postDto);
         FeedResponseDto responseDto = new FeedResponseDto(feed);
         return new ResponseEntity<>(responseDto, HttpStatus.OK);
-
     }
 
     //게시글 전체 조회
