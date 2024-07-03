@@ -3,6 +3,7 @@ package greenjangtanji.yeosuro.user.service;
 import greenjangtanji.yeosuro.user.dto.UserRequestDto;
 import greenjangtanji.yeosuro.user.entity.Role;
 import greenjangtanji.yeosuro.user.entity.User;
+import greenjangtanji.yeosuro.user.entity.UserStatus;
 import greenjangtanji.yeosuro.user.repostory.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.Authentication;
@@ -33,6 +34,7 @@ public class UserService {
                 .profileImageUrl("기본이미지 주소")
                 .agree(signUp.getAgree())
                 .role(Role.USER)
+                .userStatus(UserStatus.ACTIVE)
                 .build();
 
         user.passwordEncode(passwordEncoder);

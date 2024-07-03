@@ -33,6 +33,9 @@ public class User {
     //추가 정보 (마케팅 정보 수신 동의)
     private Boolean agree;
 
+    @Enumerated(EnumType.STRING) //회원 탈퇴여부
+    private UserStatus userStatus;
+
     @Enumerated(EnumType.STRING)
     private Role role;
 
@@ -43,9 +46,13 @@ public class User {
 
     private String refreshToken; // 리프레시 토큰
 
-    // 유저 권한 설정 메소드
+
+    /**
+     * 유저 권한 설정 메소드
+     */
     public void authorizeUser() {
         this.role = Role.USER;
+        this.userStatus = UserStatus.ACTIVE;
     }
 
     // 비밀번호 암호화 메소드

@@ -38,6 +38,12 @@ public class UserController {
         return new ResponseEntity<>(userResponseDto, HttpStatus.OK);
     }
 
+    @PostMapping("additional-info")
+    public ResponseEntity additionalUserInfo (@RequestBody UserRequestDto.AdditionalInformation additionalInformation){
+
+        return new ResponseEntity<>(HttpStatus.OK);
+    }
+
     //회원 탈퇴
 
     //테스트

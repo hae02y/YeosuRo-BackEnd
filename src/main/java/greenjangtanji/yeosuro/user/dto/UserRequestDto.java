@@ -16,6 +16,12 @@ public class UserRequestDto {
 
     @Getter
     @NoArgsConstructor
+    public static class AdditionalInformation {
+        private Boolean agree;
+    }
+
+    @Getter
+    @NoArgsConstructor
     public static class Patch {
         private String nickname;
         private String profileImageUrl;
