@@ -5,11 +5,13 @@ import greenjangtanji.yeosuro.feed.dto.FeedRequestDto;
 import greenjangtanji.yeosuro.feed.dto.FeedResponseDto;
 import greenjangtanji.yeosuro.feed.entity.Feed;
 import greenjangtanji.yeosuro.feed.service.FeedService;
+import greenjangtanji.yeosuro.user.service.UserService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.Authentication;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
@@ -24,11 +26,14 @@ import java.util.Optional;
 @Validated
 public class FeedController {
     private final FeedService feedService;
+    private final UserService userService;
 
     //게시글 등록
     @PostMapping
-    public ResponseEntity postFeed (@Valid @RequestBody FeedRequestDto.Post postDto){
-        Feed feed = feedService.createFeed(postDto);
+    public ResponseEntity postFeed (@Valid @RequestBody FeedRequestDto.Post postDto,
+                                    Authentication authentication) throws Exception {
+        Long userId = userService.extractUserId(authentication);
+        Feed feed = feedService.createFeed(userId,postDto);
         FeedResponseDto responseDto = new FeedResponseDto(feed);
         return new ResponseEntity<>(responseDto, HttpStatus.OK);
 

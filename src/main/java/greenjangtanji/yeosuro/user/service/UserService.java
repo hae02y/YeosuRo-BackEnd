@@ -5,6 +5,7 @@ import greenjangtanji.yeosuro.user.entity.Role;
 import greenjangtanji.yeosuro.user.entity.User;
 import greenjangtanji.yeosuro.user.repostory.UserRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.core.Authentication;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -79,6 +80,11 @@ public class UserService {
         if (user.isPresent()){
             throw new Exception("이미 존재하는 이메일입니다.");
         }
+    }
+
+    public Long extractUserId (Authentication authentication) throws Exception{
+        Optional<User> user = userRepository.findByEmail(authentication.getName());
+        return user.get().getId();
     }
 
 

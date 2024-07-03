@@ -8,7 +8,6 @@ public class ReplyRequestDto {
     @Getter
     @NoArgsConstructor
     public static class Post {
-        private Long memberId;
         private Long feedId;
         private String content;
     }

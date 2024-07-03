@@ -4,11 +4,13 @@ import greenjangtanji.yeosuro.reply.dto.ReplyRequestDto;
 import greenjangtanji.yeosuro.reply.dto.ReplyResponseDto;
 import greenjangtanji.yeosuro.reply.entity.Reply;
 import greenjangtanji.yeosuro.reply.service.ReplyService;
+import greenjangtanji.yeosuro.user.service.UserService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.Authentication;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
@@ -20,12 +22,17 @@ import java.util.List;
 @RequiredArgsConstructor
 @Validated
 public class ReplyController {
+
     private final ReplyService replyService;
+    private final UserService userService;
 
     //댓글 생성
     @PostMapping()
-    public ResponseEntity postReply (@Valid @RequestBody ReplyRequestDto.Post postDto){
-        Reply reply = replyService.createReply(postDto);
+    public ResponseEntity postReply (@Valid @RequestBody ReplyRequestDto.Post postDto,
+                                     Authentication authentication) throws Exception {
+
+        Long userId = userService.extractUserId(authentication);
+        Reply reply = replyService.createReply(userId, postDto);
         ReplyResponseDto responseDto = new ReplyResponseDto(reply);
         return new ResponseEntity<>(responseDto, HttpStatus.OK);
     }

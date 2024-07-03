@@ -7,6 +7,7 @@ import greenjangtanji.yeosuro.user.service.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
@@ -27,8 +28,10 @@ public class UserController {
 
 
     //회원 정보 수정
-    @PatchMapping ("/users/{user-id}")
-    public ResponseEntity updateUserInfo (@PathVariable("user-id") Long userId, @RequestBody UserRequestDto.Patch patchDto) throws Exception {
+    @PatchMapping ("/users")
+    public ResponseEntity updateUserInfo (@RequestBody UserRequestDto.Patch patchDto,
+                                          Authentication authentication) throws Exception {
+        Long userId = userService.extractUserId(authentication);
         User user = userService.updateUserInfo(userId, patchDto);
         UserResponseDto userResponseDto = new UserResponseDto(user);
 
