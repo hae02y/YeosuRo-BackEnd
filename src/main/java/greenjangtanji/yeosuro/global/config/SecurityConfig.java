@@ -68,7 +68,7 @@ public class SecurityConfig {
 
                 // URL별 권한 관리 옵션
                 .authorizeHttpRequests((auth) -> auth
-                        .requestMatchers("/", "/css/**", "/images/**", "/js/**", "/favicon.ico").permitAll()
+                        .requestMatchers("/", "/css/**", "/images/**", "/js/**", "/favicon.ico", "/h2-console/**").permitAll()
                         .requestMatchers("/index.html").permitAll()
                         .requestMatchers("/sign-up", "/jwt-test").permitAll() // 회원가입, 로그인 접근 가능
                         .requestMatchers(PathRequest.toStaticResources().atCommonLocations()).permitAll()

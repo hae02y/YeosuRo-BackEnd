@@ -23,8 +23,8 @@ public class ReplyService {
     private final UserRepository userRepository;
 
     //댓글 생성
-    public Reply createReply (ReplyRequestDto.Post requestDto){
-        User user = userRepository.findById(requestDto.getMemberId()).orElseThrow(
+    public Reply createReply (Long userId, ReplyRequestDto.Post requestDto){
+        User user = userRepository.findById(userId).orElseThrow(
                 () -> new IllegalArgumentException("유저 정보가 없습니다.")
         );
 

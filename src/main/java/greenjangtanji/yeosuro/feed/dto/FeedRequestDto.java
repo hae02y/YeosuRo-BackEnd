@@ -9,7 +9,6 @@ public class FeedRequestDto {
     @NoArgsConstructor
     public static class Post {
 
-        private Long memberId;
 
         @NotBlank
         private String title;

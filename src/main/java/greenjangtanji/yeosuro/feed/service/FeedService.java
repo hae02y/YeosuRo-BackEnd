@@ -23,8 +23,8 @@ public class FeedService {
     private final UserRepository userRepository;
 
     //게시글 생성
-    public Feed createFeed (FeedRequestDto.Post requestDto){
-        User user = userRepository.findById(requestDto.getMemberId()).orElseThrow(
+    public Feed createFeed (Long userId, FeedRequestDto.Post requestDto){
+        User user = userRepository.findById(userId).orElseThrow(
                 () -> new IllegalArgumentException("유저 정보가 없습니다.")
         );
         Feed feed = Feed.createFeed(requestDto, user);
