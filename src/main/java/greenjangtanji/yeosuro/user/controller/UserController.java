@@ -22,7 +22,7 @@ public class UserController {
     @PostMapping("/sign-up")
     public ResponseEntity signUp(@RequestBody UserRequestDto.SignUp signUp) throws Exception {
         User user = userService.createMember(signUp);
-        UserResponseDto responseDto = new UserResponseDto(user);
+        UserResponseDto.DetailUserInfo responseDto = new UserResponseDto.DetailUserInfo(user);
         return new ResponseEntity<>(responseDto, HttpStatus.OK);
     }
 
@@ -33,7 +33,7 @@ public class UserController {
                                           Authentication authentication) throws Exception {
         Long userId = userService.extractUserId(authentication);
         User user = userService.updateUserInfo(userId, patchDto);
-        UserResponseDto userResponseDto = new UserResponseDto(user);
+        UserResponseDto.DetailUserInfo userResponseDto = new UserResponseDto.DetailUserInfo(user);
 
         return new ResponseEntity<>(userResponseDto, HttpStatus.OK);
     }

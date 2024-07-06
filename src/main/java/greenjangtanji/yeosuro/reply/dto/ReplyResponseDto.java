@@ -10,18 +10,22 @@ import java.time.LocalDateTime;
 public class ReplyResponseDto {
 
     private Long id;
-    private Long memberID;
     private Long feedID;
     private String content;
     private LocalDateTime createAt;
     private LocalDateTime modifiedAt;
+    private Long memberID;
+    private String nickname;
+    private String profileImageUrl;
 
     public ReplyResponseDto (Reply reply){
         this.id = reply.getId();
         this.feedID = reply.getFeed().getId();
-        this.memberID = reply.getUser().getId();
         this.content = reply.getContent();
         this.createAt = reply.getCreateAt();
         this.modifiedAt = reply.getModifiedAt();
+        this.memberID = reply.getUser().getId();
+        this.nickname = reply.getUser().getNickname();
+        this.profileImageUrl = reply.getUser().getProfileImageUrl();
     }
 }

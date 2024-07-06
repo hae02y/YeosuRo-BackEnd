@@ -20,6 +20,9 @@ public class FeedListResponseDto {
     private String imageUrl;
     private LocalDateTime createAt;
     private LocalDateTime modifiedAt;
+    private Long memberID;
+    private String nickname;
+    private String profileImageUrl;
 
     public FeedListResponseDto (Feed feed){
         this.id = feed.getId();
@@ -27,6 +30,9 @@ public class FeedListResponseDto {
         this.imageUrl = feed.getImageUrl();
         this.createAt = feed.getCreateAt();
         this.modifiedAt = feed.getModifiedAt();
+        this.memberID = feed.getUser().getId();
+        this.nickname = feed.getUser().getNickname();
+        this.profileImageUrl= feed.getUser().getProfileImageUrl();
     }
 
     public FeedListResponseDto (Optional<Feed> feed){
@@ -35,6 +41,9 @@ public class FeedListResponseDto {
         this.imageUrl = feed.get().getImageUrl();
         this.createAt = feed.get().getCreateAt();
         this.modifiedAt = feed.get().getModifiedAt();
+        this.memberID = feed.get().getUser().getId();
+        this.nickname = feed.get().getUser().getNickname();
+        this.profileImageUrl= feed.get().getUser().getProfileImageUrl();
     }
 
 }
