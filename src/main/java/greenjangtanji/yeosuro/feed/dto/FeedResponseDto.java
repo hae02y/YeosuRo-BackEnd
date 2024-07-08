@@ -1,10 +1,12 @@
 package greenjangtanji.yeosuro.feed.dto;
 
 import greenjangtanji.yeosuro.feed.entity.Feed;
-import greenjangtanji.yeosuro.user.entity.User;
+import greenjangtanji.yeosuro.reply.dto.ReplyResponseDto;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import java.time.LocalDateTime;
+import java.util.List;
+import java.util.stream.Collectors;
 
 @Getter
 @NoArgsConstructor
@@ -20,6 +22,8 @@ public class FeedResponseDto {
     private Long memberID;
     private String nickname;
     private String profileImageUrl;
+    private List<ReplyResponseDto> replies;
+
 
     public FeedResponseDto (Feed feed){
         this.id = feed.getId();
@@ -32,6 +36,9 @@ public class FeedResponseDto {
         this.memberID = feed.getUser().getId();
         this.nickname = feed.getUser().getNickname();
         this.profileImageUrl= feed.getUser().getProfileImageUrl();
+        this.replies = feed.getReplies().stream()
+                .map(ReplyResponseDto::new)
+                .collect(Collectors.toList());
     }
 
 
