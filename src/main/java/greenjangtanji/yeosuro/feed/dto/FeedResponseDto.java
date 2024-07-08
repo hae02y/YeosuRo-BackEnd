@@ -1,6 +1,7 @@
 package greenjangtanji.yeosuro.feed.dto;
 
 import greenjangtanji.yeosuro.feed.entity.Feed;
+import greenjangtanji.yeosuro.point.entity.Tier;
 import greenjangtanji.yeosuro.reply.dto.ReplyResponseDto;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -21,6 +22,7 @@ public class FeedResponseDto {
     private Long memberID;
     private String nickname;
     private String profileImageUrl;
+    private Tier tier;
     private List<ReplyResponseDto> replies;
 
     public FeedResponseDto(Feed feed) {
@@ -34,6 +36,7 @@ public class FeedResponseDto {
         this.memberID = feed.getUser().getId();
         this.nickname = feed.getUser().getNickname();
         this.profileImageUrl = feed.getUser().getProfileImageUrl();
+        this.tier = feed.getUser().getTier();
         this.replies = feed.getReplies().stream()
                 .map(ReplyResponseDto::new)
                 .collect(Collectors.toList());
