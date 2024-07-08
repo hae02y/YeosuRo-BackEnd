@@ -4,17 +4,13 @@ import greenjangtanji.yeosuro.feed.entity.Feed;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-import org.springframework.data.repository.query.Param;
 
-import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.Optional;
-
 @NoArgsConstructor
 @AllArgsConstructor
 @Getter
 public class FeedListResponseDto {
-
     private Long id;
     private String title;
     private String imageUrl;

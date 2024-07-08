@@ -9,7 +9,7 @@ public class UserResponseDto {
 
     @Getter
     @NoArgsConstructor
-    public static class DetailUserInfo {
+    public static class DetailUserInfo{
         private Long id;
         private String email;
         private String password;
@@ -35,15 +35,11 @@ public class UserResponseDto {
         private Long id;
         private String nickname;
         private String profileImageUrl;
-        private int totalPoint;
-        private String tier;
 
         public BriefUserInfo (User user){
             this.id = user.getId();
             this.nickname = user.getNickname();
             this.profileImageUrl = user.getProfileImageUrl();
-            this.totalPoint = user.getTotalPoint();
-            //this.tier =
         }
     }
 }

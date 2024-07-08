@@ -79,6 +79,10 @@ public class User {
         this.refreshToken = updateRefreshToken;
     }
 
+    public void updateTotalPoint (int point){ this.totalPoint = point;}
+
+    public void updateTier (Tier tier) {this.tier = tier;}
+
     @OneToMany(mappedBy = "user", cascade = {CascadeType.PERSIST,CascadeType.REMOVE})
     private List<Feed> feeds = new ArrayList<>();
 
