@@ -38,8 +38,8 @@ public class PointService {
                 () -> new IllegalArgumentException("유저 정보가 없습니다.")
         );
 
-        Point.createPoint(feedPoint, feed.getTitle(), PointCategory.FEED, user);
-
+        Point point = Point.createPoint(feedPoint, feed.getTitle(), PointCategory.FEED, user);
+        pointRepository.save(point);
     }
 
 

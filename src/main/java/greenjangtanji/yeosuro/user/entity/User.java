@@ -3,6 +3,7 @@ package greenjangtanji.yeosuro.user.entity;
 
 import greenjangtanji.yeosuro.feed.entity.Feed;
 import greenjangtanji.yeosuro.point.entity.Point;
+import greenjangtanji.yeosuro.point.entity.Tier;
 import greenjangtanji.yeosuro.reply.entity.Reply;
 import jakarta.persistence.*;
 import lombok.*;
@@ -35,6 +36,9 @@ public class User {
     private Boolean agree;
 
     private int totalPoint;
+
+    @Enumerated(EnumType.STRING)
+    private Tier tier;
 
     @Enumerated(EnumType.STRING) //회원 탈퇴여부
     private UserStatus userStatus;
