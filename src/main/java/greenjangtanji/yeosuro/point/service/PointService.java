@@ -96,7 +96,6 @@ public class PointService {
         }
     }
 
-
     //유저 확인
     private User checkUser (Long userId){
         User user = userRepository.findById(userId).orElseThrow(
