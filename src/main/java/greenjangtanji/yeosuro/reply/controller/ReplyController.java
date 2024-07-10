@@ -40,7 +40,7 @@ public class ReplyController {
     //댓글 조회 (게시글에 달린 모든 댓글 조회)
     @GetMapping("{feed-id}")
     public ResponseEntity getRepliesByFeedId (@PathVariable("feed-id") Long feedId){
-        List<Reply> allReplies = replyService.getRepliesByFeedId(feedId);
+        List<ReplyResponseDto> allReplies = replyService.getRepliesByFeedId(feedId);
 
         return new ResponseEntity<>(allReplies, HttpStatus.OK);
     }
