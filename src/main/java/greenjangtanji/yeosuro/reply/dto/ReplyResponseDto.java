@@ -1,4 +1,5 @@
 package greenjangtanji.yeosuro.reply.dto;
+import greenjangtanji.yeosuro.point.entity.Tier;
 import greenjangtanji.yeosuro.reply.entity.Reply;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -17,6 +18,7 @@ public class ReplyResponseDto {
     private Long memberID;
     private String nickname;
     private String profileImageUrl;
+    private Tier tier;
 
     public ReplyResponseDto (Reply reply){
         this.id = reply.getId();
@@ -27,5 +29,6 @@ public class ReplyResponseDto {
         this.memberID = reply.getUser().getId();
         this.nickname = reply.getUser().getNickname();
         this.profileImageUrl = reply.getUser().getProfileImageUrl();
+        this.tier= reply.getUser().getTier();
     }
 }

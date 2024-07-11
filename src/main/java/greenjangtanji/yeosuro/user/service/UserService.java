@@ -1,5 +1,6 @@
 package greenjangtanji.yeosuro.user.service;
 
+import greenjangtanji.yeosuro.point.entity.Tier;
 import greenjangtanji.yeosuro.user.dto.UserRequestDto;
 import greenjangtanji.yeosuro.user.entity.Role;
 import greenjangtanji.yeosuro.user.entity.User;
@@ -7,6 +8,7 @@ import greenjangtanji.yeosuro.user.entity.UserStatus;
 import greenjangtanji.yeosuro.user.repostory.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.Authentication;
+import org.springframework.security.core.parameters.P;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -35,10 +37,17 @@ public class UserService {
                 .agree(signUp.getAgree())
                 .role(Role.USER)
                 .userStatus(UserStatus.ACTIVE)
+                .totalPoint(0)
+                .tier(Tier.SILVER)
                 .build();
 
         user.passwordEncode(passwordEncoder);
         userRepository.save(user);
+        return user;
+    }
+    //회원정보 조회
+    public User getUserInfo(Long userId)throws Exception{
+        User user = checkUser(userId);
         return user;
     }
 
