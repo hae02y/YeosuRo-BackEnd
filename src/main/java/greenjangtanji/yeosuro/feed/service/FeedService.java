@@ -4,6 +4,7 @@ import greenjangtanji.yeosuro.feed.dto.FeedListResponseDto;
 import greenjangtanji.yeosuro.feed.dto.FeedRequestDto;
 import greenjangtanji.yeosuro.feed.entity.Feed;
 import greenjangtanji.yeosuro.feed.repository.FeedRepository;
+import greenjangtanji.yeosuro.point.service.PointService;
 import greenjangtanji.yeosuro.user.entity.User;
 import greenjangtanji.yeosuro.user.repostory.UserRepository;
 import lombok.RequiredArgsConstructor;
@@ -21,6 +22,7 @@ public class FeedService {
 
     private final FeedRepository feedRepository;
     private final UserRepository userRepository;
+    private final PointService pointService;
 
     //게시글 생성
     public Feed createFeed (Long userId, FeedRequestDto.Post requestDto){
@@ -28,7 +30,10 @@ public class FeedService {
                 () -> new IllegalArgumentException("유저 정보가 없습니다.")
         );
         Feed feed = Feed.createFeed(requestDto, user);
-        return feedRepository.save(feed);
+        feedRepository.save(feed);
+        pointService.feedPoint(userId, feed);
+        
+        return feed;
     }
     //모든 게시글 조회(최신순으로)
     public List<FeedListResponseDto> findAll() {

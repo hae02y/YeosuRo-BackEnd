@@ -2,6 +2,7 @@ package greenjangtanji.yeosuro.reply.service;
 
 import greenjangtanji.yeosuro.feed.entity.Feed;
 import greenjangtanji.yeosuro.feed.repository.FeedRepository;
+import greenjangtanji.yeosuro.reply.dto.ReplyResponseDto;
 import greenjangtanji.yeosuro.user.entity.User;
 import greenjangtanji.yeosuro.reply.dto.ReplyRequestDto;
 import greenjangtanji.yeosuro.reply.entity.Reply;
@@ -12,6 +13,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Slf4j
@@ -37,8 +39,20 @@ public class ReplyService {
     }
 
     //댓글 조회 (특정 게시글에 달린 모든 댓글 조회)
-    public List<Reply> getRepliesByFeedId(Long feedId){
-        return replyRepository.findByFeedId(feedId);
+    public List<ReplyResponseDto> getRepliesByFeedId(Long feedId){
+        try {
+            List<Reply> replyList = replyRepository.findByFeedId(feedId);
+            List<ReplyResponseDto> responseDtos = new ArrayList<>();
+
+            for (Reply reply : replyList){
+                responseDtos.add(new ReplyResponseDto(reply));
+            }
+            return responseDtos;
+        }catch (Exception e){
+
+        }
+        return null;
+
     }
 
     //댓글 수정

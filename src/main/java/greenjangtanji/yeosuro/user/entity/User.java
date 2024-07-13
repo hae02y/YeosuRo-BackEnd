@@ -2,6 +2,8 @@ package greenjangtanji.yeosuro.user.entity;
 
 
 import greenjangtanji.yeosuro.feed.entity.Feed;
+import greenjangtanji.yeosuro.point.entity.Point;
+import greenjangtanji.yeosuro.point.entity.Tier;
 import greenjangtanji.yeosuro.reply.entity.Reply;
 import jakarta.persistence.*;
 import lombok.*;
@@ -33,6 +35,11 @@ public class User {
     //추가 정보 (마케팅 정보 수신 동의)
     private Boolean agree;
 
+    private int totalPoint;
+
+    @Enumerated(EnumType.STRING)
+    private Tier tier;
+
     @Enumerated(EnumType.STRING) //회원 탈퇴여부
     private UserStatus userStatus;
 
@@ -60,18 +67,6 @@ public class User {
         this.password = passwordEncoder.encode(this.password);
     }
 
-    public void updateRefreshToken(String updateRefreshToken) {
-        this.refreshToken = updateRefreshToken;
-    }
-
-    @OneToMany(mappedBy = "user", cascade = {CascadeType.PERSIST,CascadeType.REMOVE})
-    private List<Feed> feeds = new ArrayList<>();
-
-    @OneToMany(mappedBy = "user", cascade = {CascadeType.PERSIST,CascadeType.REMOVE})
-    private List<Reply> replies = new ArrayList<>();
-
-
-
     public void updateNickname (String nickname){
         this.nickname = nickname;
     }
@@ -79,5 +74,22 @@ public class User {
     public void updateProfileImageUrl (String profileImageUrl){
         this.profileImageUrl = profileImageUrl;
     }
+
+    public void updateRefreshToken(String updateRefreshToken) {
+        this.refreshToken = updateRefreshToken;
+    }
+
+    public void updateTotalPoint (int point){ this.totalPoint = point;}
+
+    public void updateTier (Tier tier) {this.tier = tier;}
+
+    @OneToMany(mappedBy = "user", cascade = {CascadeType.PERSIST,CascadeType.REMOVE})
+    private List<Feed> feeds = new ArrayList<>();
+
+    @OneToMany(mappedBy = "user", cascade = {CascadeType.PERSIST,CascadeType.REMOVE})
+    private List<Reply> replies = new ArrayList<>();
+
+    @OneToMany(mappedBy = "user", cascade = {CascadeType.PERSIST,CascadeType.REMOVE})
+    private List<Point> pointsHistory = new ArrayList<>();
 
 }
