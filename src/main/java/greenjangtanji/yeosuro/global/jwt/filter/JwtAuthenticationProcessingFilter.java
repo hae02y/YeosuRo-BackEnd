@@ -1,9 +1,13 @@
 package greenjangtanji.yeosuro.global.jwt.filter;
 
+import greenjangtanji.yeosuro.global.exception.ExceptionCode;
 import greenjangtanji.yeosuro.global.jwt.service.JwtService;
 import greenjangtanji.yeosuro.global.jwt.util.PasswordUtil;
 import greenjangtanji.yeosuro.user.entity.User;
 import greenjangtanji.yeosuro.user.repostory.UserRepository;
+import io.jsonwebtoken.ExpiredJwtException;
+import io.jsonwebtoken.MalformedJwtException;
+import io.jsonwebtoken.UnsupportedJwtException;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
@@ -69,12 +73,24 @@ public class JwtAuthenticationProcessingFilter extends OncePerRequestFilter {
     public void checkAccessTokenAndAuthentication(HttpServletRequest request, HttpServletResponse response,
                                                   FilterChain filterChain) throws ServletException, IOException {
         log.info("checkAccessTokenAndAuthentication() 호출");
-        jwtService.extractAccessToken(request)
-                .filter(jwtService::isTokenValid)
-                .ifPresent(accessToken -> jwtService.extractEmail(accessToken)
-                        .ifPresent(email -> userRepository.findByEmail(email)
-                                .ifPresent(this::saveAuthentication)));
+        try {
+            jwtService.extractAccessToken(request)
+                    .filter(jwtService::isTokenValid)
+                    .ifPresent(accessToken -> jwtService.extractEmail(accessToken)
+                            .ifPresent(email -> userRepository.findByEmail(email)
+                                    .ifPresent(this::saveAuthentication)));
 
+        } catch (SecurityException | MalformedJwtException e) { //JWT가 올바르지 않은 형식으로 변조되었거나 구조가 잘못된 경우 발생
+            request.setAttribute("exception", ExceptionCode.WRONG_TYPE_TOKEN.getStatus());
+        } catch (ExpiredJwtException e) { //JWT가 만료된 경우 발생
+            request.setAttribute("exception", ExceptionCode.EXPIRED_TOKEN.getStatus());
+        } catch (UnsupportedJwtException e) { //지원되지 않는 형식이나 구성의 JWT일 경우 발생
+            request.setAttribute("exception", ExceptionCode.UNSUPPORTED_TOKEN.getStatus());
+        } catch (IllegalArgumentException e) { //JWT가 null이거나 빈 문자열일 때 발생
+            request.setAttribute("exception", ExceptionCode.WRONG_TYPE_TOKEN.getStatus());
+        } catch (Exception e) { //정의되지 않은 모든 예외 상황에 대해 포괄적인 예외
+            request.setAttribute("exception", ExceptionCode.UNKNOWN_ERROR.getStatus());
+        }
         filterChain.doFilter(request, response);
     }
 

@@ -29,7 +29,7 @@ public class ReplyController {
     //댓글 생성
     @PostMapping()
     public ResponseEntity postReply (@Valid @RequestBody ReplyRequestDto.Post postDto,
-                                     Authentication authentication) throws Exception {
+                                     Authentication authentication){
 
         Long userId = userService.extractUserId(authentication);
         Reply reply = replyService.createReply(userId, postDto);

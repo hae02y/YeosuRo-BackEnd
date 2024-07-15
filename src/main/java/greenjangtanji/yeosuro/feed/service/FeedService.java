@@ -4,6 +4,8 @@ import greenjangtanji.yeosuro.feed.dto.FeedListResponseDto;
 import greenjangtanji.yeosuro.feed.dto.FeedRequestDto;
 import greenjangtanji.yeosuro.feed.entity.Feed;
 import greenjangtanji.yeosuro.feed.repository.FeedRepository;
+import greenjangtanji.yeosuro.global.exception.BusinessLogicException;
+import greenjangtanji.yeosuro.global.exception.ExceptionCode;
 import greenjangtanji.yeosuro.point.service.PointService;
 import greenjangtanji.yeosuro.user.entity.User;
 import greenjangtanji.yeosuro.user.repostory.UserRepository;
@@ -46,15 +48,15 @@ public class FeedService {
             }
             return responseDtos;
         }catch (Exception e){
-
+            throw new BusinessLogicException(ExceptionCode.BOARD_NOT_FOUND);
         }
-        return null;
     }
 
     //특정 게시글 조회
     public Feed findById(Long id){
+
         Feed feed = feedRepository.findById(id).orElseThrow(
-                () -> new IllegalArgumentException("조회 실패"));
+                () -> new BusinessLogicException(ExceptionCode.BOARD_NOT_FOUND));
 
         return feed;
     }

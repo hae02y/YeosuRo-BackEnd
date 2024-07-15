@@ -16,7 +16,6 @@ import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
-import java.util.Optional;
 
 
 @Slf4j
@@ -30,8 +29,7 @@ public class FeedController {
 
     //게시글 등록
     @PostMapping
-    public ResponseEntity postFeed (@Valid @RequestBody FeedRequestDto.Post postDto,
-                                    Authentication authentication) throws Exception {
+    public ResponseEntity postFeed (@Valid @RequestBody FeedRequestDto.Post postDto, Authentication authentication) {
         Long userId = userService.extractUserId(authentication);
         Feed feed = feedService.createFeed(userId,postDto);
         FeedResponseDto responseDto = new FeedResponseDto(feed);

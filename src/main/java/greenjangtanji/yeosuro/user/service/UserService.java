@@ -1,5 +1,6 @@
 package greenjangtanji.yeosuro.user.service;
 
+import greenjangtanji.yeosuro.global.exception.InvalidTokenException;
 import greenjangtanji.yeosuro.point.entity.Tier;
 import greenjangtanji.yeosuro.user.dto.UserRequestDto;
 import greenjangtanji.yeosuro.user.entity.Role;
@@ -8,7 +9,6 @@ import greenjangtanji.yeosuro.user.entity.UserStatus;
 import greenjangtanji.yeosuro.user.repostory.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.Authentication;
-import org.springframework.security.core.parameters.P;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -70,9 +70,9 @@ public class UserService {
 
 
     //회원 확인
-    private User checkUser (Long userId) throws Exception{
+    private User checkUser (Long userId){
         User existingUser = userRepository.findById(userId).orElseThrow(
-                () -> new Exception("존재하지 않는 회원입니다.")
+                () -> new IllegalArgumentException("존재하지 않는 회원입니다")
         );
         return existingUser;
     }
@@ -93,7 +93,10 @@ public class UserService {
         }
     }
 
-    public Long extractUserId (Authentication authentication) throws Exception{
+    public Long extractUserId (Authentication authentication){
+        if (authentication == null || !authentication.isAuthenticated()) {
+            throw new InvalidTokenException("Invalid memberId format");
+        }
         Optional<User> user = userRepository.findByEmail(authentication.getName());
         return user.get().getId();
     }
