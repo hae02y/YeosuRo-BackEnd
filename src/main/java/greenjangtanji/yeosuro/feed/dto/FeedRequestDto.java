@@ -9,13 +9,13 @@ public class FeedRequestDto {
     @NoArgsConstructor
     public static class Post {
 
-
         @NotBlank
         private String title;
 
         @NotBlank
         private String content;
 
+        @NotBlank
         private String imageUrl;
 
     }

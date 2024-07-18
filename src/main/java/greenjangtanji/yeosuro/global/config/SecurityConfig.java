@@ -4,6 +4,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import greenjangtanji.yeosuro.global.auth.handler.OAuth2LoginFailureHandler;
 import greenjangtanji.yeosuro.global.auth.handler.OAuth2LoginSuccessHandler;
 import greenjangtanji.yeosuro.global.auth.service.CustomOAuth2UserService;
+import greenjangtanji.yeosuro.global.exception.CustomAuthenticationEntryPoint;
 import greenjangtanji.yeosuro.global.jwt.filter.JwtAuthenticationProcessingFilter;
 import greenjangtanji.yeosuro.global.jwt.service.JwtService;
 import greenjangtanji.yeosuro.global.login.filter.CustomJsonUsernamePasswordAuthenticationFilter;
@@ -43,6 +44,7 @@ public class SecurityConfig {
     private final OAuth2LoginSuccessHandler oAuth2LoginSuccessHandler;
     private final OAuth2LoginFailureHandler oAuth2LoginFailureHandler;
     private final CustomOAuth2UserService customOAuth2UserService;
+    private final CustomAuthenticationEntryPoint customAuthenticationEntryPoint;
 
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
@@ -70,7 +72,7 @@ public class SecurityConfig {
                 .authorizeHttpRequests((auth) -> auth
                         .requestMatchers("/", "/css/**", "/images/**", "/js/**", "/favicon.ico", "/h2-console/**").permitAll()
                         .requestMatchers("/index.html").permitAll()
-                        .requestMatchers("/sign-up", "/jwt-test").permitAll() // 회원가입, 로그인 접근 가능
+                        .requestMatchers("/sign-up","/login").permitAll() // 회원가입, 로그인 접근 가능
                         .requestMatchers(PathRequest.toStaticResources().atCommonLocations()).permitAll()
                         .anyRequest().authenticated() // 위의 경로 이외에는 모두 인증된 사용자만 접근 가능
                 )
@@ -80,7 +82,10 @@ public class SecurityConfig {
                         .failureHandler(oAuth2LoginFailureHandler) // 소셜 로그인 실패 시 핸들러 설정
                         .userInfoEndpoint(userInfoEndpointConfig ->
                                 userInfoEndpointConfig.userService(customOAuth2UserService)) // customUserService 설정
-                );
+                )
+
+                .exceptionHandling(handler -> handler
+                        .authenticationEntryPoint(customAuthenticationEntryPoint));
 
         // 원래 스프링 시큐리티 필터 순서가 LogoutFilter 이후에 로그인 필터 동작
         // 따라서, LogoutFilter 이후에 우리가 만든 필터 동작하도록 설정
@@ -94,7 +99,7 @@ public class SecurityConfig {
     @Bean
     CorsConfigurationSource corsConfigurationSource() {
         CorsConfiguration configuration = new CorsConfiguration();
-        configuration.setAllowedOrigins(Arrays.asList("<http://localhost:3000>", "..."));
+        configuration.setAllowedOrigins(Arrays.asList("http://localhost:3000", "..."));
         configuration.setAllowedMethods(Arrays.asList("HEAD", "GET", "POST", "PUT", "PATCH", "DELETE", "OPTIONS"));
         configuration.setAllowCredentials(true);
         configuration.setAllowedHeaders(Arrays.asList("Authorization", "Authorization-refresh", "Cache-Control", "Content-Type"));
