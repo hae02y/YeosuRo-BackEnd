@@ -52,7 +52,21 @@ public class FeedService {
             throw new BusinessLogicException(ExceptionCode.BOARD_NOT_FOUND);
         }
     }
+
     //카테고리 별 게시글 조회
+    public List<FeedListResponseDto> getFeedsByCategory (FeedCategory feedCategory){
+        try {
+            List<Feed> feedList = feedRepository.findByFeedCategory(feedCategory);
+            List<FeedListResponseDto> responseDtos = new ArrayList<>();
+
+            for (Feed feed : feedList){
+                responseDtos.add(new FeedListResponseDto(feed));
+            }
+            return responseDtos;
+        }catch (Exception e){
+            throw new BusinessLogicException(ExceptionCode.CATEGORY_NOT_FOUND);
+        }
+    }
 
 
     //특정 게시글 조회

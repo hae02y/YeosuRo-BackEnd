@@ -7,6 +7,7 @@ public enum ExceptionCode {
 
     JWT_TOKEN_ERROR (401, "토큰 오류로 UserId 추출 불가"),
     BOARD_NOT_FOUND(404, "게시글 정보를 찾을 수 없음"),
+    CATEGORY_NOT_FOUND (404, "게시글 카테고리 정보를 찾을 수 없음"),
 
     UNKNOWN_ERROR(1001, "토큰이 존재하지 않습니다."),
     WRONG_TYPE_TOKEN(1002, "잘못된 형식의 토큰입니다."),
