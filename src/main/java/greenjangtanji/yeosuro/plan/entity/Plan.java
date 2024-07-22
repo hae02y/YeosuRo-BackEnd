@@ -1,8 +1,12 @@
 package greenjangtanji.yeosuro.plan.entity;
 
 import greenjangtanji.yeosuro.global.config.Timestamped;
+import greenjangtanji.yeosuro.site.entity.Site;
 import greenjangtanji.yeosuro.user.entity.User;
 import jakarta.persistence.*;
+
+import java.util.ArrayList;
+import java.util.List;
 
 
 @Entity
@@ -21,5 +25,8 @@ public class Plan extends Timestamped {
 
     @ManyToOne
     private User user;
+
+    @OneToMany(mappedBy = "plan")
+    private List<Site> sites = new ArrayList<>();
 
 }

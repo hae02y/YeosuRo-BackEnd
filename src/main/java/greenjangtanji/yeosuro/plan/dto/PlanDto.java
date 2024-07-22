@@ -5,6 +5,27 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 public class PlanDto {
+
+    @Getter
+    @Setter
+    @NoArgsConstructor
+    public static class PlanPostDto {
+        private Long memberId;
+        private String title;
+        private String content;
+        private String imageUrl;
+    }
+
+    @Getter
+    @Setter
+    @NoArgsConstructor
+    public static class PlanPatchDto {
+        private Long memberId;
+        private String title;
+        private String content;
+        private String imageUrl;
+    }
+
     @Getter
     @Setter
     @NoArgsConstructor

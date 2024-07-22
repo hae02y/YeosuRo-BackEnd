@@ -1,5 +1,6 @@
 package greenjangtanji.yeosuro.site.entity;
 
+import greenjangtanji.yeosuro.plan.entity.Plan;
 import jakarta.persistence.*;
 
 @Entity
@@ -22,4 +23,8 @@ public class Site {
 
     @Column
     private String address;
+
+    @ManyToOne
+    @JoinColumn(name = "plan_id")
+    private Plan plan;
 }
