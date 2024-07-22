@@ -1,6 +1,7 @@
 package greenjangtanji.yeosuro.feed.dto;
 
 import greenjangtanji.yeosuro.feed.entity.Feed;
+import greenjangtanji.yeosuro.feed.entity.FeedCategory;
 import greenjangtanji.yeosuro.point.entity.Tier;
 import greenjangtanji.yeosuro.reply.dto.ReplyResponseDto;
 import lombok.Getter;
@@ -17,6 +18,9 @@ public class FeedResponseDto {
     private String content;
     private String imageUrl;
     private int view;
+    private Long likesCount;
+    private int repliesCount;
+    private String feedCategory;
     private LocalDateTime createAt;
     private LocalDateTime modifiedAt;
     private Long memberID;
@@ -31,6 +35,9 @@ public class FeedResponseDto {
         this.content = feed.getContent();
         this.imageUrl = feed.getImageUrl();
         this.view = feed.getView();
+        this.likesCount = feed.getLikesCount();
+        this.repliesCount = feed.getRepliesCount();
+        this.feedCategory = String.valueOf(feed.getFeedCategory());
         this.createAt = feed.getCreateAt();
         this.modifiedAt = feed.getModifiedAt();
         this.memberID = feed.getUser().getId();

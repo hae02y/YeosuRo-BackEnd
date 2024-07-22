@@ -3,6 +3,7 @@ package greenjangtanji.yeosuro.feed.service;
 import greenjangtanji.yeosuro.feed.dto.FeedListResponseDto;
 import greenjangtanji.yeosuro.feed.dto.FeedRequestDto;
 import greenjangtanji.yeosuro.feed.entity.Feed;
+import greenjangtanji.yeosuro.feed.entity.FeedCategory;
 import greenjangtanji.yeosuro.feed.repository.FeedRepository;
 import greenjangtanji.yeosuro.global.exception.BusinessLogicException;
 import greenjangtanji.yeosuro.global.exception.ExceptionCode;
@@ -51,6 +52,8 @@ public class FeedService {
             throw new BusinessLogicException(ExceptionCode.BOARD_NOT_FOUND);
         }
     }
+    //카테고리 별 게시글 조회
+
 
     //특정 게시글 조회
     public Feed findById(Long id){
@@ -76,6 +79,9 @@ public class FeedService {
         }
         if (requestDto.getImageUrl() != null){
             existingFeed.updateImage(requestDto.getImageUrl());
+        }
+        if (requestDto.getFeedCategory() != null){
+            existingFeed.updateCategory(FeedCategory.valueOf(requestDto.getFeedCategory()));
         }
 
         return existingFeed;
