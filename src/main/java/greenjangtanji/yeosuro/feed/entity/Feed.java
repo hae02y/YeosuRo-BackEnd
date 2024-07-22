@@ -8,6 +8,7 @@ import greenjangtanji.yeosuro.user.entity.User;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import org.springframework.security.core.parameters.P;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -33,7 +34,10 @@ public class Feed extends Timestamped {
     @Column(nullable = false)
     private String imageUrl;
 
-    private long LikesCount;
+    private Long LikesCount = 1L;
+
+    @Enumerated(EnumType.STRING)
+    private FeedCategory feedCategory;
 
     @ManyToOne
     @JoinColumn(name = "user_id")
@@ -48,6 +52,7 @@ public class Feed extends Timestamped {
         feed.title = requestDto.getTitle();
         feed.content = requestDto.getContent();
         feed.imageUrl = requestDto.getImageUrl();
+        feed.feedCategory = FeedCategory.valueOf(requestDto.getFeedCategory());
         feed.user = user;
         return feed;
     }
@@ -62,6 +67,10 @@ public class Feed extends Timestamped {
 
     public void updateImage (String ImageUrl){
         this.imageUrl = imageUrl;
+    }
+    public void updateCategory (FeedCategory feedCategory) { this.feedCategory = feedCategory; }
+    public int getRepliesCount() {
+        return replies.size();
     }
 
 }
