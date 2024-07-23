@@ -52,7 +52,7 @@ public class Feed extends Timestamped {
         feed.title = requestDto.getTitle();
         feed.content = requestDto.getContent();
         feed.imageUrl = requestDto.getImageUrl();
-        feed.feedCategory = FeedCategory.valueOf(requestDto.getFeedCategory());
+        feed.feedCategory = FeedCategory.valueOf(requestDto.getFeedCategory().toUpperCase());
         feed.user = user;
         return feed;
     }
