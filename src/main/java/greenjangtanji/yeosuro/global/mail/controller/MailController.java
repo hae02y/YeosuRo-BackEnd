@@ -39,6 +39,7 @@ public class MailController {
 
     @GetMapping("/mailCheck")
     public ResponseEntity<?> mailCheck(@RequestParam String code) {
+        
         boolean isMatch = code.equals(String.valueOf(number));
 
         return ResponseEntity.ok(isMatch);
