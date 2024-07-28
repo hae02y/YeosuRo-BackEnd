@@ -15,7 +15,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping("/v1/plan")
+@RequestMapping("/v1/plans")
 public class PlanController {
 
     private final UserService userService;
@@ -33,19 +33,28 @@ public class PlanController {
     @GetMapping(value = {"/", ""})
     public ResponseEntity<?> getPlan(Authentication auth) throws Exception {
         long id = userService.extractUserId(auth);
-
-        return new ResponseEntity<>(id, HttpStatus.OK);
-    }
-
-    @GetMapping(value = {"/me"})
-    public ResponseEntity<?> getPlanMe(Authentication auth) throws Exception {
-        long id = userService.extractUserId(auth);
-        List<Plan> planList = planService.getAllPlan(id);
-        return new ResponseEntity<>(planList, HttpStatus.OK);
+        List<Plan> planList = planService.getAllPlan();
+        List<PlanDto.PlanResponseDto> planResponseDtoList = planMapper.planListToPlanResponseDtoList(planList);
+        return new ResponseEntity<>(planResponseDtoList, HttpStatus.OK);
     }
 
     /**
-     * 여정 등록
+     * 나의 여정들을 조회
+     * @param auth
+     * @return
+     * @throws Exception
+     */
+    @GetMapping(value = {"/me"})
+    public ResponseEntity<?> getPlanMe(Authentication auth) throws Exception {
+        long id = userService.extractUserId(auth);
+        User user = userService.getUserInfo(id);
+        List<Plan> planList = planService.getMyPlans(user);
+        List<PlanDto.PlanResponseDto> planResponseDtoList = planMapper.planListToPlanResponseDtoList(planList);
+        return new ResponseEntity<>(planResponseDtoList, HttpStatus.OK);
+    }
+
+    /**
+     * 나의 여정 등록
      * @param auth
      * @param planPostDto
      * @return
@@ -54,7 +63,7 @@ public class PlanController {
     @PostMapping(value = {"/", ""})
     public ResponseEntity<?> postPlan(Authentication auth, @RequestBody PlanDto.PlanPostDto planPostDto) throws Exception {
         long userId = userService.extractUserId(auth);
-        Plan plan = planMapper.PlanPostDtoToPlan(planPostDto);
+        Plan plan = planMapper.planPostDtoToPlan(planPostDto);
         plan.setUser(userService.getUserInfo(userId));
         planService.savePlan(plan);
         return new ResponseEntity<>(HttpStatus.CREATED);

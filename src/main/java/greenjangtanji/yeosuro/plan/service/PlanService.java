@@ -24,7 +24,11 @@ public class PlanService {
         planRepository.save(savedPlan);
     }
 
-    public List<Plan> getAllPlan(long memberId) {
+    public List<Plan> getAllPlan() {
         return planRepository.findAll();
+    }
+
+    public List<Plan> getMyPlans(User user) {
+        return planRepository.getPlansByUser(user);
     }
 }
