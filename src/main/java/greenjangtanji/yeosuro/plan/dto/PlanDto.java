@@ -1,5 +1,6 @@
 package greenjangtanji.yeosuro.plan.dto;
 
+import greenjangtanji.yeosuro.user.entity.User;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -10,7 +11,6 @@ public class PlanDto {
     @Setter
     @NoArgsConstructor
     public static class PlanPostDto {
-        private Long memberId;
         private String title;
         private String content;
         private String imageUrl;
@@ -20,7 +20,6 @@ public class PlanDto {
     @Setter
     @NoArgsConstructor
     public static class PlanPatchDto {
-        private Long memberId;
         private String title;
         private String content;
         private String imageUrl;
@@ -30,7 +29,7 @@ public class PlanDto {
     @Setter
     @NoArgsConstructor
     public static class PlanResponseDto {
-        private Long memberId;
+        private Long userId;
         private String title;
         private String content;
         private String imageUrl;
@@ -39,7 +38,7 @@ public class PlanDto {
     @Getter
     @Setter
     public static class PlanRequestDto {
-        private Long memberId;
+        private Long userId;
         private String title;
         private String content;
         private String imageUrl;
@@ -48,7 +47,7 @@ public class PlanDto {
     @Getter
     @Setter
     public static class PlanListResponseDto {
-        private Long memberId;
+        private Long userId;
         private String title;
         private String content;
         private String imageUrl;

@@ -15,10 +15,8 @@ public enum ExceptionCode {
     UNSUPPORTED_TOKEN(1004, "변조된 토큰입니다."),
     ACCESS_DENIED(1005, "권한이 없습니다.");
 
-    @Getter
     private final int status;
 
-    @Getter
     private final String message;
 
     ExceptionCode(int status, String message) {

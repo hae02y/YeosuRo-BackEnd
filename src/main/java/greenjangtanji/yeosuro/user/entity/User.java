@@ -1,7 +1,9 @@
 package greenjangtanji.yeosuro.user.entity;
 
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import greenjangtanji.yeosuro.feed.entity.Feed;
+import greenjangtanji.yeosuro.plan.entity.Plan;
 import greenjangtanji.yeosuro.point.entity.Point;
 import greenjangtanji.yeosuro.point.entity.Tier;
 import greenjangtanji.yeosuro.reply.entity.Reply;
@@ -91,5 +93,8 @@ public class User {
 
     @OneToMany(mappedBy = "user", cascade = {CascadeType.PERSIST,CascadeType.REMOVE})
     private List<Point> pointsHistory = new ArrayList<>();
+
+    @OneToMany(mappedBy = "user", cascade = {CascadeType.PERSIST,CascadeType.REMOVE})
+    private List<Plan> plans = new ArrayList<>();
 
 }
