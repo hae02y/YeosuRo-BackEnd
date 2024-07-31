@@ -1,5 +1,7 @@
 package greenjangtanji.yeosuro.user.service;
 
+import greenjangtanji.yeosuro.global.exception.BusinessLogicException;
+import greenjangtanji.yeosuro.global.exception.ExceptionCode;
 import greenjangtanji.yeosuro.global.exception.InvalidTokenException;
 import greenjangtanji.yeosuro.point.entity.Tier;
 import greenjangtanji.yeosuro.user.dto.UserRequestDto;
@@ -72,8 +74,8 @@ public class UserService {
     //회원 확인
     private User checkUser (Long userId){
         User existingUser = userRepository.findById(userId).orElseThrow(
-                () -> new IllegalArgumentException("존재하지 않는 회원입니다")
-        );
+                () -> new BusinessLogicException(ExceptionCode.USER_NOT_FOUND));
+
         return existingUser;
     }
 
@@ -81,7 +83,7 @@ public class UserService {
     private void checkNickname (String nickname)throws Exception{
         Optional<User> user = userRepository.findByNickname(nickname);
         if (user.isPresent()){
-            throw new Exception("이미 존재하는 닉네임입니다.");
+            throw new BusinessLogicException(ExceptionCode.DUPLICATE_NICKNAME_ERROR);
         }
     }
 
@@ -89,7 +91,7 @@ public class UserService {
     private void checkEmail (String email) throws Exception{
         Optional<User> user = userRepository.findByEmail(email);
         if (user.isPresent()){
-            throw new Exception("이미 존재하는 이메일입니다.");
+            throw new BusinessLogicException(ExceptionCode.DUPLICATE_EMAIL_ERROR);
         }
     }
 

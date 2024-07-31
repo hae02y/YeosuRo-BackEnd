@@ -2,6 +2,8 @@ package greenjangtanji.yeosuro.reply.service;
 
 import greenjangtanji.yeosuro.feed.entity.Feed;
 import greenjangtanji.yeosuro.feed.repository.FeedRepository;
+import greenjangtanji.yeosuro.global.exception.BusinessLogicException;
+import greenjangtanji.yeosuro.global.exception.ExceptionCode;
 import greenjangtanji.yeosuro.reply.dto.ReplyResponseDto;
 import greenjangtanji.yeosuro.user.entity.User;
 import greenjangtanji.yeosuro.reply.dto.ReplyRequestDto;
@@ -27,12 +29,10 @@ public class ReplyService {
     //댓글 생성
     public Reply createReply (Long userId, ReplyRequestDto.Post requestDto){
         User user = userRepository.findById(userId).orElseThrow(
-                () -> new IllegalArgumentException("유저 정보가 없습니다.")
-        );
+                () -> new BusinessLogicException(ExceptionCode.USER_NOT_FOUND));
 
         Feed feed = feedRepository.findById(requestDto.getFeedId()).orElseThrow(
-                () -> new IllegalArgumentException("게시글 정보가 없습니다.")
-        );
+                () -> new BusinessLogicException(ExceptionCode.BOARD_NOT_FOUND));
 
         Reply reply = Reply.createReply(requestDto, user, feed);
         return replyRepository.save(reply);
@@ -49,9 +49,8 @@ public class ReplyService {
             }
             return responseDtos;
         }catch (Exception e){
-
+            throw new BusinessLogicException(ExceptionCode.BOARD_NOT_FOUND);
         }
-        return null;
 
     }
 
@@ -59,8 +58,8 @@ public class ReplyService {
     @Transactional
     public Reply updateReply (Long id, ReplyRequestDto.Patch requestDto){
         Reply existingReply = replyRepository.findById(id).orElseThrow(
-                () -> new IllegalArgumentException("해당 댓글이 존재하지않습니다.")
-        );
+                () -> new BusinessLogicException(ExceptionCode.REPLY_NOT_FOUND));
+
         existingReply.updateReply(requestDto.getContent());
         return existingReply;
     }
@@ -68,6 +67,9 @@ public class ReplyService {
     //댓글 삭제
     @Transactional
     public Long deleteReply (Long id){
+        Reply existingReply = replyRepository.findById(id).orElseThrow(
+                () -> new BusinessLogicException(ExceptionCode.REPLY_NOT_FOUND));
+
         replyRepository.deleteById(id);
         return id;
     }
