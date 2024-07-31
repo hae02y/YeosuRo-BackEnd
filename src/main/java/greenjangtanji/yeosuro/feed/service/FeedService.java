@@ -82,8 +82,8 @@ public class FeedService {
     @Transactional
     public Feed updatePost(Long id, FeedRequestDto.Patch requestDto) {
         Feed existingFeed = feedRepository.findById(id).orElseThrow(
-                () -> new IllegalArgumentException("해당 게시글이 존재하지 않습니다")
-        );
+                () -> new BusinessLogicException(ExceptionCode.BOARD_NOT_FOUND));
+
         //업데이트할 내용 확인
         if (requestDto.getTitle() != null){
             existingFeed.updateTitle(requestDto.getTitle());

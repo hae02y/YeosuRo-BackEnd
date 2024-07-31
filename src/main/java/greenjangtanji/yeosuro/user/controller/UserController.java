@@ -46,9 +46,4 @@ public class UserController {
 
     //회원 탈퇴
 
-    //테스트
-    @GetMapping("/jwt-test")
-    public String jwtTest() {
-        return "jwtTest 요청 성공";
-    }
 }
