@@ -82,16 +82,22 @@ public class JwtAuthenticationProcessingFilter extends OncePerRequestFilter {
 
         } catch (SecurityException | MalformedJwtException e) { //JWT가 올바르지 않은 형식으로 변조되었거나 구조가 잘못된 경우 발생
             request.setAttribute("exception", ExceptionCode.WRONG_TYPE_TOKEN.getStatus());
+            log.error("잘못된 JWT 형식: " + e.getMessage());
         } catch (ExpiredJwtException e) { //JWT가 만료된 경우 발생
             request.setAttribute("exception", ExceptionCode.EXPIRED_TOKEN.getStatus());
+            log.error("만료된 JWT: " + e.getMessage());
         } catch (UnsupportedJwtException e) { //지원되지 않는 형식이나 구성의 JWT일 경우 발생
             request.setAttribute("exception", ExceptionCode.UNSUPPORTED_TOKEN.getStatus());
+            log.error("지원되지 않는 JWT: " + e.getMessage());
         } catch (IllegalArgumentException e) { //JWT가 null이거나 빈 문자열일 때 발생
             request.setAttribute("exception", ExceptionCode.WRONG_TYPE_TOKEN.getStatus());
-        } catch (Exception e) { //정의되지 않은 모든 예외 상황에 대해 포괄적인 예외
+            log.error("JWT가 null이거나 비어 있음: " + e.getMessage());
+        } catch (Exception e) {
+            // 알 수 없는 예외 처리
             request.setAttribute("exception", ExceptionCode.UNKNOWN_ERROR.getStatus());
+            log.error("알 수 없는 오류: " + e.getMessage());
         }
-        filterChain.doFilter(request, response);
+        filterChain.doFilter(request, response); // 다음 필터로 요청 전달
     }
 
     public void saveAuthentication(User myUser) {

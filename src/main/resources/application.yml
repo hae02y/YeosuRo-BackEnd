@@ -1,4 +1,9 @@
 spring:
+  mvc:
+    throw-exception-if-no-handler-found: true  # 잘못된 요청 시 NoHandlerFoundException을 던지도록 설정
+  web:
+    resources:
+      add-mappings: false  # 리소스 핸들러 매핑 비활성화
   datasource:
     url: ${DATABASE_URL}
     username: ${DATABASE_USERNAME}
