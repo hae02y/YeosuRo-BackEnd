@@ -1,6 +1,7 @@
 package greenjangtanji.yeosuro.feed.dto;
 
 import greenjangtanji.yeosuro.feed.entity.FeedCategory;
+import jakarta.validation.constraints.Size;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import org.hibernate.validator.constraints.NotBlank;
@@ -11,6 +12,7 @@ public class FeedRequestDto {
     public static class Post {
 
         @NotBlank
+        @Size(max = 50, message = "제목 글자수 제한 초과")
         private String title;
 
         @NotBlank
