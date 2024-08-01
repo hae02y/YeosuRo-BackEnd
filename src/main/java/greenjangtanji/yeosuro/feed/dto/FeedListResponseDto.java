@@ -16,6 +16,8 @@ public class FeedListResponseDto {
     private String title;
     private String imageUrl;
     private Long likesCount;
+    private int view;
+    private String content;
     private int repliesCount;
     private String feedCategory;
     private LocalDateTime createAt;
@@ -30,6 +32,8 @@ public class FeedListResponseDto {
         this.title = feed.getTitle();
         this.imageUrl = feed.getImageUrl();
         this.likesCount = feed.getLikesCount();
+        this.view = feed.getView();
+        this.content = feed.getContent();
         this.repliesCount = feed.getRepliesCount();
         this.feedCategory = String.valueOf(feed.getFeedCategory());
         this.createAt = feed.getCreateAt();
@@ -45,6 +49,8 @@ public class FeedListResponseDto {
         this.title = feed.get().getTitle();
         this.imageUrl = feed.get().getImageUrl();
         this.likesCount = feed.get().getLikesCount();
+        this.content = feed.get().getContent();
+        this.view = feed.get().getView();
         this.repliesCount = feed.get().getRepliesCount();
         this.feedCategory = String.valueOf(feed.get().getFeedCategory());
         this.createAt = feed.get().getCreateAt();
