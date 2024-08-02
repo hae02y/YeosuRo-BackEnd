@@ -8,6 +8,8 @@ import greenjangtanji.yeosuro.feed.entity.FeedCategory;
 import greenjangtanji.yeosuro.feed.service.FeedService;
 import greenjangtanji.yeosuro.global.exception.BusinessLogicException;
 import greenjangtanji.yeosuro.global.exception.ExceptionCode;
+import greenjangtanji.yeosuro.image.entity.ImageType;
+import greenjangtanji.yeosuro.image.service.ImageService;
 import greenjangtanji.yeosuro.user.service.UserService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
@@ -29,13 +31,15 @@ import java.util.List;
 public class FeedController {
     private final FeedService feedService;
     private final UserService userService;
+    private final ImageService imageService;
 
     //게시글 등록
     @PostMapping
     public ResponseEntity postFeed (@Valid @RequestBody FeedRequestDto.Post postDto, Authentication authentication) {
         Long userId = userService.extractUserId(authentication);
         Feed feed = feedService.createFeed(userId,postDto);
-        FeedResponseDto responseDto = new FeedResponseDto(feed);
+        List<String> imageList = imageService.getImagesByReferenceIdAndType(feed.getId(), ImageType.FEED_IMAGE);
+        FeedResponseDto responseDto = new FeedResponseDto(feed, imageList);
         return new ResponseEntity<>(responseDto, HttpStatus.OK);
     }
 
@@ -63,8 +67,8 @@ public class FeedController {
     //특정 게시글 조회
     @GetMapping("{feed-id}")
     public ResponseEntity getFeed (@PathVariable("feed-id") Long feedId){
-        Feed feed = feedService.findById(feedId);
-        FeedResponseDto feedResponseDto = new FeedResponseDto(feed);
+        FeedResponseDto feedResponseDto = feedService.findById(feedId);
+
         return new ResponseEntity<>(feedResponseDto, HttpStatus.OK);
 
     }
@@ -72,8 +76,7 @@ public class FeedController {
     //게시글 수정
     @PatchMapping("{feed-id}")
     public ResponseEntity patchFeed (@PathVariable("feed-id") Long feedId, @RequestBody FeedRequestDto.Patch requestDto){
-        Feed feed = feedService.updatePost(feedId, requestDto);
-        FeedResponseDto feedResponseDto = new FeedResponseDto(feed);
+        FeedResponseDto feedResponseDto  = feedService.updatePost(feedId, requestDto);
 
         return new ResponseEntity<>(feedResponseDto, HttpStatus.OK);
     }
