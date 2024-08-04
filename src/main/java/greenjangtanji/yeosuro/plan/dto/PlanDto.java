@@ -1,10 +1,13 @@
 package greenjangtanji.yeosuro.plan.dto;
 
+import greenjangtanji.yeosuro.site.entity.Site;
 import greenjangtanji.yeosuro.user.entity.User;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+
+import java.util.List;
 
 public class PlanDto {
 
@@ -15,6 +18,8 @@ public class PlanDto {
         private String title;
         private String content;
         private String imageUrl;
+        private String date;
+        private List<Site> siteList;
     }
 
     @Getter
