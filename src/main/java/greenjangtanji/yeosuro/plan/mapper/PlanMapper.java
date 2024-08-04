@@ -12,9 +12,8 @@ public interface PlanMapper {
 
     Plan planPostDtoToPlan(PlanDto.PlanPostDto planPostDto);
 
-
     @Mapping(source = "user.id", target = "userId")
-    @Mapping(source = "createAt", target = "date")
+    @Mapping(source = "createAt", target = "createAt")
     PlanDto.PlanResponseDto planToPlanResponseDto(Plan plan);
 
     List<PlanDto.PlanResponseDto> planListToPlanResponseDtoList(List<Plan> plans);

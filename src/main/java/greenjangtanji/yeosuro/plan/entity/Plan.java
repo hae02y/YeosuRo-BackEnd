@@ -34,9 +34,6 @@ public class Plan extends Timestamped {
     @Column
     private String imageUrl;
 
-    @Column(nullable = true)
-    private String date;
-
     @Setter
     @ManyToOne
     @JoinColumn(name = "user_id")
@@ -46,9 +43,8 @@ public class Plan extends Timestamped {
     private List<Site> sites = new ArrayList<>();
 
     @Builder
-    public Plan(String title, String date, User user, String content, String imageUrl){
+    public Plan(String title, User user, String content, String imageUrl){
         this.title = title;
-        this.date = date;
         this.user = user;
         this.content = content;
         this.imageUrl = imageUrl;
