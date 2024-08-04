@@ -13,10 +13,10 @@ public enum ExceptionCode {
     DUPLICATE_EMAIL_ERROR (409, "이메일 중복"),
     DUPLICATE_NICKNAME_ERROR (409, "닉네임 중복"),
 
-    FILE_UPLOAD_ERROR(400, "파일 업로드 실패"),
-    FILE_DELETE_ERROR(400, "파일 삭제 실패"),
-    FILE_FORMAT_ERROR(400, "파일 확장자 오류"),
-    FILE_SIZE_ERROR (400, "최대 업로드 개수 초과"),
+    FILE_UPLOAD_ERROR(413, "파일 업로드 실패"),
+    FILE_DELETE_ERROR(500, "파일 삭제 실패"),
+    FILE_FORMAT_ERROR(415, "파일 확장자 오류"),
+    FILE_SIZE_ERROR (413, "최대 업로드 개수 초과"),
 
     UNKNOWN_ERROR(1001, "토큰이 존재하지 않습니다."),
     WRONG_TYPE_TOKEN(1002, "잘못된 형식의 토큰입니다."),
