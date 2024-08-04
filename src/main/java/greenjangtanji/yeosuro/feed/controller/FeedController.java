@@ -38,7 +38,7 @@ public class FeedController {
     public ResponseEntity postFeed (@Valid @RequestBody FeedRequestDto.Post postDto, Authentication authentication) {
         Long userId = userService.extractUserId(authentication);
         Feed feed = feedService.createFeed(userId,postDto);
-        List<String> imageList = imageService.getImagesByReferenceIdAndType(feed.getId(), ImageType.FEED_IMAGE);
+        List<String> imageList = imageService.getImagesByReferenceIdAndType(feed.getId(), ImageType.FEED);
         FeedResponseDto responseDto = new FeedResponseDto(feed, imageList);
         return new ResponseEntity<>(responseDto, HttpStatus.OK);
     }

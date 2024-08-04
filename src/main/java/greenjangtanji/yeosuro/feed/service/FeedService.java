@@ -42,7 +42,7 @@ public class FeedService {
         // 이미지 URL이 null일 경우 빈 리스트로 초기화
         List<String> imageUrls = requestDto.getImageUrls() != null ? requestDto.getImageUrls() : new ArrayList<>();
 
-        imageService.saveImages(imageUrls, feed.getId(), ImageType.FEED_IMAGE);
+        imageService.updateImageReferences(feed.getId(), ImageType.FEED, imageUrls);
         pointService.feedPoint(userId, feed);
 
         return feed;
@@ -53,7 +53,7 @@ public class FeedService {
         try {
             List<Feed> feedList = feedRepository.findAll();
             return feedList.stream()
-                    .map(feed -> new FeedListResponseDto(feed, imageService.getImagesByReferenceIdAndType(feed.getId(), ImageType.FEED_IMAGE)))
+                    .map(feed -> new FeedListResponseDto(feed, imageService.getImagesByReferenceIdAndType(feed.getId(), ImageType.FEED)))
                     .collect(Collectors.toList());
         } catch (Exception e) {
             throw new BusinessLogicException(ExceptionCode.BOARD_NOT_FOUND);
@@ -66,7 +66,7 @@ public class FeedService {
             List<Feed> feedList = feedRepository.findByFeedCategory(feedCategory);
 
             return feedList.stream()
-                    .map(feed -> new FeedListResponseDto(feed, imageService.getImagesByReferenceIdAndType(feed.getId(), ImageType.FEED_IMAGE)))
+                    .map(feed -> new FeedListResponseDto(feed, imageService.getImagesByReferenceIdAndType(feed.getId(), ImageType.FEED)))
                     .collect(Collectors.toList());
         } catch (Exception e) {
             throw new BusinessLogicException(ExceptionCode.CATEGORY_NOT_FOUND);
@@ -78,7 +78,7 @@ public class FeedService {
         Feed feed = feedRepository.findById(id).orElseThrow(
                 () -> new BusinessLogicException(ExceptionCode.BOARD_NOT_FOUND));
 
-        List<String> imageList = imageService.getImagesByReferenceIdAndType(feed.getId(), ImageType.FEED_IMAGE);
+        List<String> imageList = imageService.getImagesByReferenceIdAndType(feed.getId(), ImageType.FEED);
         return new FeedResponseDto(feed, imageList);
     }
 
@@ -95,13 +95,13 @@ public class FeedService {
             existingFeed.updateContent(requestDto.getContent());
         }
         if (requestDto.getImageUrls() != null) {
-            imageService.updateImages(requestDto.getImageUrls(), existingFeed.getId(), ImageType.FEED_IMAGE);
+            //imageService.updateImages(requestDto.getImageUrls(), existingFeed.getId(), ImageType.FEED_IMAGE);
         }
         if (requestDto.getFeedCategory() != null) {
             existingFeed.updateCategory(FeedCategory.valueOf(requestDto.getFeedCategory()));
         }
 
-        List<String> imageList = imageService.getImagesByReferenceIdAndType(existingFeed.getId(), ImageType.FEED_IMAGE);
+        List<String> imageList = imageService.getImagesByReferenceIdAndType(existingFeed.getId(), ImageType.FEED);
         return new FeedResponseDto(existingFeed, imageList);
     }
 

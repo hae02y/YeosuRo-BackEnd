@@ -28,6 +28,11 @@ public class Image extends Timestamped {
         this.imageUrl = imageUrl;
     }
 
+    public void updateImage (ImageType imageType, Long referenceId){
+        this.imageType = imageType;
+        this.referenceId = referenceId;
+    }
+
 
     @Builder
     public Image(String imageUrl, ImageType imageType, Long referenceId) {

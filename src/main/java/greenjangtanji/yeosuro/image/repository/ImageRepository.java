@@ -15,4 +15,5 @@ public interface ImageRepository extends JpaRepository<Image, Long> {
     // referenceId와 imageType으로 이미지를 삭제하는 메소드
     void deleteByReferenceIdAndImageType(Long referenceId, ImageType imageType);
 
+    Image findByImageUrl (String imageUrl);
 }

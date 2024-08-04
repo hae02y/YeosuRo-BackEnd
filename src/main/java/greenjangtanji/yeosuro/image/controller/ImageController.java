@@ -2,6 +2,7 @@ package greenjangtanji.yeosuro.image.controller;
 
 import greenjangtanji.yeosuro.global.exception.BusinessLogicException;
 import greenjangtanji.yeosuro.global.exception.ExceptionCode;
+import greenjangtanji.yeosuro.image.entity.ImageType;
 import greenjangtanji.yeosuro.image.service.ImageService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
@@ -17,7 +18,8 @@ public class ImageController {
     private final ImageService imageService;
 
     @PostMapping("/upload")
-    public ResponseEntity<List<String>> uploadImages( @RequestParam(value = "file") List<MultipartFile> file) {
+    public ResponseEntity<List<String>> uploadImages( @RequestParam(value = "file") List<MultipartFile> file,
+                                                      @RequestParam("type") String type) {
         // imageFiles가 null인 경우 처리
         if (file == null) {
             throw new BusinessLogicException(ExceptionCode.FILE_UPLOAD_ERROR);
@@ -27,7 +29,8 @@ public class ImageController {
             throw new BusinessLogicException(ExceptionCode.FILE_SIZE_ERROR);
         }
 
-        List<String> imageUrls = imageService.uploadFile(file);
+        ImageType imageType = ImageType.valueOf(type.toUpperCase());
+        List<String> imageUrls = imageService.uploadFile(file,imageType);
         return ResponseEntity.ok(imageUrls);
     }
 
