@@ -30,4 +30,11 @@ public class ImageController {
         List<String> imageUrls = imageService.uploadFile(file);
         return ResponseEntity.ok(imageUrls);
     }
+
+
+    @DeleteMapping("/delete/{fileName}")
+    public ResponseEntity<Void> deleteFile(@PathVariable ("fileName") String fileName) {
+        imageService.deleteFile(fileName);
+        return ResponseEntity.noContent().build();
+    }
 }

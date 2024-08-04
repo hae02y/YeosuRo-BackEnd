@@ -14,6 +14,7 @@ public enum ExceptionCode {
     DUPLICATE_NICKNAME_ERROR (409, "닉네임 중복"),
 
     FILE_UPLOAD_ERROR(400, "파일 업로드 실패"),
+    FILE_DELETE_ERROR(400, "파일 삭제 실패"),
     FILE_FORMAT_ERROR(400, "파일 확장자 오류"),
     FILE_SIZE_ERROR (400, "최대 업로드 개수 초과"),
 

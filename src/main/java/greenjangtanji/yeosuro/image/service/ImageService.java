@@ -1,6 +1,7 @@
 package greenjangtanji.yeosuro.image.service;
 
 import com.amazonaws.services.s3.AmazonS3;
+import com.amazonaws.services.s3.model.AmazonS3Exception;
 import com.amazonaws.services.s3.model.DeleteObjectRequest;
 import com.amazonaws.services.s3.model.ObjectMetadata;
 import com.amazonaws.services.s3.model.PutObjectRequest;
@@ -31,7 +32,7 @@ public class ImageService {
 
     private final AmazonS3 s3Client;
 
-    // 여러개 파일 업로드
+    // 여러개 파일 s3 업로드
     public List<String> uploadFile(List<MultipartFile> multipartFile) {
         List<String> fileNameList = new ArrayList<>();
 
@@ -44,6 +45,11 @@ public class ImageService {
             try (InputStream inputStream = file.getInputStream()) {
                 s3Client.putObject(new PutObjectRequest(bucket, fileName, inputStream, objectMetadata));
             } catch (IOException e) {
+                // IOException 발생 시 예외 처리
+                throw new BusinessLogicException(ExceptionCode.FILE_UPLOAD_ERROR);
+            } catch (AmazonS3Exception e) {
+                // AmazonS3Exception 발생 시 예외 처리
+                System.err.println("Failed to upload file to S3: " + e.getMessage());
                 throw new BusinessLogicException(ExceptionCode.FILE_UPLOAD_ERROR);
             }
 
@@ -54,10 +60,22 @@ public class ImageService {
         return fileNameList;
     }
 
-    // 파일 삭제
+    // S3 버킷에서 파일 삭제
     public void deleteFile(String fileName) {
-        s3Client.deleteObject(new DeleteObjectRequest(bucket, fileName));
+        try {
+            // S3 버킷에서 파일 삭제
+            s3Client.deleteObject(new DeleteObjectRequest(bucket, fileName));
+            System.out.println("Successfully deleted file: " + fileName);
+        } catch (AmazonS3Exception e) {
+            System.err.println("Failed to delete file from S3: " + e.getErrorMessage());
+            throw new BusinessLogicException(ExceptionCode.FILE_DELETE_ERROR);
+        }
     }
+
+    // 파일 삭제
+//    public void deleteFile(String fileName) {
+//        s3Client.deleteObject(new DeleteObjectRequest(bucket, fileName));
+//    }
 
     // 파일명 중복 방지 (UUID)
     private String createFileName(String fileName) {
@@ -91,6 +109,7 @@ public class ImageService {
 
     // 이미지 수정
     public void updateImages(List<String> imageUrls, Long referenceId, ImageType imageType) {
+        //s3에서 기존 이미지 삭제하고 다시 업로드하는 로직 필요?
         imageRepository.deleteByReferenceIdAndImageType(referenceId, imageType);
         saveImages(imageUrls, referenceId, imageType);
     }

@@ -11,4 +11,10 @@ import java.util.ArrayList;
 @RequestMapping("/v1/sites")
 public class SiteController {
 
+    @GetMapping("")
+    public ResponseEntity<> getMySites() {
+
+        return (ResponseEntity) ResponseEntity.ok();
+    }
+
 }
