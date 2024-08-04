@@ -1,14 +1,14 @@
 package greenjangtanji.yeosuro.plan.dto;
 
-import greenjangtanji.yeosuro.site.entity.Site;
-import greenjangtanji.yeosuro.user.entity.User;
-import lombok.Builder;
+import greenjangtanji.yeosuro.site.dto.SiteDto;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import lombok.ToString;
 
 import java.util.List;
 
+@ToString
 public class PlanDto {
 
     @Getter
@@ -18,8 +18,7 @@ public class PlanDto {
         private String title;
         private String content;
         private String imageUrl;
-        private String date;
-        private List<Site> siteList;
+        private List<SiteDto.SitePostDto> sites;
     }
 
     @Getter
@@ -39,7 +38,8 @@ public class PlanDto {
         private String title;
         private String content;
         private String imageUrl;
-        private String date;
+        private String createAt;
+        private List<SiteDto.SiteResponseDto> siteList;
     }
 
     @Getter

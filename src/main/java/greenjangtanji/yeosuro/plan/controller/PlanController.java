@@ -64,7 +64,9 @@ public class PlanController {
     public ResponseEntity<?> postPlan(Authentication auth, @RequestBody PlanDto.PlanPostDto planPostDto) throws Exception {
         long userId = userService.extractUserId(auth);
         Plan plan = planMapper.planPostDtoToPlan(planPostDto);
+        System.out.println(planPostDto.getSites().toString());
         plan.setUser(userService.getUserInfo(userId));
+        System.out.println(plan);
         planService.savePlan(plan);
         return new ResponseEntity<>(HttpStatus.CREATED);
     }

@@ -16,5 +16,4 @@ public class SiteController {
 
         return (ResponseEntity) ResponseEntity.ok();
     }
-
 }
