@@ -28,21 +28,6 @@ public class FeedRequestDto {
         @NotBlank
         private String feedCategory;
 
-        public void setTitle(String title) {
-            this.title = title;
-        }
-
-        public void setContent(String content) {
-            this.content = content;
-        }
-
-        public void setFeedCategory(String feedCategory) {
-            this.feedCategory = feedCategory;
-        }
-
-        public void setImageUrl(String imageUrl) {
-            this.imageUrls = Collections.singletonList(imageUrl);
-        }
 
     }
 
