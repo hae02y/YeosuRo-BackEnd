@@ -7,14 +7,15 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 import java.time.LocalDateTime;
-import java.util.Optional;
+import java.util.List;
+
 @NoArgsConstructor
 @AllArgsConstructor
 @Getter
 public class FeedListResponseDto {
     private Long id;
     private String title;
-    private String imageUrl;
+    private List<String> imageUrls;
     private Long likesCount;
     private int view;
     private String content;
@@ -27,10 +28,10 @@ public class FeedListResponseDto {
     private String profileImageUrl;
     private Tier tier;
 
-    public FeedListResponseDto (Feed feed){
+    public FeedListResponseDto(Feed feed, List<String> imageUrls) {
         this.id = feed.getId();
         this.title = feed.getTitle();
-        this.imageUrl = feed.getImageUrl();
+        this.imageUrls = imageUrls;
         this.likesCount = feed.getLikesCount();
         this.view = feed.getView();
         this.content = feed.getContent();
@@ -40,25 +41,7 @@ public class FeedListResponseDto {
         this.modifiedAt = feed.getModifiedAt();
         this.memberID = feed.getUser().getId();
         this.nickname = feed.getUser().getNickname();
-        this.profileImageUrl= feed.getUser().getProfileImageUrl();
-        this.tier= feed.getUser().getTier();
+        this.profileImageUrl = feed.getUser().getProfileImageUrl();
+        this.tier = feed.getUser().getTier();
     }
-
-    public FeedListResponseDto (Optional<Feed> feed){
-        this.id = feed.get().getId();
-        this.title = feed.get().getTitle();
-        this.imageUrl = feed.get().getImageUrl();
-        this.likesCount = feed.get().getLikesCount();
-        this.content = feed.get().getContent();
-        this.view = feed.get().getView();
-        this.repliesCount = feed.get().getRepliesCount();
-        this.feedCategory = String.valueOf(feed.get().getFeedCategory());
-        this.createAt = feed.get().getCreateAt();
-        this.modifiedAt = feed.get().getModifiedAt();
-        this.memberID = feed.get().getUser().getId();
-        this.nickname = feed.get().getUser().getNickname();
-        this.profileImageUrl= feed.get().getUser().getProfileImageUrl();
-        this.tier= feed.get().getUser().getTier();
-    }
-
 }
