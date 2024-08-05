@@ -3,12 +3,12 @@ package greenjangtanji.yeosuro.feed.entity;
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import greenjangtanji.yeosuro.feed.dto.FeedRequestDto;
 import greenjangtanji.yeosuro.global.config.Timestamped;
+import greenjangtanji.yeosuro.image.entity.Image;
 import greenjangtanji.yeosuro.reply.entity.Reply;
 import greenjangtanji.yeosuro.user.entity.User;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-import org.springframework.security.core.parameters.P;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -22,7 +22,7 @@ public class Feed extends Timestamped {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(nullable = false)
+    @Column(nullable = false, length = 50)
     private String title;
 
     @Column(nullable = false)
@@ -30,9 +30,6 @@ public class Feed extends Timestamped {
 
     @Column(nullable = false)
     private int view = 1;
-
-    @Column(nullable = false)
-    private String imageUrl;
 
     private Long LikesCount = 1L;
 
@@ -47,11 +44,14 @@ public class Feed extends Timestamped {
     @OneToMany(mappedBy = "feed", cascade = {CascadeType.PERSIST,CascadeType.REMOVE})
     private List<Reply> replies = new ArrayList<>();
 
+    @OneToMany(mappedBy = "referenceId", fetch = FetchType.LAZY)
+    private List<Image> images = new ArrayList<>();
+
+
     public static Feed createFeed (FeedRequestDto.Post requestDto, User user){
         Feed feed = new Feed();
         feed.title = requestDto.getTitle();
         feed.content = requestDto.getContent();
-        feed.imageUrl = requestDto.getImageUrl();
         feed.feedCategory = FeedCategory.valueOf(requestDto.getFeedCategory().toUpperCase());
         feed.user = user;
         return feed;
@@ -65,9 +65,6 @@ public class Feed extends Timestamped {
         this.content = content;
     }
 
-    public void updateImage (String ImageUrl){
-        this.imageUrl = imageUrl;
-    }
     public void updateCategory (FeedCategory feedCategory) { this.feedCategory = feedCategory; }
     public int getRepliesCount() {
         return replies.size();
