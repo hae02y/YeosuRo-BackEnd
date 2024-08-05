@@ -5,6 +5,8 @@ import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
 
+import java.time.LocalDate;
+
 public class SiteDto {
 
     @Setter
@@ -16,6 +18,7 @@ public class SiteDto {
         private String latitude;
         private String longitude;
         private String address;
+        private Long date;
     }
 
     @Getter
@@ -27,5 +30,6 @@ public class SiteDto {
         private String latitude;
         private String longitude;
         private String address;
+        private Long date;
     }
 }
