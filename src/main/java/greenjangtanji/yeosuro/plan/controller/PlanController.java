@@ -49,6 +49,7 @@ public class PlanController {
         long id = userService.extractUserId(auth);
         User user = userService.getUserInfo(id);
         List<Plan> planList = planService.getMyPlans(user);
+        System.out.println(planList.toString());
         List<PlanDto.PlanResponseDto> planResponseDtoList = planMapper.planListToPlanResponseDtoList(planList);
         return new ResponseEntity<>(planResponseDtoList, HttpStatus.OK);
     }

@@ -34,7 +34,7 @@ public class PlanService {
                         .latitude(sitePostDto.getLatitude())
                         .longitude(sitePostDto.getLongitude())
                         .address(sitePostDto.getAddress())
-                        .visitDate(sitePostDto.getDate())
+                        .visitDate(sitePostDto.getVisitDate())
                         .plan(savedPlan)
                         .build())
                 .toList();
