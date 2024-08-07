@@ -49,6 +49,7 @@ public class PlanController {
         long id = userService.extractUserId(auth);
         User user = userService.getUserInfo(id);
         List<Plan> planList = planService.getMyPlans(user);
+        System.out.println(planList.toString());
         List<PlanDto.PlanResponseDto> planResponseDtoList = planMapper.planListToPlanResponseDtoList(planList);
         return new ResponseEntity<>(planResponseDtoList, HttpStatus.OK);
     }
@@ -64,10 +65,8 @@ public class PlanController {
     public ResponseEntity<?> postPlan(Authentication auth, @RequestBody PlanDto.PlanPostDto planPostDto) throws Exception {
         long userId = userService.extractUserId(auth);
         Plan plan = planMapper.planPostDtoToPlan(planPostDto);
-        System.out.println(planPostDto.getSites().toString());
         plan.setUser(userService.getUserInfo(userId));
-        System.out.println(plan);
-        planService.savePlan(plan);
+        planService.savePlan(plan, planPostDto.getSites());
         return new ResponseEntity<>(HttpStatus.CREATED);
     }
 

@@ -6,10 +6,7 @@ import greenjangtanji.yeosuro.global.config.Timestamped;
 import greenjangtanji.yeosuro.site.entity.Site;
 import greenjangtanji.yeosuro.user.entity.User;
 import jakarta.persistence.*;
-import lombok.Builder;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -18,6 +15,7 @@ import java.util.List;
 @Entity
 @Getter
 @NoArgsConstructor
+@ToString
 @Table(name = "plan")
 public class Plan extends Timestamped {
 
