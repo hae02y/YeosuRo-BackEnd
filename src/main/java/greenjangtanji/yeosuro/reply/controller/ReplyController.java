@@ -1,5 +1,7 @@
 package greenjangtanji.yeosuro.reply.controller;
 
+import greenjangtanji.yeosuro.image.entity.ImageType;
+import greenjangtanji.yeosuro.image.service.ImageService;
 import greenjangtanji.yeosuro.reply.dto.ReplyRequestDto;
 import greenjangtanji.yeosuro.reply.dto.ReplyResponseDto;
 import greenjangtanji.yeosuro.reply.entity.Reply;
@@ -25,6 +27,7 @@ public class ReplyController {
 
     private final ReplyService replyService;
     private final UserService userService;
+    private final ImageService imageService;
 
     //댓글 생성
     @PostMapping()
@@ -33,7 +36,9 @@ public class ReplyController {
 
         Long userId = userService.extractUserId(authentication);
         Reply reply = replyService.createReply(userId, postDto);
-        ReplyResponseDto responseDto = new ReplyResponseDto(reply);
+        String profileImage = imageService.getProfileImage(reply.getUser().getId(), ImageType.PROFILE);
+
+        ReplyResponseDto responseDto = new ReplyResponseDto(reply, profileImage);
         return new ResponseEntity<>(responseDto, HttpStatus.OK);
     }
 
@@ -49,7 +54,9 @@ public class ReplyController {
     @PatchMapping("{reply-id}")
     public ResponseEntity updateReply (@PathVariable("reply-id") Long replyId, @RequestBody ReplyRequestDto.Patch requestDto){
         Reply reply = replyService.updateReply(replyId, requestDto);
-        ReplyResponseDto responseDto = new ReplyResponseDto(reply);
+        String profileImage = imageService.getProfileImage(reply.getUser().getId(), ImageType.PROFILE);
+
+        ReplyResponseDto responseDto = new ReplyResponseDto(reply, profileImage);
 
         return new ResponseEntity<>(responseDto, HttpStatus.OK);
     }

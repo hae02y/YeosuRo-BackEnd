@@ -35,9 +35,9 @@ public class ImageController {
     }
 
 
-    @DeleteMapping("/delete/{fileName}")
-    public ResponseEntity<Void> deleteFile(@PathVariable ("fileName") String fileName) {
-        imageService.deleteFile(fileName);
+    @DeleteMapping("/delete")
+    public ResponseEntity<Void> deleteFile(@RequestParam String imageUrl) {
+        imageService.deleteImage(imageUrl);
         return ResponseEntity.noContent().build();
     }
 }

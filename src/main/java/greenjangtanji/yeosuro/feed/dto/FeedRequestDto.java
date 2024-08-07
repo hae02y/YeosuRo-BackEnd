@@ -40,6 +40,7 @@ public class FeedRequestDto {
 
         private String content;
 
+        @Size(max = 5, message = "이미지는 최대 5개까지 업로드할 수 있습니다.")
         private List<String> imageUrls;
 
         private String feedCategory;

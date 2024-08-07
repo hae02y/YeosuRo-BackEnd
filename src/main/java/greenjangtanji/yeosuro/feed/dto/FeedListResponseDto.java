@@ -28,7 +28,7 @@ public class FeedListResponseDto {
     private String profileImageUrl;
     private Tier tier;
 
-    public FeedListResponseDto(Feed feed, List<String> imageUrls) {
+    public FeedListResponseDto(Feed feed, List<String> imageUrls, String profileImageUrl) {
         this.id = feed.getId();
         this.title = feed.getTitle();
         this.imageUrls = imageUrls;
@@ -41,7 +41,7 @@ public class FeedListResponseDto {
         this.modifiedAt = feed.getModifiedAt();
         this.memberID = feed.getUser().getId();
         this.nickname = feed.getUser().getNickname();
-        this.profileImageUrl = feed.getUser().getProfileImageUrl();
+        this.profileImageUrl = profileImageUrl;
         this.tier = feed.getUser().getTier();
     }
 }

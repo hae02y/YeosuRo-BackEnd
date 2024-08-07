@@ -1,5 +1,8 @@
 package greenjangtanji.yeosuro.global.auth.userinfo;
 
+import greenjangtanji.yeosuro.image.entity.Image;
+
+import java.util.List;
 import java.util.Map;
 
 public class KakaoOAuth2UserInfo extends OAuth2UserInfo{
@@ -31,7 +34,7 @@ public class KakaoOAuth2UserInfo extends OAuth2UserInfo{
     }
 
     @Override
-    public String getProfileImageUrl() {
+    public List<Image> getProfileImageUrl() {
         Map<String, Object> account = (Map<String, Object>) attributes.get("kakao_account");
 
         if (account == null) {
@@ -44,7 +47,7 @@ public class KakaoOAuth2UserInfo extends OAuth2UserInfo{
             return null;
         }
 
-        return (String) profile.get("thumbnail_image_url");
+        return (List<Image>) profile.get("thumbnail_image_url");
     }
 
 //    @Override

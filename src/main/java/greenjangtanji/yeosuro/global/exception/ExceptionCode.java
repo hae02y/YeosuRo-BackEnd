@@ -17,6 +17,7 @@ public enum ExceptionCode {
     FILE_DELETE_ERROR(500, "파일 삭제 실패"),
     FILE_FORMAT_ERROR(415, "파일 확장자 오류"),
     FILE_SIZE_ERROR (413, "최대 업로드 개수 초과"),
+    FILE_NOT_FOUND(404, "파일을 찾을 수 없음"),
 
     UNKNOWN_ERROR(1001, "토큰이 존재하지 않습니다."),
     WRONG_TYPE_TOKEN(1002, "잘못된 형식의 토큰입니다."),

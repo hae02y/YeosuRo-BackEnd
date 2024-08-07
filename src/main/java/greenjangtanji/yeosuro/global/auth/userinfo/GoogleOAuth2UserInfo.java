@@ -1,5 +1,8 @@
 package greenjangtanji.yeosuro.global.auth.userinfo;
 
+import greenjangtanji.yeosuro.image.entity.Image;
+
+import java.util.List;
 import java.util.Map;
 
 public class GoogleOAuth2UserInfo extends OAuth2UserInfo{
@@ -24,7 +27,7 @@ public class GoogleOAuth2UserInfo extends OAuth2UserInfo{
 //    }
 
     @Override
-    public String getProfileImageUrl() {
-        return (String) attributes.get("picture");
+    public List<Image> getProfileImageUrl() {
+        return (List<Image>) attributes.get("picture");
     }
 }
