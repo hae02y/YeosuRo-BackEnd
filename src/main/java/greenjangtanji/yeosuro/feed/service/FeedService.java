@@ -11,6 +11,7 @@ import greenjangtanji.yeosuro.global.exception.ExceptionCode;
 import greenjangtanji.yeosuro.image.entity.ImageType;
 import greenjangtanji.yeosuro.image.service.ImageService;
 import greenjangtanji.yeosuro.point.service.PointService;
+import greenjangtanji.yeosuro.reply.dto.ReplyResponseDto;
 import greenjangtanji.yeosuro.user.entity.User;
 import greenjangtanji.yeosuro.user.repostory.UserRepository;
 import lombok.RequiredArgsConstructor;
@@ -33,27 +34,27 @@ public class FeedService {
     private final ImageService imageService;
 
     // 게시글 생성
-    public Feed createFeed(Long userId, FeedRequestDto.Post requestDto) {
+    public FeedResponseDto createFeed(Long userId, FeedRequestDto.Post requestDto) {
         User user = userRepository.findById(userId).orElseThrow(
-                () -> new IllegalArgumentException("유저 정보가 없습니다.")
+                () -> new BusinessLogicException(ExceptionCode.USER_NOT_FOUND)
         );
         Feed feed = Feed.createFeed(requestDto, user);
         feedRepository.save(feed);
         // 이미지 URL이 null일 경우 빈 리스트로 초기화
         List<String> imageUrls = requestDto.getImageUrls() != null ? requestDto.getImageUrls() : new ArrayList<>();
 
-        imageService.updateImageReferences(feed.getId(), ImageType.FEED, imageUrls);
+        imageService.updateReferenceIdAndType(feed.getId(), ImageType.FEED, imageUrls);
         pointService.feedPoint(userId, feed);
 
-        return feed;
+        return createFeedResponseDto(feed);
     }
 
     // 모든 게시글 조회(최신순으로)
-    public List<FeedListResponseDto> findAll() {
+    public List<FeedResponseDto> findAll() {
         try {
             List<Feed> feedList = feedRepository.findAll();
             return feedList.stream()
-                    .map(feed -> new FeedListResponseDto(feed, imageService.getImagesByReferenceIdAndType(feed.getId(), ImageType.FEED)))
+                    .map(this::createFeedResponseDto)
                     .collect(Collectors.toList());
         } catch (Exception e) {
             throw new BusinessLogicException(ExceptionCode.BOARD_NOT_FOUND);
@@ -61,12 +62,11 @@ public class FeedService {
     }
 
     // 카테고리 별 게시글 조회
-    public List<FeedListResponseDto> getFeedsByCategory(FeedCategory feedCategory) {
+    public List<FeedResponseDto> getFeedsByCategory(FeedCategory feedCategory) {
         try {
             List<Feed> feedList = feedRepository.findByFeedCategory(feedCategory);
-
             return feedList.stream()
-                    .map(feed -> new FeedListResponseDto(feed, imageService.getImagesByReferenceIdAndType(feed.getId(), ImageType.FEED)))
+                    .map(this::createFeedResponseDto)
                     .collect(Collectors.toList());
         } catch (Exception e) {
             throw new BusinessLogicException(ExceptionCode.CATEGORY_NOT_FOUND);
@@ -77,12 +77,9 @@ public class FeedService {
     public FeedResponseDto findById(Long id) {
         Feed feed = feedRepository.findById(id).orElseThrow(
                 () -> new BusinessLogicException(ExceptionCode.BOARD_NOT_FOUND));
-
-        List<String> imageList = imageService.getImagesByReferenceIdAndType(feed.getId(), ImageType.FEED);
-        return new FeedResponseDto(feed, imageList);
+        return createFeedResponseDto(feed);
     }
 
-    // 게시글 수정
     @Transactional
     public FeedResponseDto updatePost(Long id, FeedRequestDto.Patch requestDto) {
         Feed existingFeed = feedRepository.findById(id).orElseThrow(
@@ -95,14 +92,26 @@ public class FeedService {
             existingFeed.updateContent(requestDto.getContent());
         }
         if (requestDto.getImageUrls() != null) {
-            //imageService.updateImages(requestDto.getImageUrls(), existingFeed.getId(), ImageType.FEED_IMAGE);
+            imageService.updateReferenceIdAndType(existingFeed.getId(), ImageType.FEED, requestDto.getImageUrls());
         }
         if (requestDto.getFeedCategory() != null) {
             existingFeed.updateCategory(FeedCategory.valueOf(requestDto.getFeedCategory()));
         }
 
-        List<String> imageList = imageService.getImagesByReferenceIdAndType(existingFeed.getId(), ImageType.FEED);
-        return new FeedResponseDto(existingFeed, imageList);
+        return createFeedResponseDto(existingFeed);
+    }
+
+    private FeedResponseDto createFeedResponseDto(Feed feed) {
+        List<String> imageUrls = imageService.getImagesByReferenceIdAndType(feed.getId(), ImageType.FEED);
+        String profileImageUrl = imageService.getProfileImage(feed.getUser().getId(), ImageType.PROFILE);
+
+        List<ReplyResponseDto> replies = feed.getReplies().stream()
+                .map(reply -> new ReplyResponseDto(
+                        reply,
+                        imageService.getProfileImage(reply.getUser().getId(), ImageType.PROFILE)))
+                .collect(Collectors.toList());
+
+        return new FeedResponseDto(feed, imageUrls, profileImageUrl, replies);
     }
 
     // 게시글 삭제

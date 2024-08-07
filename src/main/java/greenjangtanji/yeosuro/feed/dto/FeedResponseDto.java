@@ -1,14 +1,12 @@
 package greenjangtanji.yeosuro.feed.dto;
 
 import greenjangtanji.yeosuro.feed.entity.Feed;
-import greenjangtanji.yeosuro.feed.entity.FeedCategory;
 import greenjangtanji.yeosuro.point.entity.Tier;
 import greenjangtanji.yeosuro.reply.dto.ReplyResponseDto;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import java.time.LocalDateTime;
 import java.util.List;
-import java.util.stream.Collectors;
 
 @Getter
 @NoArgsConstructor
@@ -29,7 +27,7 @@ public class FeedResponseDto {
     private Tier tier;
     private List<ReplyResponseDto> replies;
 
-    public FeedResponseDto(Feed feed, List<String> imageUrls) {
+    public FeedResponseDto(Feed feed, List<String> imageUrls, String profileImageUrl,  List<ReplyResponseDto> replyDtos) {
         this.id = feed.getId();
         this.title = feed.getTitle();
         this.content = feed.getContent();
@@ -42,11 +40,9 @@ public class FeedResponseDto {
         this.modifiedAt = feed.getModifiedAt();
         this.memberID = feed.getUser().getId();
         this.nickname = feed.getUser().getNickname();
-        this.profileImageUrl = feed.getUser().getProfileImageUrl();
+        this.profileImageUrl = profileImageUrl;
         this.tier = feed.getUser().getTier();
-        this.replies = feed.getReplies().stream()
-                .map(ReplyResponseDto::new)
-                .collect(Collectors.toList());
+        this.replies = replyDtos;
     }
 
 }

@@ -4,6 +4,8 @@ import greenjangtanji.yeosuro.feed.entity.Feed;
 import greenjangtanji.yeosuro.feed.repository.FeedRepository;
 import greenjangtanji.yeosuro.global.exception.BusinessLogicException;
 import greenjangtanji.yeosuro.global.exception.ExceptionCode;
+import greenjangtanji.yeosuro.image.entity.ImageType;
+import greenjangtanji.yeosuro.image.service.ImageService;
 import greenjangtanji.yeosuro.reply.dto.ReplyResponseDto;
 import greenjangtanji.yeosuro.user.entity.User;
 import greenjangtanji.yeosuro.reply.dto.ReplyRequestDto;
@@ -25,6 +27,7 @@ public class ReplyService {
     private final ReplyRepository replyRepository;
     private final FeedRepository feedRepository;
     private final UserRepository userRepository;
+    private final ImageService imageService;
 
     //댓글 생성
     public Reply createReply (Long userId, ReplyRequestDto.Post requestDto){
@@ -45,7 +48,10 @@ public class ReplyService {
             List<ReplyResponseDto> responseDtos = new ArrayList<>();
 
             for (Reply reply : replyList){
-                responseDtos.add(new ReplyResponseDto(reply));
+                responseDtos.add(new ReplyResponseDto(
+                        reply,
+                        imageService.getProfileImage(reply.getUser().getId(), ImageType.PROFILE)
+                ));
             }
             return responseDtos;
         }catch (Exception e){

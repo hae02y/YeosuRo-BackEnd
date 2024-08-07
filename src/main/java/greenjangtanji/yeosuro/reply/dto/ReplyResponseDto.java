@@ -20,7 +20,7 @@ public class ReplyResponseDto {
     private String profileImageUrl;
     private Tier tier;
 
-    public ReplyResponseDto (Reply reply){
+    public ReplyResponseDto (Reply reply, String profileImageUrl){
         this.id = reply.getId();
         this.feedID = reply.getFeed().getId();
         this.content = reply.getContent();
@@ -28,7 +28,7 @@ public class ReplyResponseDto {
         this.modifiedAt = reply.getModifiedAt();
         this.memberID = reply.getUser().getId();
         this.nickname = reply.getUser().getNickname();
-        this.profileImageUrl = reply.getUser().getProfileImageUrl();
+        this.profileImageUrl = profileImageUrl;
         this.tier= reply.getUser().getTier();
     }
 }

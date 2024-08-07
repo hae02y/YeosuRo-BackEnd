@@ -1,5 +1,7 @@
 package greenjangtanji.yeosuro.user.controller;
 
+import greenjangtanji.yeosuro.image.entity.ImageType;
+import greenjangtanji.yeosuro.image.service.ImageService;
 import greenjangtanji.yeosuro.user.dto.UserRequestDto;
 import greenjangtanji.yeosuro.user.dto.UserResponseDto;
 import greenjangtanji.yeosuro.user.entity.User;
@@ -16,14 +18,17 @@ import org.springframework.web.bind.annotation.*;
 public class UserController {
 
     private final UserService userService;
+    private final ImageService imageService;
 
 
     //자체 회원가입
     @PostMapping("/sign-up")
-    public ResponseEntity signUp(@RequestBody UserRequestDto.SignUp signUp) throws Exception {
+    public ResponseEntity signUp(@RequestBody UserRequestDto.SignUp signUp) {
         User user = userService.createMember(signUp);
-        UserResponseDto.DetailUserInfo responseDto = new UserResponseDto.DetailUserInfo(user);
-        return new ResponseEntity<>(responseDto, HttpStatus.OK);
+        String profileImage = imageService.getProfileImage(user.getId(), ImageType.PROFILE);
+        UserResponseDto.DetailUserInfo detailUserInfo = new UserResponseDto.DetailUserInfo(user, profileImage);
+
+        return new ResponseEntity<>(detailUserInfo, HttpStatus.OK);
     }
 
 
@@ -33,9 +38,21 @@ public class UserController {
                                           Authentication authentication) throws Exception {
         Long userId = userService.extractUserId(authentication);
         User user = userService.updateUserInfo(userId, patchDto);
-        UserResponseDto.DetailUserInfo userResponseDto = new UserResponseDto.DetailUserInfo(user);
+        String profileImage = imageService.getProfileImage(user.getId(), ImageType.PROFILE);
+        UserResponseDto.DetailUserInfo detailUserInfo = new UserResponseDto.DetailUserInfo(user, profileImage);
 
-        return new ResponseEntity<>(userResponseDto, HttpStatus.OK);
+        return new ResponseEntity<>(detailUserInfo, HttpStatus.OK);
+    }
+
+    //회원정보 조회
+    @GetMapping("/users")
+    public ResponseEntity getUserInfo (Authentication authentication){
+        Long userId = userService.extractUserId(authentication);
+        User user = userService.getUserInfo(userId);
+        String profileImage = imageService.getProfileImage(user.getId(), ImageType.PROFILE);
+        UserResponseDto.DetailUserInfo detailUserInfo = new UserResponseDto.DetailUserInfo(user, profileImage);
+
+        return new ResponseEntity<>(detailUserInfo, HttpStatus.OK);
     }
 
     @PostMapping("additional-info")

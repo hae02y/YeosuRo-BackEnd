@@ -1,5 +1,8 @@
 package greenjangtanji.yeosuro.global.auth.userinfo;
 
+import greenjangtanji.yeosuro.image.entity.Image;
+
+import java.util.List;
 import java.util.Map;
 
 public abstract class OAuth2UserInfo {
@@ -13,8 +16,8 @@ public abstract class OAuth2UserInfo {
 
     public abstract String getNickname();
 
-   // public abstract String getEmail();
+    // public abstract String getEmail();
 
-    public abstract String getProfileImageUrl();
+    public abstract List<Image> getProfileImageUrl();
 
 }

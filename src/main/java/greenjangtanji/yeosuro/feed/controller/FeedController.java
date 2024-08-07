@@ -10,6 +10,7 @@ import greenjangtanji.yeosuro.global.exception.BusinessLogicException;
 import greenjangtanji.yeosuro.global.exception.ExceptionCode;
 import greenjangtanji.yeosuro.image.entity.ImageType;
 import greenjangtanji.yeosuro.image.service.ImageService;
+import greenjangtanji.yeosuro.user.dto.UserResponseDto;
 import greenjangtanji.yeosuro.user.service.UserService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
@@ -37,16 +38,15 @@ public class FeedController {
     @PostMapping
     public ResponseEntity postFeed (@Valid @RequestBody FeedRequestDto.Post postDto, Authentication authentication) {
         Long userId = userService.extractUserId(authentication);
-        Feed feed = feedService.createFeed(userId,postDto);
-        List<String> imageList = imageService.getImagesByReferenceIdAndType(feed.getId(), ImageType.FEED);
-        FeedResponseDto responseDto = new FeedResponseDto(feed, imageList);
+        FeedResponseDto responseDto = feedService.createFeed(userId,postDto);
+
         return new ResponseEntity<>(responseDto, HttpStatus.OK);
     }
 
     //게시글 전체 조회
     @GetMapping
     public ResponseEntity getAllFeed ( ){
-        List<FeedListResponseDto> allFeedList = feedService.findAll();
+        List<FeedResponseDto> allFeedList = feedService.findAll();
 
         return new ResponseEntity<>(allFeedList, HttpStatus.OK);
     }
@@ -59,7 +59,7 @@ public class FeedController {
         }catch (IllegalArgumentException e){
             throw new BusinessLogicException(ExceptionCode.CATEGORY_NOT_FOUND);
         }
-        List<FeedListResponseDto> feedList = feedService.getFeedsByCategory(FeedCategory.valueOf(category.toUpperCase()));
+        List<FeedResponseDto> feedList = feedService.getFeedsByCategory(FeedCategory.valueOf(category.toUpperCase()));
 
         return new ResponseEntity<>(feedList, HttpStatus.OK);
     }
@@ -76,7 +76,7 @@ public class FeedController {
     //게시글 수정
     @PatchMapping("{feed-id}")
     public ResponseEntity patchFeed (@PathVariable("feed-id") Long feedId, @RequestBody FeedRequestDto.Patch requestDto){
-        FeedResponseDto feedResponseDto  = feedService.updatePost(feedId, requestDto);
+        FeedResponseDto feedResponseDto = feedService.updatePost(feedId, requestDto);
 
         return new ResponseEntity<>(feedResponseDto, HttpStatus.OK);
     }

@@ -3,6 +3,7 @@ package greenjangtanji.yeosuro.user.entity;
 
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import greenjangtanji.yeosuro.feed.entity.Feed;
+import greenjangtanji.yeosuro.image.entity.Image;
 import greenjangtanji.yeosuro.plan.entity.Plan;
 import greenjangtanji.yeosuro.point.entity.Point;
 import greenjangtanji.yeosuro.point.entity.Tier;
@@ -31,8 +32,6 @@ public class User {
     private String nickname;
 
     private String password;
-
-    private String profileImageUrl;
 
     //추가 정보 (마케팅 정보 수신 동의)
     private Boolean agree;
@@ -73,10 +72,6 @@ public class User {
         this.nickname = nickname;
     }
 
-    public void updateProfileImageUrl (String profileImageUrl){
-        this.profileImageUrl = profileImageUrl;
-    }
-
     public void updateRefreshToken(String updateRefreshToken) {
         this.refreshToken = updateRefreshToken;
     }
@@ -96,5 +91,8 @@ public class User {
 
     @OneToMany(mappedBy = "user", cascade = {CascadeType.PERSIST,CascadeType.REMOVE})
     private List<Plan> plans = new ArrayList<>();
+
+    @OneToMany(mappedBy = "referenceId", fetch = FetchType.LAZY)
+    private List<Image> images = new ArrayList<>();
 
 }

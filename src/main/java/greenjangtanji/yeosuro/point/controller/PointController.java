@@ -2,6 +2,7 @@ package greenjangtanji.yeosuro.point.controller;
 
 import greenjangtanji.yeosuro.point.dto.PointResponseDto;
 import greenjangtanji.yeosuro.point.service.PointService;
+import greenjangtanji.yeosuro.user.dto.UserResponseDto;
 import greenjangtanji.yeosuro.user.entity.User;
 import greenjangtanji.yeosuro.user.service.UserService;
 import lombok.RequiredArgsConstructor;
