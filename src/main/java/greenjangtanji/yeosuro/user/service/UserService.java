@@ -77,6 +77,14 @@ public class UserService {
 
     //회원 탈퇴
 
+    //비밀번호 변경
+    @Transactional
+    public void updatePassword (String email, String newPassword){
+        User user = userRepository.findByEmail(email).orElseThrow(
+                () -> new BusinessLogicException(ExceptionCode.USER_NOT_FOUND));
+        user.updatePassword(passwordEncoder.encode(newPassword));
+    }
+
 
     //회원 확인
     private User checkUser (Long userId){

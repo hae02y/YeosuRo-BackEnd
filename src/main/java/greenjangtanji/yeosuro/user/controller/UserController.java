@@ -61,6 +61,15 @@ public class UserController {
         return new ResponseEntity<>(HttpStatus.OK);
     }
 
+    //비밀번호 변경
+    @PatchMapping("/sign-up/password")
+    public ResponseEntity updatePasswordInfo (@RequestBody UserRequestDto.UpdatePassword updatePassword){
+        userService.updatePassword(updatePassword.getEmail(), updatePassword.getPassword());
+
+        return new ResponseEntity(HttpStatus.OK);
+    }
+
     //회원 탈퇴
+
 
 }
