@@ -120,20 +120,6 @@ public class ImageService {
     }
 
 
-    /**
-     * 프로필 이미지 조회
-     * @param referenceId
-     * @param imageType
-     * @return
-     */
-    public String getProfileImage (Long referenceId, ImageType imageType){
-
-        Optional<Image> image = imageRepository.findByImageTypeAndReferenceId(imageType, referenceId);
-
-        // 이미지가 존재할 경우 URL 반환, 없을 경우 기본 이미지 URL 반환
-        return image.map(Image::getImageUrl).orElse(getDefaultImageUrl());
-    }
-
     @Transactional
     public void deleteImage(String imageUrl) {
         Image image = imageRepository.findByImageUrl(imageUrl).orElseThrow(
@@ -148,6 +134,12 @@ public class ImageService {
             log.error("Failed to delete image with URL {}: {}", imageUrl, e.getMessage(), e);
             throw new BusinessLogicException(ExceptionCode.FILE_DELETE_ERROR);
         }
+    }
+
+
+    // 기본 이미지 URL을 반환하는 메서드
+    public String getDefaultImageUrl() {
+        return "https://yeosuroimage.s3.ap-northeast-2.amazonaws.com/PROFILE/aba75aa7-e049-49e2-8835-45615e734156.jpeg";
     }
 
     // S3 버킷에서 파일 삭제
@@ -179,11 +171,6 @@ public class ImageService {
         imageRepository.save(newImage);
     }
 
-
-    // 기본 이미지 URL을 반환하는 메서드
-    private String getDefaultImageUrl() {
-        return "https://yeosuroimage.s3.ap-northeast-2.amazonaws.com/PROFILE/aba75aa7-e049-49e2-8835-45615e734156.jpeg";
-    }
 
 
     // 파일 유효성 검사

@@ -25,40 +25,9 @@ public class UserController {
     @PostMapping("/sign-up")
     public ResponseEntity signUp(@RequestBody UserRequestDto.SignUp signUp) {
         User user = userService.createMember(signUp);
-        String profileImage = imageService.getProfileImage(user.getId(), ImageType.PROFILE);
-        UserResponseDto.DetailUserInfo detailUserInfo = new UserResponseDto.DetailUserInfo(user, profileImage);
+        UserResponseDto.DetailUserInfo detailUserInfo = new UserResponseDto.DetailUserInfo(user);
 
         return new ResponseEntity<>(detailUserInfo, HttpStatus.OK);
-    }
-
-
-    //회원 정보 수정
-    @PatchMapping ("/users")
-    public ResponseEntity updateUserInfo (@RequestBody UserRequestDto.Patch patchDto,
-                                          Authentication authentication) throws Exception {
-        Long userId = userService.extractUserId(authentication);
-        User user = userService.updateUserInfo(userId, patchDto);
-        String profileImage = imageService.getProfileImage(user.getId(), ImageType.PROFILE);
-        UserResponseDto.DetailUserInfo detailUserInfo = new UserResponseDto.DetailUserInfo(user, profileImage);
-
-        return new ResponseEntity<>(detailUserInfo, HttpStatus.OK);
-    }
-
-    //회원정보 조회
-    @GetMapping("/users")
-    public ResponseEntity getUserInfo (Authentication authentication){
-        Long userId = userService.extractUserId(authentication);
-        User user = userService.getUserInfo(userId);
-        String profileImage = imageService.getProfileImage(user.getId(), ImageType.PROFILE);
-        UserResponseDto.DetailUserInfo detailUserInfo = new UserResponseDto.DetailUserInfo(user, profileImage);
-
-        return new ResponseEntity<>(detailUserInfo, HttpStatus.OK);
-    }
-
-    @PostMapping("additional-info")
-    public ResponseEntity additionalUserInfo (@RequestBody UserRequestDto.AdditionalInformation additionalInformation){
-
-        return new ResponseEntity<>(HttpStatus.OK);
     }
 
     //비밀번호 변경
@@ -69,7 +38,39 @@ public class UserController {
         return new ResponseEntity(HttpStatus.OK);
     }
 
+
+    //회원 정보 수정
+    @PatchMapping ("/users")
+    public ResponseEntity updateUserInfo (@RequestBody UserRequestDto.Patch patchDto,
+                                          Authentication authentication){
+        Long userId = userService.extractUserId(authentication);
+        User user = userService.updateUserInfo(userId, patchDto);
+        UserResponseDto.DetailUserInfo detailUserInfo = new UserResponseDto.DetailUserInfo(user);
+
+        return new ResponseEntity<>(detailUserInfo, HttpStatus.OK);
+    }
+
+    //회원정보 조회
+    @GetMapping("/users")
+    public ResponseEntity getUserInfo (Authentication authentication){
+        Long userId = userService.extractUserId(authentication);
+        User user = userService.getUserInfo(userId);
+        UserResponseDto.DetailUserInfo detailUserInfo = new UserResponseDto.DetailUserInfo(user);
+
+        return new ResponseEntity<>(detailUserInfo, HttpStatus.OK);
+    }
+
+
+    //소셜 회원가입 유저 추가 정보 등록
+    @PostMapping("additional-info")
+    public ResponseEntity additionalUserInfo (@RequestBody UserRequestDto.AdditionalInformation additionalInformation){
+
+        return new ResponseEntity<>(HttpStatus.OK);
+    }
+
+
     //회원 탈퇴
+
 
 
 }

@@ -27,7 +27,7 @@ public class FeedResponseDto {
     private Tier tier;
     private List<ReplyResponseDto> replies;
 
-    public FeedResponseDto(Feed feed, List<String> imageUrls, String profileImageUrl,  List<ReplyResponseDto> replyDtos) {
+    public FeedResponseDto(Feed feed, List<String> imageUrls, List<ReplyResponseDto> replyDtos) {
         this.id = feed.getId();
         this.title = feed.getTitle();
         this.content = feed.getContent();
@@ -40,7 +40,7 @@ public class FeedResponseDto {
         this.modifiedAt = feed.getModifiedAt();
         this.memberID = feed.getUser().getId();
         this.nickname = feed.getUser().getNickname();
-        this.profileImageUrl = profileImageUrl;
+        this.profileImageUrl = feed.getUser().getProfileImageUrl();
         this.tier = feed.getUser().getTier();
         this.replies = replyDtos;
     }

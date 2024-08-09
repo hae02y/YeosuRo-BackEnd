@@ -103,15 +103,12 @@ public class FeedService {
 
     private FeedResponseDto createFeedResponseDto(Feed feed) {
         List<String> imageUrls = imageService.getImagesByReferenceIdAndType(feed.getId(), ImageType.FEED);
-        String profileImageUrl = imageService.getProfileImage(feed.getUser().getId(), ImageType.PROFILE);
 
         List<ReplyResponseDto> replies = feed.getReplies().stream()
-                .map(reply -> new ReplyResponseDto(
-                        reply,
-                        imageService.getProfileImage(reply.getUser().getId(), ImageType.PROFILE)))
+                .map(reply -> new ReplyResponseDto(reply))
                 .collect(Collectors.toList());
 
-        return new FeedResponseDto(feed, imageUrls, profileImageUrl, replies);
+        return new FeedResponseDto(feed, imageUrls,replies);
     }
 
     // 게시글 삭제

@@ -39,6 +39,7 @@ public class UserService {
                 .email(signUp.getEmail())
                 .password(signUp.getPassword())
                 .nickname(signUp.getNickname())
+                .profileImageUrl(imageService.getDefaultImageUrl())
                 .agree(signUp.getAgree())
                 .role(Role.USER)
                 .userStatus(UserStatus.ACTIVE)
@@ -69,6 +70,7 @@ public class UserService {
         }
         if (patch.getProfileImageUrl() != null){
             imageService.updateProfileImage(userId, ImageType.PROFILE, patch.getProfileImageUrl());
+            user.updateProfileImage(patch.getProfileImageUrl());
         }
 
         return user;

@@ -33,6 +33,8 @@ public class User {
 
     private String password;
 
+    private String profileImageUrl;
+
     //추가 정보 (마케팅 정보 수신 동의)
     private Boolean agree;
 
@@ -70,6 +72,10 @@ public class User {
 
     public void updatePassword(String password) {
         this.password = password;
+    }
+
+    public void updateProfileImage (String profileImageUrl){
+        this.profileImageUrl = profileImageUrl;
     }
 
     public void updateNickname (String nickname){

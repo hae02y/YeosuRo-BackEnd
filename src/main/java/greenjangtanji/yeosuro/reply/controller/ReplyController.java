@@ -36,9 +36,8 @@ public class ReplyController {
 
         Long userId = userService.extractUserId(authentication);
         Reply reply = replyService.createReply(userId, postDto);
-        String profileImage = imageService.getProfileImage(reply.getUser().getId(), ImageType.PROFILE);
 
-        ReplyResponseDto responseDto = new ReplyResponseDto(reply, profileImage);
+        ReplyResponseDto responseDto = new ReplyResponseDto(reply);
         return new ResponseEntity<>(responseDto, HttpStatus.OK);
     }
 
@@ -54,9 +53,7 @@ public class ReplyController {
     @PatchMapping("{reply-id}")
     public ResponseEntity updateReply (@PathVariable("reply-id") Long replyId, @RequestBody ReplyRequestDto.Patch requestDto){
         Reply reply = replyService.updateReply(replyId, requestDto);
-        String profileImage = imageService.getProfileImage(reply.getUser().getId(), ImageType.PROFILE);
-
-        ReplyResponseDto responseDto = new ReplyResponseDto(reply, profileImage);
+        ReplyResponseDto responseDto = new ReplyResponseDto(reply);
 
         return new ResponseEntity<>(responseDto, HttpStatus.OK);
     }
