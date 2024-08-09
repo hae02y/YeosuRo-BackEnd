@@ -4,9 +4,11 @@ import greenjangtanji.yeosuro.global.auth.CustomOAuth2User;
 import greenjangtanji.yeosuro.global.auth.OAuthAttributes;
 import greenjangtanji.yeosuro.user.entity.SocialType;
 import greenjangtanji.yeosuro.user.entity.User;
+import greenjangtanji.yeosuro.user.entity.UserStatus;
 import greenjangtanji.yeosuro.user.repostory.UserRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.security.authentication.DisabledException;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.oauth2.client.userinfo.DefaultOAuth2UserService;
 import org.springframework.security.oauth2.client.userinfo.OAuth2UserRequest;
@@ -89,6 +91,8 @@ public class CustomOAuth2UserService implements OAuth2UserService<OAuth2UserRequ
 
         if(findUser == null) {
             return saveUser(attributes, socialType);
+        }else if (findUser.getUserStatus() != UserStatus.ACTIVE) {
+            throw new DisabledException("탈퇴한 회원입니다.");
         }
         return findUser;
     }

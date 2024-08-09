@@ -70,9 +70,15 @@ public class User {
         this.password = passwordEncoder.encode(this.password);
     }
 
+    public void updateUserStatus (UserStatus userStatus){
+        this.userStatus = userStatus;
+    }
+
     public void updatePassword(String password) {
         this.password = password;
     }
+
+    public void updateAgree (Boolean agree) {this.agree = agree; }
 
     public void updateProfileImage (String profileImageUrl){
         this.profileImageUrl = profileImageUrl;

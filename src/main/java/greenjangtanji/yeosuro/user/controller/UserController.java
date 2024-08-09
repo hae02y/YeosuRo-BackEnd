@@ -70,6 +70,16 @@ public class UserController {
 
 
     //회원 탈퇴
+    @PatchMapping("/users/deactivate")
+    public ResponseEntity<String> deactivateUser (Authentication authentication){
+        Long userId = userService.extractUserId(authentication);
+        boolean isDeactivated = userService.deactivateMember(userId);
+        if (isDeactivated) {
+            return ResponseEntity.ok("회원 비활성화 성공");
+        }else {
+            return ResponseEntity.status(404).body("이미 탈퇴한 회원입니다");
+        }
+    }
 
 
 

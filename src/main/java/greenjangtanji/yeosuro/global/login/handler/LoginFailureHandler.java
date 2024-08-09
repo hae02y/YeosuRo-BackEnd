@@ -35,16 +35,15 @@ public class LoginFailureHandler implements AuthenticationFailureHandler {
 
         String errorMessage;
 
-        if (exception instanceof BadCredentialsException) {
+        if (exception instanceof DisabledException) {
+            errorMessage = "탈퇴한 회원입니다.";
+        } else if (exception instanceof BadCredentialsException) {
             errorMessage = "아이디나 비밀번호가 올바르지 않습니다.";
-        } else if (exception instanceof DisabledException) {
-            errorMessage = "계정이 비활성화되었습니다.";
         } else if (exception instanceof AuthenticationServiceException) {
             errorMessage = "아이디나 비밀번호의 형식이 잘못되었습니다.";
         } else {
             errorMessage = "알 수 없는 로그인 오류가 발생했습니다.";
         }
-
         responseBody.put("message", errorMessage);
 
         response.getWriter().write(objectMapper.writeValueAsString(responseBody));
