@@ -13,8 +13,8 @@ public class UserRequestDto {
         @NotBlank
         private String email;
         @NotBlank
-        @Pattern(regexp = "(?=.*[a-zA-Z])(?=.*[0-9])(?=.*[!@#$%^&*]).{8,16}",
-        message = "8~16자 영문 대소문자, 숫자, 특수문자를 사용하세요")
+        @Pattern(regexp = "(?=.*[a-zA-Z])(?=.*[0-9]).{8,}",
+                message = "8자 이상, 영문과 숫자를 사용하세요")
         private String password;
         @NotBlank
         private String nickname;
@@ -43,7 +43,7 @@ public class UserRequestDto {
         private String email;
 
         @NotBlank
-        @Pattern(regexp = "(?=.*[a-zA-Z])(?=.*[0-9])(?=.*[!@#$%^&*]).{8,16}",
+        @Pattern(regexp = "(?=.*[a-zA-Z])(?=.*[0-9]).{8,}",
                 message = "8~16자 영문 대소문자, 숫자, 특수문자를 사용하세요")
         private String password;
     }
