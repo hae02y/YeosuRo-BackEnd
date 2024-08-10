@@ -27,7 +27,6 @@ public class ReplyService {
     private final ReplyRepository replyRepository;
     private final FeedRepository feedRepository;
     private final UserRepository userRepository;
-    private final ImageService imageService;
 
     //댓글 생성
     public Reply createReply (Long userId, ReplyRequestDto.Post requestDto){
@@ -48,10 +47,7 @@ public class ReplyService {
             List<ReplyResponseDto> responseDtos = new ArrayList<>();
 
             for (Reply reply : replyList){
-                responseDtos.add(new ReplyResponseDto(
-                        reply,
-                        imageService.getProfileImage(reply.getUser().getId(), ImageType.PROFILE)
-                ));
+                responseDtos.add(new ReplyResponseDto(reply));
             }
             return responseDtos;
         }catch (Exception e){

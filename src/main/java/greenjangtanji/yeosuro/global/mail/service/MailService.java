@@ -6,16 +6,20 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDateTime;
+
 @Service
 @RequiredArgsConstructor
 public class MailService {
     private final JavaMailSender javaMailSender;
-    private static final String senderEmail= "${spring.mail.username}";
+    private static final String senderEmail = "${spring.mail.username}";
     private static int number;
+    private static LocalDateTime issuanceTime; // 발급 시간
 
     // 랜덤으로 숫자 생성
     public static void createNumber() {
-        number = (int)(Math.random() * (90000)) + 100000; //(int) Math.random() * (최댓값-최소값+1) + 최소값
+        number = (int)(Math.random() * (90000)) + 100000;
+        issuanceTime = LocalDateTime.now(); // 발급 시간 기록
     }
 
     public MimeMessage CreateMail(String mail) {
@@ -48,5 +52,17 @@ public class MailService {
         javaMailSender.send(message);
 
         return number;
+    }
+
+    //코드 발급시간 확인
+    public boolean isCodeValid(int code) {
+        // 발급 시간이 3분 이내인지 확인
+        if (LocalDateTime.now().isAfter(issuanceTime.plusMinutes(3))) {
+            // 유효 시간이 지나면 number와 issuanceTime을 초기화
+            number = -1; // 유효하지 않은 값으로 초기화
+            issuanceTime = null;
+            return false;
+        }
+        return number == code;
     }
 }

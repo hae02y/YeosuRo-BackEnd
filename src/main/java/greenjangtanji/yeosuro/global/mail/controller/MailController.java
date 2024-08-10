@@ -16,7 +16,6 @@ import java.util.HashMap;
 @Validated
 public class MailController {
     private final MailService mailService;
-    private int number;
 
     @PostMapping("/mailSend")
     public HashMap<String, Object> mailSend(@RequestParam String mail) {
@@ -24,11 +23,9 @@ public class MailController {
 
         try {
             String trimmedMail = mail.trim();
-            number = mailService.sendMail(trimmedMail);
-            String num = String.valueOf(number);
-
+            int number = mailService.sendMail(trimmedMail);
             map.put("success", Boolean.TRUE);
-            map.put("number", num);
+            map.put("number", number);
         } catch (Exception e) {
             map.put("success", Boolean.FALSE);
             map.put("error", e.getMessage());
@@ -39,9 +36,17 @@ public class MailController {
 
     @GetMapping("/mailCheck")
     public ResponseEntity<?> mailCheck(@RequestParam String code) {
-        
-        boolean isMatch = code.equals(String.valueOf(number));
+        try {
+            int codeInt = Integer.parseInt(code);
+            boolean isMatch = mailService.isCodeValid(codeInt);
 
-        return ResponseEntity.ok(isMatch);
+            if (isMatch) {
+                return ResponseEntity.ok("인증 성공");
+            } else {
+                return ResponseEntity.badRequest().body("인증 코드가 유효하지 않거나 시간이 만료되었습니다.");
+            }
+        } catch (NumberFormatException e) {
+            return ResponseEntity.badRequest().body("잘못된 코드 형식입니다.");
+        }
     }
 }

@@ -18,13 +18,13 @@ public class UserResponseDto {
         private String profileImageUrl;
         private Enum role;
 
-        public DetailUserInfo (User user, String profileImageUrl){
+        public DetailUserInfo (User user){
             this.id = user.getId();
             this.email = user.getEmail();
             this.password = user.getPassword();
             this.nickname = user.getNickname();
             this.agree = user.getAgree();
-            this.profileImageUrl = profileImageUrl;
+            this.profileImageUrl = user.getProfileImageUrl();
             this.role = user.getRole();
         }
     }
@@ -36,10 +36,10 @@ public class UserResponseDto {
         private String nickname;
         private String profileImageUrl;
 
-        public BriefUserInfo (User user, String profileImageUrl){
+        public BriefUserInfo (User user){
             this.id = user.getId();
             this.nickname = user.getNickname();
-            this.profileImageUrl = profileImageUrl;
+            this.profileImageUrl = user.getProfileImageUrl();
         }
     }
 }

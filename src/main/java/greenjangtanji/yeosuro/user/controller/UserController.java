@@ -25,21 +25,27 @@ public class UserController {
     @PostMapping("/sign-up")
     public ResponseEntity signUp(@RequestBody UserRequestDto.SignUp signUp) {
         User user = userService.createMember(signUp);
-        String profileImage = imageService.getProfileImage(user.getId(), ImageType.PROFILE);
-        UserResponseDto.DetailUserInfo detailUserInfo = new UserResponseDto.DetailUserInfo(user, profileImage);
+        UserResponseDto.DetailUserInfo detailUserInfo = new UserResponseDto.DetailUserInfo(user);
 
         return new ResponseEntity<>(detailUserInfo, HttpStatus.OK);
+    }
+
+    //비밀번호 변경
+    @PatchMapping("/sign-up/password")
+    public ResponseEntity updatePasswordInfo (@RequestBody UserRequestDto.UpdatePassword updatePassword){
+        userService.updatePassword(updatePassword.getEmail(), updatePassword.getPassword());
+
+        return new ResponseEntity(HttpStatus.OK);
     }
 
 
     //회원 정보 수정
     @PatchMapping ("/users")
     public ResponseEntity updateUserInfo (@RequestBody UserRequestDto.Patch patchDto,
-                                          Authentication authentication) throws Exception {
+                                          Authentication authentication){
         Long userId = userService.extractUserId(authentication);
         User user = userService.updateUserInfo(userId, patchDto);
-        String profileImage = imageService.getProfileImage(user.getId(), ImageType.PROFILE);
-        UserResponseDto.DetailUserInfo detailUserInfo = new UserResponseDto.DetailUserInfo(user, profileImage);
+        UserResponseDto.DetailUserInfo detailUserInfo = new UserResponseDto.DetailUserInfo(user);
 
         return new ResponseEntity<>(detailUserInfo, HttpStatus.OK);
     }
@@ -49,18 +55,32 @@ public class UserController {
     public ResponseEntity getUserInfo (Authentication authentication){
         Long userId = userService.extractUserId(authentication);
         User user = userService.getUserInfo(userId);
-        String profileImage = imageService.getProfileImage(user.getId(), ImageType.PROFILE);
-        UserResponseDto.DetailUserInfo detailUserInfo = new UserResponseDto.DetailUserInfo(user, profileImage);
+        UserResponseDto.DetailUserInfo detailUserInfo = new UserResponseDto.DetailUserInfo(user);
 
         return new ResponseEntity<>(detailUserInfo, HttpStatus.OK);
     }
 
+
+    //소셜 회원가입 유저 추가 정보 등록
     @PostMapping("additional-info")
     public ResponseEntity additionalUserInfo (@RequestBody UserRequestDto.AdditionalInformation additionalInformation){
 
         return new ResponseEntity<>(HttpStatus.OK);
     }
 
+
     //회원 탈퇴
+    @PatchMapping("/users/deactivate")
+    public ResponseEntity<String> deactivateUser (Authentication authentication){
+        Long userId = userService.extractUserId(authentication);
+        boolean isDeactivated = userService.deactivateMember(userId);
+        if (isDeactivated) {
+            return ResponseEntity.ok("회원 비활성화 성공");
+        }else {
+            return ResponseEntity.status(404).body("이미 탈퇴한 회원입니다");
+        }
+    }
+
+
 
 }

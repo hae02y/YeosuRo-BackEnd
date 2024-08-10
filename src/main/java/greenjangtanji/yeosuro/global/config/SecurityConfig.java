@@ -77,6 +77,7 @@ public class SecurityConfig {
                         .requestMatchers(PathRequest.toStaticResources().atCommonLocations()).permitAll()
                         .requestMatchers("/images/**").authenticated() // 이미지 관련 경로 인증 필수
                         .anyRequest().authenticated() // 위의 경로 이외에는 모두 인증된 사용자만 접근 가능
+
                 )
                 // 소셜 로그인 설정
                 .oauth2Login((oauth2) -> oauth2

@@ -33,6 +33,8 @@ public class User {
 
     private String password;
 
+    private String profileImageUrl;
+
     //추가 정보 (마케팅 정보 수신 동의)
     private Boolean agree;
 
@@ -66,6 +68,20 @@ public class User {
     // 비밀번호 암호화 메소드
     public void passwordEncode(PasswordEncoder passwordEncoder) {
         this.password = passwordEncoder.encode(this.password);
+    }
+
+    public void updateUserStatus (UserStatus userStatus){
+        this.userStatus = userStatus;
+    }
+
+    public void updatePassword(String password) {
+        this.password = password;
+    }
+
+    public void updateAgree (Boolean agree) {this.agree = agree; }
+
+    public void updateProfileImage (String profileImageUrl){
+        this.profileImageUrl = profileImageUrl;
     }
 
     public void updateNickname (String nickname){
