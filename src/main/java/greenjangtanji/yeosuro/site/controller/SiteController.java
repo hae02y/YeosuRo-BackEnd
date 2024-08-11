@@ -30,14 +30,11 @@ public class SiteController {
         this.siteMapper = siteMapper;
     }
 
-
     //사이트 개별 조회
     @GetMapping(value = {"/{siteId}"})
     public ResponseEntity<?> getSite(@PathVariable(value = "siteId") Long id) {
         Site site = siteService.getSite(id);
-
         SiteDto.SiteResponseDtoNoDate siteResponseDtoNoDate = siteMapper.siteToSiteResponseDtoNoDate(site);
-
         return new ResponseEntity<>(siteResponseDtoNoDate, HttpStatus.OK);
     }
 
