@@ -1,7 +1,6 @@
 package greenjangtanji.yeosuro.user.entity;
 
 
-import com.fasterxml.jackson.annotation.JsonManagedReference;
 import greenjangtanji.yeosuro.feed.entity.Feed;
 import greenjangtanji.yeosuro.image.entity.Image;
 import greenjangtanji.yeosuro.plan.entity.Plan;

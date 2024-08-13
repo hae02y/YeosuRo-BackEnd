@@ -1,16 +1,12 @@
 package greenjangtanji.yeosuro.feed.controller;
 
-import greenjangtanji.yeosuro.feed.dto.FeedListResponseDto;
 import greenjangtanji.yeosuro.feed.dto.FeedRequestDto;
 import greenjangtanji.yeosuro.feed.dto.FeedResponseDto;
-import greenjangtanji.yeosuro.feed.entity.Feed;
 import greenjangtanji.yeosuro.feed.entity.FeedCategory;
 import greenjangtanji.yeosuro.feed.service.FeedService;
 import greenjangtanji.yeosuro.global.exception.BusinessLogicException;
 import greenjangtanji.yeosuro.global.exception.ExceptionCode;
-import greenjangtanji.yeosuro.image.entity.ImageType;
 import greenjangtanji.yeosuro.image.service.ImageService;
-import greenjangtanji.yeosuro.user.dto.UserResponseDto;
 import greenjangtanji.yeosuro.user.service.UserService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
@@ -67,7 +63,7 @@ public class FeedController {
     //특정 게시글 조회
     @GetMapping("{feed-id}")
     public ResponseEntity getFeed (@PathVariable("feed-id") Long feedId){
-        FeedResponseDto feedResponseDto = feedService.findById(feedId);
+        FeedResponseDto feedResponseDto = feedService.findFeedById(feedId);
 
         return new ResponseEntity<>(feedResponseDto, HttpStatus.OK);
 

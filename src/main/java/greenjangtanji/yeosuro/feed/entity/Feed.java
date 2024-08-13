@@ -4,6 +4,7 @@ import com.fasterxml.jackson.annotation.JsonBackReference;
 import greenjangtanji.yeosuro.feed.dto.FeedRequestDto;
 import greenjangtanji.yeosuro.global.config.Timestamped;
 import greenjangtanji.yeosuro.image.entity.Image;
+import greenjangtanji.yeosuro.likes.entity.FeedLikes;
 import greenjangtanji.yeosuro.reply.entity.Reply;
 import greenjangtanji.yeosuro.user.entity.User;
 import jakarta.persistence.*;
@@ -31,8 +32,6 @@ public class Feed extends Timestamped {
     @Column(nullable = false)
     private int view = 1;
 
-    private Long LikesCount = 1L;
-
     @Enumerated(EnumType.STRING)
     private FeedCategory feedCategory;
 
@@ -47,6 +46,8 @@ public class Feed extends Timestamped {
     @OneToMany(mappedBy = "referenceId", fetch = FetchType.LAZY)
     private List<Image> images = new ArrayList<>();
 
+    @OneToMany(mappedBy = "feed", cascade = {CascadeType.PERSIST,CascadeType.REMOVE})
+    private List<FeedLikes> feedLikes  = new ArrayList<>();
 
     public static Feed createFeed (FeedRequestDto.Post requestDto, User user){
         Feed feed = new Feed();
@@ -69,5 +70,7 @@ public class Feed extends Timestamped {
     public int getRepliesCount() {
         return replies.size();
     }
+
+    public int getFeedLikesCount () { return feedLikes.size(); }
 
 }

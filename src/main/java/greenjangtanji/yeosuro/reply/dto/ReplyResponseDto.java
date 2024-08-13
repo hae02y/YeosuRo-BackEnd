@@ -13,6 +13,7 @@ public class ReplyResponseDto {
     private Long id;
     private Long feedID;
     private String content;
+    private int likesCount;
     private LocalDateTime createAt;
     private LocalDateTime modifiedAt;
     private Long memberID;
@@ -24,6 +25,7 @@ public class ReplyResponseDto {
         this.id = reply.getId();
         this.feedID = reply.getFeed().getId();
         this.content = reply.getContent();
+        this.likesCount = reply.getReplyLikesCount();
         this.createAt = reply.getCreateAt();
         this.modifiedAt = reply.getModifiedAt();
         this.memberID = reply.getUser().getId();

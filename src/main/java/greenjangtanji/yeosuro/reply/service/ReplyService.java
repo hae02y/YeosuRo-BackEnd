@@ -4,8 +4,6 @@ import greenjangtanji.yeosuro.feed.entity.Feed;
 import greenjangtanji.yeosuro.feed.repository.FeedRepository;
 import greenjangtanji.yeosuro.global.exception.BusinessLogicException;
 import greenjangtanji.yeosuro.global.exception.ExceptionCode;
-import greenjangtanji.yeosuro.image.entity.ImageType;
-import greenjangtanji.yeosuro.image.service.ImageService;
 import greenjangtanji.yeosuro.reply.dto.ReplyResponseDto;
 import greenjangtanji.yeosuro.user.entity.User;
 import greenjangtanji.yeosuro.reply.dto.ReplyRequestDto;
@@ -58,9 +56,8 @@ public class ReplyService {
 
     //댓글 수정
     @Transactional
-    public Reply updateReply (Long id, ReplyRequestDto.Patch requestDto){
-        Reply existingReply = replyRepository.findById(id).orElseThrow(
-                () -> new BusinessLogicException(ExceptionCode.REPLY_NOT_FOUND));
+    public Reply updateReply (Long replyId, ReplyRequestDto.Patch requestDto){
+        Reply existingReply = checkReply(replyId);
 
         existingReply.updateReply(requestDto.getContent());
         return existingReply;
@@ -68,11 +65,18 @@ public class ReplyService {
 
     //댓글 삭제
     @Transactional
-    public Long deleteReply (Long id){
-        Reply existingReply = replyRepository.findById(id).orElseThrow(
+    public Long deleteReply (Long replyId){
+        Reply existingReply = checkReply(replyId);
+
+        replyRepository.deleteById(replyId);
+        return replyId;
+    }
+
+    //댓글 존재하는지 확인
+    public Reply checkReply (Long replyId){
+        Reply existingReply = replyRepository.findById(replyId).orElseThrow(
                 () -> new BusinessLogicException(ExceptionCode.REPLY_NOT_FOUND));
 
-        replyRepository.deleteById(id);
-        return id;
+        return existingReply;
     }
 }
