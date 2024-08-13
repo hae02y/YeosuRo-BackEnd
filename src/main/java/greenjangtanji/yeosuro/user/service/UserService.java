@@ -125,18 +125,6 @@ public class UserService {
         return null;
     }
 
-    //활성화 상태인 회원 확인
-    private User checkUser (Long userId){
-        User existingUser = userRepository.findById(userId).orElseThrow(
-                () -> new BusinessLogicException(ExceptionCode.USER_NOT_FOUND));
-
-        if (existingUser.getUserStatus() != UserStatus.ACTIVE) {
-            throw new BusinessLogicException(ExceptionCode.USER_NOT_ACTIVE);
-        }
-
-        return existingUser;
-    }
-
     //닉네님 중복확인
     private void checkNickname (String nickname){
         Optional<User> user = userRepository.findByNickname(nickname);
@@ -151,6 +139,18 @@ public class UserService {
         if (user.isPresent()){
             throw new BusinessLogicException(ExceptionCode.DUPLICATE_EMAIL_ERROR);
         }
+    }
+
+    //활성화 상태인 회원 확인
+    private User checkUser (Long userId){
+        User existingUser = userRepository.findById(userId).orElseThrow(
+                () -> new BusinessLogicException(ExceptionCode.USER_NOT_FOUND));
+
+        if (existingUser.getUserStatus() != UserStatus.ACTIVE) {
+            throw new BusinessLogicException(ExceptionCode.USER_NOT_ACTIVE);
+        }
+
+        return existingUser;
     }
 
     public Long extractUserId (Authentication authentication){

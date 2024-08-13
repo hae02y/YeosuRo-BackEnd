@@ -1,7 +1,5 @@
 package greenjangtanji.yeosuro.reply.controller;
 
-import greenjangtanji.yeosuro.image.entity.ImageType;
-import greenjangtanji.yeosuro.image.service.ImageService;
 import greenjangtanji.yeosuro.reply.dto.ReplyRequestDto;
 import greenjangtanji.yeosuro.reply.dto.ReplyResponseDto;
 import greenjangtanji.yeosuro.reply.entity.Reply;
@@ -27,7 +25,6 @@ public class ReplyController {
 
     private final ReplyService replyService;
     private final UserService userService;
-    private final ImageService imageService;
 
     //댓글 생성
     @PostMapping()

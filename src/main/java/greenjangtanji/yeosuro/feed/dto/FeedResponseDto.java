@@ -16,7 +16,7 @@ public class FeedResponseDto {
     private String content;
     private List<String> imageUrls;
     private int view;
-    private Long likesCount;
+    private int likesCount;
     private int repliesCount;
     private String feedCategory;
     private LocalDateTime createAt;
@@ -33,7 +33,7 @@ public class FeedResponseDto {
         this.content = feed.getContent();
         this.imageUrls = imageUrls;
         this.view = feed.getView();
-        this.likesCount = feed.getLikesCount();
+        this.likesCount = feed.getFeedLikesCount();
         this.repliesCount = feed.getRepliesCount();
         this.feedCategory = String.valueOf(feed.getFeedCategory());
         this.createAt = feed.getCreateAt();

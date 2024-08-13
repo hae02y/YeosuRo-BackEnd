@@ -3,11 +3,15 @@ package greenjangtanji.yeosuro.reply.entity;
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import greenjangtanji.yeosuro.feed.entity.Feed;
 import greenjangtanji.yeosuro.global.config.Timestamped;
+import greenjangtanji.yeosuro.likes.entity.ReplyLikes;
 import greenjangtanji.yeosuro.reply.dto.ReplyRequestDto;
 import greenjangtanji.yeosuro.user.entity.User;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+
+import java.util.ArrayList;
+import java.util.List;
 
 @NoArgsConstructor
 @Getter
@@ -22,8 +26,6 @@ public class Reply extends Timestamped {
     @Column(nullable = false)
     private String content;
 
-    private long LikesCount;
-
 
     @ManyToOne
     @JoinColumn(name = "user_id")
@@ -35,6 +37,9 @@ public class Reply extends Timestamped {
     @JoinColumn(name = "feed_id")
     @JsonBackReference
     private Feed feed;
+
+    @OneToMany(mappedBy = "reply", cascade = {CascadeType.PERSIST,CascadeType.REMOVE})
+    private List<ReplyLikes> replyLikes  = new ArrayList<>();
 
 
     public static Reply createReply (ReplyRequestDto.Post requestDto, User user, Feed feed){
@@ -48,4 +53,6 @@ public class Reply extends Timestamped {
     public void updateReply (String content){
         this.content = content;
     }
+    public int getReplyLikesCount () { return replyLikes.size();}
+
 }

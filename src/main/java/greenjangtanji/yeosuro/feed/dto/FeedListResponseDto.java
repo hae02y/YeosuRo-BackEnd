@@ -16,7 +16,7 @@ public class FeedListResponseDto {
     private Long id;
     private String title;
     private List<String> imageUrls;
-    private Long likesCount;
+    private int likesCount;
     private int view;
     private String content;
     private int repliesCount;
@@ -32,7 +32,7 @@ public class FeedListResponseDto {
         this.id = feed.getId();
         this.title = feed.getTitle();
         this.imageUrls = imageUrls;
-        this.likesCount = feed.getLikesCount();
+        this.likesCount = feed.getFeedLikesCount();
         this.view = feed.getView();
         this.content = feed.getContent();
         this.repliesCount = feed.getRepliesCount();

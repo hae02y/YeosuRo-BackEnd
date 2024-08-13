@@ -8,11 +8,13 @@ public enum ExceptionCode {
     JWT_TOKEN_ERROR (401, "토큰 오류로 UserId 추출 불가"),
     BOARD_NOT_FOUND(404, "게시글 정보를 찾을 수 없음"),
     REPLY_NOT_FOUND (404, "댓글 정보를 찾을 수 없음"),
+    LIKES_NOT_FOUND (404, "좋아요 정보를 찾을 수 없음"),
     CATEGORY_NOT_FOUND (404, "게시글 카테고리 정보를 찾을 수 없음"),
     USER_NOT_FOUND(404, "유저 정보를 찾을 수 없음"),
     USER_NOT_ACTIVE(403, "탈퇴한 회원입니다."),
     DUPLICATE_EMAIL_ERROR (409, "이메일 중복"),
     DUPLICATE_NICKNAME_ERROR (409, "닉네임 중복"),
+    DUPLICATE_ERROR (409, "중복된 요청"),
 
     FILE_UPLOAD_ERROR(413, "파일 업로드 실패"),
     FILE_DELETE_ERROR(500, "파일 삭제 실패"),

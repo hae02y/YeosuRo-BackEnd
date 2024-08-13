@@ -1,6 +1,5 @@
 package greenjangtanji.yeosuro.feed.service;
 
-import greenjangtanji.yeosuro.feed.dto.FeedListResponseDto;
 import greenjangtanji.yeosuro.feed.dto.FeedRequestDto;
 import greenjangtanji.yeosuro.feed.dto.FeedResponseDto;
 import greenjangtanji.yeosuro.feed.entity.Feed;
@@ -13,7 +12,7 @@ import greenjangtanji.yeosuro.image.service.ImageService;
 import greenjangtanji.yeosuro.point.service.PointService;
 import greenjangtanji.yeosuro.reply.dto.ReplyResponseDto;
 import greenjangtanji.yeosuro.user.entity.User;
-import greenjangtanji.yeosuro.user.repostory.UserRepository;
+import greenjangtanji.yeosuro.user.service.UserService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
@@ -29,15 +28,13 @@ import java.util.stream.Collectors;
 public class FeedService {
 
     private final FeedRepository feedRepository;
-    private final UserRepository userRepository;
     private final PointService pointService;
+    private final UserService userService;
     private final ImageService imageService;
 
     // 게시글 생성
     public FeedResponseDto createFeed(Long userId, FeedRequestDto.Post requestDto) {
-        User user = userRepository.findById(userId).orElseThrow(
-                () -> new BusinessLogicException(ExceptionCode.USER_NOT_FOUND)
-        );
+        User user = userService.getUserInfo(userId);
         Feed feed = Feed.createFeed(requestDto, user);
         feedRepository.save(feed);
         // 이미지 URL이 null일 경우 빈 리스트로 초기화
@@ -74,16 +71,14 @@ public class FeedService {
     }
 
     // 특정 게시글 조회
-    public FeedResponseDto findById(Long id) {
-        Feed feed = feedRepository.findById(id).orElseThrow(
-                () -> new BusinessLogicException(ExceptionCode.BOARD_NOT_FOUND));
+    public FeedResponseDto findFeedById(Long id) {
+        Feed feed = checkFeed(id);
         return createFeedResponseDto(feed);
     }
 
     @Transactional
     public FeedResponseDto updatePost(Long id, FeedRequestDto.Patch requestDto) {
-        Feed existingFeed = feedRepository.findById(id).orElseThrow(
-                () -> new BusinessLogicException(ExceptionCode.BOARD_NOT_FOUND));
+        Feed existingFeed = checkFeed(id);
 
         if (requestDto.getTitle() != null) {
             existingFeed.updateTitle(requestDto.getTitle());
@@ -101,6 +96,21 @@ public class FeedService {
         return createFeedResponseDto(existingFeed);
     }
 
+
+    // 게시글 삭제
+    @Transactional
+    public Long deleteFeed(Long id) {
+        feedRepository.deleteById(id);
+        return id;
+    }
+
+    //게시글이 존재하는지 확인
+    public Feed checkFeed (Long feedId){
+        Feed feed = feedRepository.findById(feedId).orElseThrow(
+                () -> new BusinessLogicException(ExceptionCode.BOARD_NOT_FOUND));
+        return feed;
+    }
+
     private FeedResponseDto createFeedResponseDto(Feed feed) {
         List<String> imageUrls = imageService.getImagesByReferenceIdAndType(feed.getId(), ImageType.FEED);
 
@@ -111,10 +121,4 @@ public class FeedService {
         return new FeedResponseDto(feed, imageUrls,replies);
     }
 
-    // 게시글 삭제
-    @Transactional
-    public Long deleteFeed(Long id) {
-        feedRepository.deleteById(id);
-        return id;
-    }
 }
