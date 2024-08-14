@@ -1,24 +1,30 @@
 package greenjangtanji.yeosuro.user.dto;
 
 import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Pattern;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 public class UserRequestDto {
 
+    @Setter
     @Getter
     @NoArgsConstructor
     public static class SignUp {
         @NotBlank
         private String email;
+
         @NotBlank
-        @Pattern(regexp = "(?=.*[a-zA-Z])(?=.*[0-9]).{8,}",
-                message = "8자 이상, 영문과 숫자를 사용하세요")
+        @Pattern(regexp = "^(?=.*[A-Za-z])(?=.*\\d)[A-Za-z\\d]{8,}$",
+                message = "비밀번호는 8자 이상, 영문과 숫자를 모두 포함해야 합니다.")
         private String password;
+
         @NotBlank
         private String nickname;
-        @NotBlank
+
+        @NotNull
         private Boolean agree;
     }
 
@@ -43,8 +49,8 @@ public class UserRequestDto {
         private String email;
 
         @NotBlank
-        @Pattern(regexp = "(?=.*[a-zA-Z])(?=.*[0-9]).{8,}",
-                message = "8~16자 영문 대소문자, 숫자, 특수문자를 사용하세요")
+        @Pattern(regexp = "^(?=.*[A-Za-z])(?=.*\\d)[A-Za-z\\d]{8,}$",
+                message = "비밀번호는 8자 이상, 영문과 숫자를 모두 포함해야 합니다.")
         private String password;
     }
 }

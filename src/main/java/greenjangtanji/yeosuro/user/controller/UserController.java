@@ -6,6 +6,7 @@ import greenjangtanji.yeosuro.user.dto.UserRequestDto;
 import greenjangtanji.yeosuro.user.dto.UserResponseDto;
 import greenjangtanji.yeosuro.user.entity.User;
 import greenjangtanji.yeosuro.user.service.UserService;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -18,12 +19,11 @@ import org.springframework.web.bind.annotation.*;
 public class UserController {
 
     private final UserService userService;
-    private final ImageService imageService;
 
 
     //자체 회원가입
     @PostMapping("/sign-up")
-    public ResponseEntity signUp(@RequestBody UserRequestDto.SignUp signUp) {
+    public ResponseEntity signUp(@Valid @RequestBody UserRequestDto.SignUp signUp) {
         User user = userService.createMember(signUp);
         UserResponseDto.DetailUserInfo detailUserInfo = new UserResponseDto.DetailUserInfo(user);
 
@@ -32,7 +32,7 @@ public class UserController {
 
     //비밀번호 변경
     @PatchMapping("/sign-up/password")
-    public ResponseEntity updatePasswordInfo (@RequestBody UserRequestDto.UpdatePassword updatePassword){
+    public ResponseEntity updatePasswordInfo (@Valid @RequestBody UserRequestDto.UpdatePassword updatePassword){
         userService.updatePassword(updatePassword.getEmail(), updatePassword.getPassword());
 
         return new ResponseEntity(HttpStatus.OK);
@@ -41,7 +41,7 @@ public class UserController {
 
     //회원 정보 수정
     @PatchMapping ("/users")
-    public ResponseEntity updateUserInfo (@RequestBody UserRequestDto.Patch patchDto,
+    public ResponseEntity updateUserInfo (@Valid @RequestBody UserRequestDto.Patch patchDto,
                                           Authentication authentication){
         Long userId = userService.extractUserId(authentication);
         User user = userService.updateUserInfo(userId, patchDto);
@@ -63,7 +63,7 @@ public class UserController {
 
     //소셜 회원가입 유저 추가 정보 등록
     @PostMapping("additional-info")
-    public ResponseEntity additionalUserInfo (@RequestBody UserRequestDto.AdditionalInformation additionalInformation){
+    public ResponseEntity additionalUserInfo (@Valid @RequestBody UserRequestDto.AdditionalInformation additionalInformation){
 
         return new ResponseEntity<>(HttpStatus.OK);
     }
