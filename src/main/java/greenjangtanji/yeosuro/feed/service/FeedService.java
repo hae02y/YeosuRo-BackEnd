@@ -60,7 +60,7 @@ public class FeedService {
     // 카테고리 별 게시글 조회 (조회수 기준 정렬)
     public List<FeedResponseDto> getFeedsByCategory(FeedCategory feedCategory) {
         try {
-            List<Feed> feedList = feedRepository.findByFeedCategoryOrderByCreatedAtDesc(feedCategory);
+            List<Feed> feedList = feedRepository.findByFeedCategoryOrderByCreateAtDesc(feedCategory);
             return feedList.stream()
                     .map(this::createFeedResponseDto)
                     .collect(Collectors.toList());
