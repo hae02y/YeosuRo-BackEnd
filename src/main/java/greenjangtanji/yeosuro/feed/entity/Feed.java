@@ -29,8 +29,8 @@ public class Feed extends Timestamped {
     @Column(nullable = false)
     private String content;
 
-    @Column(nullable = false)
-    private int view = 1;
+    @Column(columnDefinition = "integer default 0", nullable = false)
+    private int view;
 
     @Enumerated(EnumType.STRING)
     private FeedCategory feedCategory;
@@ -67,6 +67,8 @@ public class Feed extends Timestamped {
     }
 
     public void updateCategory (FeedCategory feedCategory) { this.feedCategory = feedCategory; }
+
+    public void updateViewCount (){ this.view++;}
     public int getRepliesCount() {
         return replies.size();
     }

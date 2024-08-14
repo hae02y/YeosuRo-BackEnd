@@ -31,7 +31,6 @@ public class FeedService {
     private final PointService pointService;
     private final UserService userService;
     private final ImageService imageService;
-
     // 게시글 생성
     public FeedResponseDto createFeed(Long userId, FeedRequestDto.Post requestDto) {
         User user = userService.getUserInfo(userId);
@@ -71,14 +70,14 @@ public class FeedService {
     }
 
     // 특정 게시글 조회
-    public FeedResponseDto findFeedById(Long id) {
-        Feed feed = checkFeed(id);
+    public FeedResponseDto findFeedById(Long feedId) {
+        Feed feed = checkFeed(feedId);
         return createFeedResponseDto(feed);
     }
 
     @Transactional
-    public FeedResponseDto updatePost(Long id, FeedRequestDto.Patch requestDto) {
-        Feed existingFeed = checkFeed(id);
+    public FeedResponseDto updatePost(Long feedId, FeedRequestDto.Patch requestDto) {
+        Feed existingFeed = checkFeed(feedId);
 
         if (requestDto.getTitle() != null) {
             existingFeed.updateTitle(requestDto.getTitle());
@@ -99,9 +98,15 @@ public class FeedService {
 
     // 게시글 삭제
     @Transactional
-    public Long deleteFeed(Long id) {
-        feedRepository.deleteById(id);
-        return id;
+    public void deleteFeed(Long feedId) {
+        feedRepository.deleteById(feedId);
+    }
+
+    //조회수 증가 로직
+    @Transactional
+    public void viewCountUp(Long feedId) {
+        Feed feed = checkFeed(feedId);
+        feed.updateViewCount();
     }
 
     //게시글이 존재하는지 확인
@@ -110,6 +115,7 @@ public class FeedService {
                 () -> new BusinessLogicException(ExceptionCode.BOARD_NOT_FOUND));
         return feed;
     }
+
 
     private FeedResponseDto createFeedResponseDto(Feed feed) {
         List<String> imageUrls = imageService.getImagesByReferenceIdAndType(feed.getId(), ImageType.FEED);
