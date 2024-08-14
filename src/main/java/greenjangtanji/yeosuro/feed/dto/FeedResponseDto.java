@@ -33,7 +33,7 @@ public class FeedResponseDto {
         this.content = feed.getContent();
         this.imageUrls = imageUrls;
         this.view = feed.getView();
-        this.likesCount = feed.getFeedLikesCount();
+        this.likesCount = feed.getLikeCount();
         this.repliesCount = feed.getRepliesCount();
         this.feedCategory = String.valueOf(feed.getFeedCategory());
         this.createAt = feed.getCreateAt();

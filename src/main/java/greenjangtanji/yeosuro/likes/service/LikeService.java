@@ -46,7 +46,10 @@ public class LikeService {
                     .user(user)
                     .feed(feed)
                     .build();
+
+            feed.updateLikeCount(1);
             feedLikeRepository.save(feedLikes);
+
         }
     }
 
@@ -68,6 +71,7 @@ public class LikeService {
                     .reply(reply)
                     .build();
 
+            reply.updateLikeCount(1);
             replyLikeRepository.save(replyLikes);
         }
     }
@@ -86,6 +90,7 @@ public class LikeService {
         FeedLikes feedLikes = feedLikeRepository.findByUserAndFeed(user, feed).orElseThrow(
                 () -> new BusinessLogicException(ExceptionCode.LIKES_NOT_FOUND));
 
+        feed.updateLikeCount(-1);
         feedLikeRepository.deleteById(feedLikes.getId());
     }
 
@@ -100,6 +105,7 @@ public class LikeService {
         ReplyLikes replyLikes = replyLikeRepository.findByUserAndReply(user, reply).orElseThrow(
                 () -> new BusinessLogicException(ExceptionCode.LIKES_NOT_FOUND));
 
+        reply.updateLikeCount(-1);
         replyLikeRepository.deleteById(replyLikes.getId());
     }
 

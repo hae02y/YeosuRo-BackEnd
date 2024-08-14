@@ -32,7 +32,7 @@ public class FeedListResponseDto {
         this.id = feed.getId();
         this.title = feed.getTitle();
         this.imageUrls = imageUrls;
-        this.likesCount = feed.getFeedLikesCount();
+        this.likesCount = feed.getLikeCount();
         this.view = feed.getView();
         this.content = feed.getContent();
         this.repliesCount = feed.getRepliesCount();

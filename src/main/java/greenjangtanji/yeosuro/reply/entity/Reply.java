@@ -26,6 +26,9 @@ public class Reply extends Timestamped {
     @Column(nullable = false)
     private String content;
 
+    @Column(columnDefinition = "integer default 0", nullable = false)
+    private int likeCount;
+
 
     @ManyToOne
     @JoinColumn(name = "user_id")
@@ -53,6 +56,6 @@ public class Reply extends Timestamped {
     public void updateReply (String content){
         this.content = content;
     }
-    public int getReplyLikesCount () { return replyLikes.size();}
+    public void updateLikeCount(int num ) {this.likeCount = likeCount + num; }
 
 }

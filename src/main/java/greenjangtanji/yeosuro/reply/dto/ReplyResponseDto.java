@@ -25,7 +25,7 @@ public class ReplyResponseDto {
         this.id = reply.getId();
         this.feedID = reply.getFeed().getId();
         this.content = reply.getContent();
-        this.likesCount = reply.getReplyLikesCount();
+        this.likesCount = reply.getLikeCount();
         this.createAt = reply.getCreateAt();
         this.modifiedAt = reply.getModifiedAt();
         this.memberID = reply.getUser().getId();

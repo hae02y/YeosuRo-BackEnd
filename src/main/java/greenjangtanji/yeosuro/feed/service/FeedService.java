@@ -48,7 +48,7 @@ public class FeedService {
     // 모든 게시글 조회(조회수 기준, 인기글 조회)
     public List<FeedResponseDto> findAll() {
         try {
-            List<Feed> feedList = feedRepository.findAllByOrderByViewDescCreateAtDesc();
+            List<Feed> feedList = feedRepository.findAllByOrderByLikeCountDescCreateAtDesc();
             return feedList.stream()
                     .map(this::createFeedResponseDto)
                     .collect(Collectors.toList());
@@ -60,7 +60,7 @@ public class FeedService {
     // 카테고리 별 게시글 조회 (조회수 기준 정렬)
     public List<FeedResponseDto> getFeedsByCategory(FeedCategory feedCategory) {
         try {
-            List<Feed> feedList = feedRepository.findByFeedCategoryOrderByViewDescCreateAtDesc(feedCategory);
+            List<Feed> feedList = feedRepository.findByFeedCategoryOrderByLikeCountDescCreateAtDesc(feedCategory);
             return feedList.stream()
                     .map(this::createFeedResponseDto)
                     .collect(Collectors.toList());
