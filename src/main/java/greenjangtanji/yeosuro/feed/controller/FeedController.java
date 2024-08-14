@@ -40,7 +40,7 @@ public class FeedController {
         return new ResponseEntity<>(responseDto, HttpStatus.OK);
     }
 
-    //게시글 전체 조회
+    //게시글 전체 조회 (인기글 조회)
     @GetMapping
     public ResponseEntity getAllFeed() {
         List<FeedResponseDto> allFeedList = feedService.findAll();
