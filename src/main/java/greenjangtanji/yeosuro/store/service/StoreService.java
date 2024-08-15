@@ -14,11 +14,14 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
 import static greenjangtanji.yeosuro.store.entity.StoreType.FEED;
+import static greenjangtanji.yeosuro.store.entity.StoreType.REVIEW;
 
 @Slf4j
 @Service
@@ -61,10 +64,11 @@ public class StoreService {
                         return feedService.createFeedListResponseDto(feed);
                     })
                     .collect(Collectors.toList());
-        }else {
+        }else if (storeType == REVIEW){
             //TODO: 여정 후기 개발 후 작업 필요
-            return null;
+
         }
+        return Collections.emptyList();
     }
 
     //북마크 삭제
@@ -73,6 +77,12 @@ public class StoreService {
         Store store = storeRepository.findByUserAndReferenceIdAndStoreType(user,id,storeType).orElseThrow(
                 () -> new BusinessLogicException(ExceptionCode.NOT_FOUND));
 
+        if (storeType == FEED){
+            Feed feed = feedService.checkFeed(id);
+            feed.updateStoreCount(-1);
+        }else if (storeType == REVIEW){
+
+        }
         storeRepository.delete(store);
     }
 
