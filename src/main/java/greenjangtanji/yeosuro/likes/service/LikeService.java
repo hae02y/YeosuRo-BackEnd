@@ -88,7 +88,7 @@ public class LikeService {
         User user = userService.getUserInfo(userId);
         Feed feed = feedService.checkFeed(feedId);
         FeedLikes feedLikes = feedLikeRepository.findByUserAndFeed(user, feed).orElseThrow(
-                () -> new BusinessLogicException(ExceptionCode.LIKES_NOT_FOUND));
+                () -> new BusinessLogicException(ExceptionCode.NOT_FOUND));
 
         feed.updateLikeCount(-1);
         feedLikeRepository.deleteById(feedLikes.getId());
@@ -103,7 +103,7 @@ public class LikeService {
         User user = userService.getUserInfo(userId);
         Reply reply = replyService.checkReply(replyId);
         ReplyLikes replyLikes = replyLikeRepository.findByUserAndReply(user, reply).orElseThrow(
-                () -> new BusinessLogicException(ExceptionCode.LIKES_NOT_FOUND));
+                () -> new BusinessLogicException(ExceptionCode.NOT_FOUND));
 
         reply.updateLikeCount(-1);
         replyLikeRepository.deleteById(replyLikes.getId());

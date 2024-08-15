@@ -1,5 +1,6 @@
 package greenjangtanji.yeosuro.feed.controller;
 
+import greenjangtanji.yeosuro.feed.dto.FeedListResponseDto;
 import greenjangtanji.yeosuro.feed.dto.FeedRequestDto;
 import greenjangtanji.yeosuro.feed.dto.FeedResponseDto;
 import greenjangtanji.yeosuro.feed.entity.FeedCategory;
@@ -43,7 +44,7 @@ public class FeedController {
     //게시글 전체 조회 (인기글 조회)
     @GetMapping
     public ResponseEntity getAllFeed() {
-        List<FeedResponseDto> allFeedList = feedService.findAll();
+        List<FeedListResponseDto> allFeedList = feedService.findAll();
 
         return new ResponseEntity<>(allFeedList, HttpStatus.OK);
     }
@@ -57,7 +58,7 @@ public class FeedController {
         } catch (IllegalArgumentException e) {
             throw new BusinessLogicException(ExceptionCode.CATEGORY_NOT_FOUND);
         }
-        List<FeedResponseDto> feedList = feedService.getFeedsByCategory(FeedCategory.valueOf(category.toUpperCase()));
+        List<FeedListResponseDto> feedList = feedService.getFeedsByCategory(FeedCategory.valueOf(category.toUpperCase()));
 
         return new ResponseEntity<>(feedList, HttpStatus.OK);
     }

@@ -1,5 +1,6 @@
 package greenjangtanji.yeosuro.feed.service;
 
+import greenjangtanji.yeosuro.feed.dto.FeedListResponseDto;
 import greenjangtanji.yeosuro.feed.dto.FeedRequestDto;
 import greenjangtanji.yeosuro.feed.dto.FeedResponseDto;
 import greenjangtanji.yeosuro.feed.entity.Feed;
@@ -46,11 +47,11 @@ public class FeedService {
     }
 
     // 모든 게시글 조회(조회수 기준, 인기글 조회)
-    public List<FeedResponseDto> findAll() {
+    public List<FeedListResponseDto> findAll() {
         try {
             List<Feed> feedList = feedRepository.findAllByOrderByLikeCountDescCreateAtDesc();
             return feedList.stream()
-                    .map(this::createFeedResponseDto)
+                    .map(this::createFeedListResponseDto)
                     .collect(Collectors.toList());
         } catch (Exception e) {
             throw new BusinessLogicException(ExceptionCode.BOARD_NOT_FOUND);
@@ -58,11 +59,11 @@ public class FeedService {
     }
 
     // 카테고리 별 게시글 조회 (조회수 기준 정렬)
-    public List<FeedResponseDto> getFeedsByCategory(FeedCategory feedCategory) {
+    public List<FeedListResponseDto> getFeedsByCategory(FeedCategory feedCategory) {
         try {
             List<Feed> feedList = feedRepository.findByFeedCategoryOrderByCreateAtDesc(feedCategory);
             return feedList.stream()
-                    .map(this::createFeedResponseDto)
+                    .map(this::createFeedListResponseDto)
                     .collect(Collectors.toList());
         } catch (Exception e) {
             throw new BusinessLogicException(ExceptionCode.CATEGORY_NOT_FOUND);
@@ -117,7 +118,7 @@ public class FeedService {
     }
 
 
-    private FeedResponseDto createFeedResponseDto(Feed feed) {
+    public FeedResponseDto createFeedResponseDto(Feed feed) {
         List<String> imageUrls = imageService.getImagesByReferenceIdAndType(feed.getId(), ImageType.FEED);
 
         List<ReplyResponseDto> replies = feed.getReplies().stream()
@@ -125,6 +126,11 @@ public class FeedService {
                 .collect(Collectors.toList());
 
         return new FeedResponseDto(feed, imageUrls,replies);
+    }
+
+    public FeedListResponseDto createFeedListResponseDto(Feed feed) {
+        List<String> imageUrls = imageService.getImagesByReferenceIdAndType(feed.getId(), ImageType.FEED);
+        return new FeedListResponseDto(feed, imageUrls);
     }
 
 }

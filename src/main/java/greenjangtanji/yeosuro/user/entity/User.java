@@ -7,6 +7,7 @@ import greenjangtanji.yeosuro.plan.entity.Plan;
 import greenjangtanji.yeosuro.point.entity.Point;
 import greenjangtanji.yeosuro.point.entity.Tier;
 import greenjangtanji.yeosuro.reply.entity.Reply;
+import greenjangtanji.yeosuro.store.entity.Store;
 import jakarta.persistence.*;
 import lombok.*;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -109,5 +110,8 @@ public class User {
 
     @OneToMany(mappedBy = "referenceId", fetch = FetchType.LAZY)
     private List<Image> images = new ArrayList<>();
+
+    @OneToMany(mappedBy = "referenceId", fetch = FetchType.LAZY)
+    private List<Store> storeList = new ArrayList<>();
 
 }
