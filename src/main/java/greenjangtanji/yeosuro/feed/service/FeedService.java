@@ -32,6 +32,7 @@ public class FeedService {
     private final PointService pointService;
     private final UserService userService;
     private final ImageService imageService;
+
     // 게시글 생성
     public FeedResponseDto createFeed(Long userId, FeedRequestDto.Post requestDto) {
         User user = userService.getUserInfo(userId);
@@ -100,6 +101,7 @@ public class FeedService {
     // 게시글 삭제
     @Transactional
     public void deleteFeed(Long feedId) {
+        checkFeed(feedId);
         feedRepository.deleteById(feedId);
     }
 
