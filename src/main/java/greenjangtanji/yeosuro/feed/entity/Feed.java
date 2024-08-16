@@ -6,6 +6,7 @@ import greenjangtanji.yeosuro.global.config.Timestamped;
 import greenjangtanji.yeosuro.image.entity.Image;
 import greenjangtanji.yeosuro.likes.entity.FeedLikes;
 import greenjangtanji.yeosuro.reply.entity.Reply;
+import greenjangtanji.yeosuro.store.entity.Store;
 import greenjangtanji.yeosuro.user.entity.User;
 import jakarta.persistence.*;
 import lombok.Getter;
@@ -29,8 +30,15 @@ public class Feed extends Timestamped {
     @Column(nullable = false)
     private String content;
 
-    @Column(nullable = false)
-    private int view = 1;
+    @Column(columnDefinition = "integer default 0", nullable = false)
+    private int view;
+
+    @Column(columnDefinition = "integer default 0", nullable = false)
+    private int likeCount;
+
+    @Column(columnDefinition = "integer default 0", nullable = false)
+    private int storeCount;
+
 
     @Enumerated(EnumType.STRING)
     private FeedCategory feedCategory;
@@ -48,6 +56,9 @@ public class Feed extends Timestamped {
 
     @OneToMany(mappedBy = "feed", cascade = {CascadeType.PERSIST,CascadeType.REMOVE})
     private List<FeedLikes> feedLikes  = new ArrayList<>();
+
+    @OneToMany(mappedBy = "referenceId", fetch = FetchType.LAZY)
+    private List<Store> storeList = new ArrayList<>();
 
     public static Feed createFeed (FeedRequestDto.Post requestDto, User user){
         Feed feed = new Feed();
@@ -67,10 +78,14 @@ public class Feed extends Timestamped {
     }
 
     public void updateCategory (FeedCategory feedCategory) { this.feedCategory = feedCategory; }
+
+    public void updateViewCount(){ this.view++;}
+
+    public void updateLikeCount(int num) {this.likeCount = likeCount + num; }
+
+    public void updateStoreCount(int num) {this.storeCount = storeCount + num;}
     public int getRepliesCount() {
         return replies.size();
     }
-
-    public int getFeedLikesCount () { return feedLikes.size(); }
 
 }

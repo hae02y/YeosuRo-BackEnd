@@ -1,8 +1,10 @@
 package greenjangtanji.yeosuro.global.mail.controller;
 
+import greenjangtanji.yeosuro.global.handler.ApiResponse;
 import greenjangtanji.yeosuro.global.mail.service.MailService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
@@ -35,18 +37,21 @@ public class MailController {
     }
 
     @GetMapping("/mailCheck")
-    public ResponseEntity<?> mailCheck(@RequestParam String code) {
+    public ResponseEntity<ApiResponse<Void>> mailCheck(@RequestParam String code) {
         try {
             int codeInt = Integer.parseInt(code);
             boolean isMatch = mailService.isCodeValid(codeInt);
 
             if (isMatch) {
-                return ResponseEntity.ok("인증 성공");
+                ApiResponse<Void> response = new ApiResponse<>(HttpStatus.OK.value(), "인증이 완료되었습니다.", null);
+                return ResponseEntity.ok(response);
             } else {
-                return ResponseEntity.badRequest().body("인증 코드가 유효하지 않거나 시간이 만료되었습니다.");
+                ApiResponse<Void> response = new ApiResponse<>(HttpStatus.BAD_REQUEST.value(), "인증 코드가 유효하지 않거나 시간이 만료되었습니다.", null);
+                return new ResponseEntity<>(response, HttpStatus.BAD_REQUEST);
             }
         } catch (NumberFormatException e) {
-            return ResponseEntity.badRequest().body("잘못된 코드 형식입니다.");
+            ApiResponse<Void> response = new ApiResponse<>(HttpStatus.BAD_REQUEST.value(), "잘못된 코드 형식입니다.", null);
+            return new ResponseEntity<>(response, HttpStatus.BAD_REQUEST);
         }
     }
 }

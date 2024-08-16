@@ -18,8 +18,9 @@ public class FeedListResponseDto {
     private List<String> imageUrls;
     private int likesCount;
     private int view;
-    private String content;
+    private int storeCount;
     private int repliesCount;
+    private String content;
     private String feedCategory;
     private LocalDateTime createAt;
     private LocalDateTime modifiedAt;
@@ -28,12 +29,13 @@ public class FeedListResponseDto {
     private String profileImageUrl;
     private Tier tier;
 
-    public FeedListResponseDto(Feed feed, List<String> imageUrls, String profileImageUrl) {
+    public FeedListResponseDto(Feed feed, List<String> imageUrls) {
         this.id = feed.getId();
         this.title = feed.getTitle();
         this.imageUrls = imageUrls;
-        this.likesCount = feed.getFeedLikesCount();
+        this.likesCount = feed.getLikeCount();
         this.view = feed.getView();
+        this.storeCount = feed.getStoreCount();
         this.content = feed.getContent();
         this.repliesCount = feed.getRepliesCount();
         this.feedCategory = String.valueOf(feed.getFeedCategory());
@@ -41,7 +43,7 @@ public class FeedListResponseDto {
         this.modifiedAt = feed.getModifiedAt();
         this.memberID = feed.getUser().getId();
         this.nickname = feed.getUser().getNickname();
-        this.profileImageUrl = profileImageUrl;
+        this.profileImageUrl = feed.getUser().getProfileImageUrl();
         this.tier = feed.getUser().getTier();
     }
 }

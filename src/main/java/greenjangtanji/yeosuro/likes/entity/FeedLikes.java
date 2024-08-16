@@ -2,6 +2,7 @@ package greenjangtanji.yeosuro.likes.entity;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import greenjangtanji.yeosuro.feed.entity.Feed;
+import greenjangtanji.yeosuro.global.config.Timestamped;
 import greenjangtanji.yeosuro.user.entity.User;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
@@ -14,7 +15,7 @@ import lombok.NoArgsConstructor;
 @Getter
 @Builder
 @Entity(name = "feed_likes")
-public class FeedLikes {
+public class FeedLikes extends Timestamped {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
