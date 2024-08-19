@@ -5,7 +5,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.ToString;
-
+import java.time.LocalDate;
 import java.util.List;
 
 @ToString
@@ -19,6 +19,8 @@ public class PlanDto {
         private String content;
         private String imageUrl;
         private List<SiteDto.SitePostDto> sites;
+        private LocalDate startDate;
+        private LocalDate endDate;
     }
 
     @Getter
@@ -39,6 +41,8 @@ public class PlanDto {
         private String content;
         private String imageUrl;
         private String createAt;
+        private LocalDate startDate;
+        private LocalDate endDate;
         private List<SiteDto.SiteResponseDto> siteList;
     }
 
@@ -49,6 +53,8 @@ public class PlanDto {
         private String title;
         private String content;
         private String imageUrl;
+        private LocalDate startDate;
+        private LocalDate endDate;
     }
 
     @Getter
@@ -58,6 +64,8 @@ public class PlanDto {
         private String title;
         private String content;
         private String imageUrl;
+        private LocalDate startDate;
+        private LocalDate endDate;
     }
 }
 

@@ -11,8 +11,4 @@ public class SiteReview {
 
     @Column
     private String contents;
-
-    @Column
-    private Long image;
-
 }
