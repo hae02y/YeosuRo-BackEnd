@@ -38,12 +38,7 @@ public class PlanController {
         return new ResponseEntity<>(planResponseDtoList, HttpStatus.OK);
     }
 
-    /**
-     * 나의 여정들을 조회
-     * @param auth
-     * @return
-     * @throws Exception
-     */
+    // 나의 여정 조회
     @GetMapping(value = {"/me"})
     public ResponseEntity<?> getPlanMe(Authentication auth) throws Exception {
         long id = userService.extractUserId(auth);
@@ -54,13 +49,7 @@ public class PlanController {
         return new ResponseEntity<>(planResponseDtoList, HttpStatus.OK);
     }
 
-    /**
-     * 나의 여정 등록
-     * @param auth
-     * @param planPostDto
-     * @return
-     * @throws Exception
-     */
+    // 나의 여정 등록
     @PostMapping(value = {"/", ""})
     public ResponseEntity<?> postPlan(Authentication auth, @RequestBody PlanDto.PlanPostDto planPostDto) throws Exception {
         long userId = userService.extractUserId(auth);
@@ -70,6 +59,7 @@ public class PlanController {
         return new ResponseEntity<>(HttpStatus.CREATED);
     }
 
+    //나의 여정 수정 (구현중)
     @PatchMapping(value = {"/", ""})
     public ResponseEntity<?> patchPlan(Authentication auth) throws Exception {
         long id = userService.extractUserId(auth);
