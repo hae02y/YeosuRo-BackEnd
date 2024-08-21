@@ -31,8 +31,16 @@ public class UserService {
 
     public User createMember(UserRequestDto.SignUp signUp){
         User user = checkUserStatus(signUp);
-        if (user == null) {
+        if (user == null) { //가입 이력이 없을 경우
             return postUser(signUp);
+        }else {//탈퇴했던 회원일 경우
+            user.updateUserStatus(UserStatus.ACTIVE);
+            user.updatePassword(passwordEncoder.encode(signUp.getPassword()));
+            user.updateNickname(signUp.getNickname());
+            user.updateAgree(signUp.getAgree());
+            user.updateTier(Tier.SILVER);
+            user.updateTotalPoint(0);
+            user.updateProfileImage(imageService.getDefaultImageUrl());
         }
         return user;
     }
@@ -74,15 +82,13 @@ public class UserService {
     //비밀번호 변경
     @Transactional
     public void updatePassword (String email, String newPassword){
-        User user = userRepository.findByEmail(email).orElseThrow(
-                () -> new BusinessLogicException(ExceptionCode.USER_NOT_FOUND));
+        User user = checkUserByEmail(email);
         user.updatePassword(passwordEncoder.encode(newPassword));
     }
 
     //회원 생성
     private User postUser (UserRequestDto.SignUp signUp){
         checkNickname(signUp.getNickname());
-        checkEmail(signUp.getEmail());
 
         User user = User.builder()
                 .email(signUp.getEmail())
@@ -103,21 +109,12 @@ public class UserService {
 
     //회원 상태 확인
     private User checkUserStatus(UserRequestDto.SignUp signUp) {
-        Optional<User> existingUser = userRepository.findByEmail(signUp.getEmail());
+        User existingUser = checkUserByEmail(signUp.getEmail());
 
-        if (existingUser.isPresent()) {
-            User user = existingUser.get();
-
+        if (existingUser != null) {
             // 기존 유저가 INACTIVE 상태인지 확인
-            if (user.getUserStatus() == UserStatus.INACTIVE) {
-                user.updateUserStatus(UserStatus.ACTIVE);
-                user.updatePassword(passwordEncoder.encode(signUp.getPassword()));
-                user.updateNickname(signUp.getNickname());
-                user.updateAgree(signUp.getAgree());
-                user.updateTier(Tier.SILVER);
-                user.updateTotalPoint(0);
-                user.updateProfileImage(imageService.getDefaultImageUrl());
-                return user;
+            if (existingUser.getUserStatus() == UserStatus.INACTIVE) {
+                return existingUser;
             } else {
                 throw new BusinessLogicException(ExceptionCode.DUPLICATE_EMAIL_ERROR);
             }
@@ -125,7 +122,7 @@ public class UserService {
         return null;
     }
 
-    //닉네님 중복확인
+    //닉네임 중복확인
     private void checkNickname (String nickname){
         Optional<User> user = userRepository.findByNickname(nickname);
         if (user.isPresent()){
@@ -133,10 +130,19 @@ public class UserService {
         }
     }
 
+    //이메일로 회원 확인
+    public User checkUserByEmail (String email){
+        User existUser = userRepository.findByEmail(email).orElseThrow(
+                () -> new BusinessLogicException(ExceptionCode.USER_NOT_FOUND));
+
+        return existUser;
+
+    }
+
     //이메일 중복확인
-    private void checkEmail (String email){
+    public void checkEmail (String email){
         Optional<User> user = userRepository.findByEmail(email);
-        if (user.isPresent()){
+        if (user.isPresent() && user.get().getUserStatus() == UserStatus.ACTIVE ){
             throw new BusinessLogicException(ExceptionCode.DUPLICATE_EMAIL_ERROR);
         }
     }
