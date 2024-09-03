@@ -5,8 +5,8 @@ import greenjangtanji.yeosuro.site.entity.Site;
 import greenjangtanji.yeosuro.user.entity.User;
 import jakarta.persistence.*;
 import jakarta.validation.Valid;
-import jakarta.validation.constraints.NotNull;
 import lombok.*;
+
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
@@ -16,7 +16,6 @@ import java.util.List;
 @Getter
 @NoArgsConstructor
 @ToString
-@Valid
 @Table(name = "plan")
 public class Plan extends Timestamped {
 
@@ -30,15 +29,10 @@ public class Plan extends Timestamped {
     @Column(nullable = false)
     private String content;
 
-    @Column
-    private String imageUrl;
-
     @Column(nullable = false)
-    @NotNull
     private LocalDate startDate;
 
     @Column(nullable = false)
-    @NotNull
     private LocalDate endDate;
 
     @Setter
@@ -50,14 +44,13 @@ public class Plan extends Timestamped {
     private List<Site> sites = new ArrayList<>();
 
     @Builder
-    public Plan(String title, User user, String content, String imageUrl, LocalDate startDate, LocalDate endDate){
+    public Plan(String title, User user, String content, LocalDate startDate, LocalDate endDate, List<Site> sites){
         this.title = title;
         this.user = user;
         this.content = content;
-        this.imageUrl = imageUrl;
         this.startDate = startDate;
         this.endDate = endDate;
-
+        this.sites = sites;
     }
 
 }

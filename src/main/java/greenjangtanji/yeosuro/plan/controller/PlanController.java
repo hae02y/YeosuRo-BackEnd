@@ -1,7 +1,9 @@
 package greenjangtanji.yeosuro.plan.controller;
 
 import greenjangtanji.yeosuro.plan.dto.PlanDto;
+import greenjangtanji.yeosuro.plan.dto.PlanReviewDto;
 import greenjangtanji.yeosuro.plan.entity.Plan;
+import greenjangtanji.yeosuro.plan.entity.PlanReview;
 import greenjangtanji.yeosuro.plan.mapper.PlanMapper;
 import greenjangtanji.yeosuro.plan.service.PlanService;
 import greenjangtanji.yeosuro.user.entity.User;
@@ -31,7 +33,7 @@ public class PlanController {
 
     // 모든 여정 조회
     @GetMapping(value = {"/", ""})
-    public ResponseEntity<?> getPlan(Authentication auth) throws Exception {
+    public ResponseEntity<?> getPlan(Authentication auth) {
         long id = userService.extractUserId(auth);
         List<Plan> planList = planService.getAllPlan();
         List<PlanDto.PlanResponseDto> planResponseDtoList = planMapper.planListToPlanResponseDtoList(planList);
@@ -40,7 +42,7 @@ public class PlanController {
 
     // 나의 여정 조회
     @GetMapping(value = {"/me"})
-    public ResponseEntity<?> getPlanMe(Authentication auth) throws Exception {
+    public ResponseEntity<?> getPlanMe(Authentication auth) {
         long id = userService.extractUserId(auth);
         User user = userService.getUserInfo(id);
         List<Plan> planList = planService.getMyPlans(user);
@@ -51,7 +53,7 @@ public class PlanController {
 
     // 나의 여정 등록
     @PostMapping(value = {"/", ""})
-    public ResponseEntity<?> postPlan(Authentication auth, @RequestBody PlanDto.PlanPostDto planPostDto) throws Exception {
+    public ResponseEntity<?> postPlan(Authentication auth, @RequestBody PlanDto.PlanPostDto planPostDto) {
         long userId = userService.extractUserId(auth);
         Plan plan = planMapper.planPostDtoToPlan(planPostDto);
         plan.setUser(userService.getUserInfo(userId));
@@ -61,10 +63,26 @@ public class PlanController {
 
     //나의 여정 수정 (구현중)
     @PatchMapping(value = {"/", ""})
-    public ResponseEntity<?> patchPlan(Authentication auth) throws Exception {
+    public ResponseEntity<?> patchPlan(Authentication auth) {
         long id = userService.extractUserId(auth);
         System.out.printf(String.valueOf(id));
         return new ResponseEntity<>(id, HttpStatus.OK);
+    }
+
+
+    //여정 후기 작성
+    @PostMapping(value = {"/{planId}/review"})
+    public ResponseEntity<?> postPlanReview(Authentication auth,
+                                            @PathVariable long planId,
+                                            @RequestBody PlanReviewDto.PlanReviewPostDto planReviewPostDto) {
+        long id = userService.extractUserId(auth);
+        PlanReview planReview = planMapper.planReviewPostDtoToPlanReview(planReviewPostDto);
+        System.out.println("here" + planReviewPostDto.toString());
+        planReview.setUser(userService.getUserInfo(id));
+        Plan plan = planService.getPlanByPlanId(planId);
+        planReview.setPlan(plan);
+        planService.savePlanReview(planReview, planReviewPostDto.getSiteReviews());
+        return new ResponseEntity<>(HttpStatus.CREATED);
     }
 
 }

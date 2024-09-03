@@ -1,14 +1,21 @@
 package greenjangtanji.yeosuro.plan.entity;
 
 import greenjangtanji.yeosuro.site.entity.SiteReview;
+import greenjangtanji.yeosuro.user.entity.User;
 import jakarta.persistence.*;
+import lombok.*;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
  * Validation 정의 필요
  */
 @Entity
+@Getter
+@NoArgsConstructor
+@ToString
+@AllArgsConstructor
 public class PlanReview {
 
     @Id
@@ -30,13 +37,21 @@ public class PlanReview {
     @Column
     private String fee; //비용 : 50000원 ~ 100000원...
 
+    @Setter
+    @ManyToOne
+    @JoinColumn(name = "user_id")
+    private User user;
+
     @OneToOne
+    @Setter
+    @JoinColumn(name = "plan_id")
     private Plan plan;
 
-    @OneToMany
-    private List<SiteReview> siteReview;
+    @OneToMany(mappedBy = "planReview")
+    private List<SiteReview> siteReviews = new ArrayList<>();
 
     //TODO : 키워드 작성 필요
+    @Enumerated(EnumType.STRING)
+    private KeywordType keywordType;
 
-    //TODO : 이미지 매칭
 }

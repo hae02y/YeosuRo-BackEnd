@@ -5,6 +5,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.ToString;
+
 import java.time.LocalDate;
 import java.util.List;
 
@@ -17,7 +18,6 @@ public class PlanDto {
     public static class PlanPostDto {
         private String title;
         private String content;
-        private String imageUrl;
         private List<SiteDto.SitePostDto> sites;
         private LocalDate startDate;
         private LocalDate endDate;
@@ -29,7 +29,6 @@ public class PlanDto {
     public static class PlanPatchDto {
         private String title;
         private String content;
-        private String imageUrl;
     }
 
     @Getter
@@ -39,7 +38,6 @@ public class PlanDto {
         private Long userId;
         private String title;
         private String content;
-        private String imageUrl;
         private String createAt;
         private LocalDate startDate;
         private LocalDate endDate;
@@ -52,7 +50,6 @@ public class PlanDto {
         private Long userId;
         private String title;
         private String content;
-        private String imageUrl;
         private LocalDate startDate;
         private LocalDate endDate;
     }
@@ -63,7 +60,6 @@ public class PlanDto {
         private Long userId;
         private String title;
         private String content;
-        private String imageUrl;
         private LocalDate startDate;
         private LocalDate endDate;
     }

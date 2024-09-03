@@ -6,6 +6,7 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import java.time.LocalDate;
+import java.time.LocalTime;
 
 @Entity
 @Getter
@@ -33,19 +34,31 @@ public class Site {
     @Column
     private LocalDate visitDate;
 
+    @Column
+    private LocalTime startTime;
+
+    @Column
+    private LocalTime endTime;
+
     @ManyToOne
     @JoinColumn(name = "plan_id")
     private Plan plan;
 
 
     @Builder
-    public Site(String category, String memo, String latitude, String longitude, String address, LocalDate visitDate, Plan plan) {
+    public Site(String category, String memo, String latitude, String longitude, String address, LocalDate visitDate, LocalTime startTime, LocalTime endTime, Plan plan) {
         this.category = category;
         this.memo = memo;
         this.latitude = latitude;
         this.longitude = longitude;
         this.address = address;
         this.visitDate = visitDate;
+        this.startTime = startTime;
+        System.out.println(visitDate);
+        System.out.println(startTime);
+        System.out.println(endTime);
+        System.out.println(this.startTime);
+        this.endTime = endTime;
         this.plan = plan;
     }
 

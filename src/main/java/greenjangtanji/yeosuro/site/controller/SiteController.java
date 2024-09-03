@@ -1,6 +1,5 @@
 package greenjangtanji.yeosuro.site.controller;
 
-import greenjangtanji.yeosuro.plan.service.PlanService;
 import greenjangtanji.yeosuro.site.dto.SiteDto;
 import greenjangtanji.yeosuro.site.entity.Site;
 import greenjangtanji.yeosuro.site.mapper.SiteMapper;
@@ -20,13 +19,11 @@ import java.util.List;
 public class SiteController {
 
     private final SiteService siteService;
-    private final PlanService planService;
     private final SiteMapper siteMapper;
 
     @Autowired
-    public SiteController(SiteService siteService, PlanService planService, SiteMapper siteMapper) {
+    public SiteController(SiteService siteService, SiteMapper siteMapper) {
         this.siteService = siteService;
-        this.planService = planService;
         this.siteMapper = siteMapper;
     }
 
