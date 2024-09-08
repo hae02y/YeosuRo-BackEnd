@@ -5,8 +5,8 @@ import jakarta.persistence.*;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-
-import java.util.stream.DoubleStream;
+import java.time.LocalDate;
+import java.time.LocalTime;
 
 @Entity
 @Getter
@@ -32,7 +32,13 @@ public class Site {
     private String address;
 
     @Column
-    private Long visitDate;
+    private LocalDate visitDate;
+
+    @Column
+    private LocalTime startTime;
+
+    @Column
+    private LocalTime endTime;
 
     @ManyToOne
     @JoinColumn(name = "plan_id")
@@ -40,13 +46,19 @@ public class Site {
 
 
     @Builder
-    public Site(String category, String memo, String latitude, String longitude, String address, Long visitDate, Plan plan) {
+    public Site(String category, String memo, String latitude, String longitude, String address, LocalDate visitDate, LocalTime startTime, LocalTime endTime, Plan plan) {
         this.category = category;
         this.memo = memo;
         this.latitude = latitude;
         this.longitude = longitude;
         this.address = address;
         this.visitDate = visitDate;
+        this.startTime = startTime;
+        System.out.println(visitDate);
+        System.out.println(startTime);
+        System.out.println(endTime);
+        System.out.println(this.startTime);
+        this.endTime = endTime;
         this.plan = plan;
     }
 

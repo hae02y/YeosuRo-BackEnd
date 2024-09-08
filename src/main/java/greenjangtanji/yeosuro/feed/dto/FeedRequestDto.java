@@ -1,12 +1,10 @@
 package greenjangtanji.yeosuro.feed.dto;
 
-import greenjangtanji.yeosuro.feed.entity.FeedCategory;
 import jakarta.validation.constraints.Size;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import org.hibernate.validator.constraints.NotBlank;
 
-import java.util.Collections;
 import java.util.List;
 
 public class FeedRequestDto {

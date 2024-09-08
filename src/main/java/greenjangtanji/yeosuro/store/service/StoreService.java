@@ -1,6 +1,5 @@
 package greenjangtanji.yeosuro.store.service;
 
-import greenjangtanji.yeosuro.feed.dto.FeedListResponseDto;
 import greenjangtanji.yeosuro.feed.entity.Feed;
 import greenjangtanji.yeosuro.feed.service.FeedService;
 import greenjangtanji.yeosuro.global.exception.BusinessLogicException;
@@ -14,7 +13,6 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
@@ -48,9 +46,8 @@ public class StoreService {
             storeRepository.save(store);
         }
         else if (storeType == StoreType.REVIEW) {
-
+            //TODO :
         }
-
     }
 
     //북마크 조회
@@ -81,7 +78,7 @@ public class StoreService {
             Feed feed = feedService.checkFeed(id);
             feed.updateStoreCount(-1);
         }else if (storeType == REVIEW){
-
+            //TODO:
         }
         storeRepository.delete(store);
     }

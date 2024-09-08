@@ -1,13 +1,13 @@
 package greenjangtanji.yeosuro.plan.entity;
 
-import com.fasterxml.jackson.annotation.JsonBackReference;
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import greenjangtanji.yeosuro.global.config.Timestamped;
 import greenjangtanji.yeosuro.site.entity.Site;
 import greenjangtanji.yeosuro.user.entity.User;
 import jakarta.persistence.*;
+import jakarta.validation.Valid;
 import lombok.*;
 
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -23,14 +23,17 @@ public class Plan extends Timestamped {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(nullable = true)
+    @Column(nullable = false)
     private String title;
 
-    @Column
+    @Column(nullable = false)
     private String content;
 
-    @Column
-    private String imageUrl;
+    @Column(nullable = false)
+    private LocalDate startDate;
+
+    @Column(nullable = false)
+    private LocalDate endDate;
 
     @Setter
     @ManyToOne
@@ -41,11 +44,13 @@ public class Plan extends Timestamped {
     private List<Site> sites = new ArrayList<>();
 
     @Builder
-    public Plan(String title, User user, String content, String imageUrl){
+    public Plan(String title, User user, String content, LocalDate startDate, LocalDate endDate, List<Site> sites){
         this.title = title;
         this.user = user;
         this.content = content;
-        this.imageUrl = imageUrl;
+        this.startDate = startDate;
+        this.endDate = endDate;
+        this.sites = sites;
     }
 
 }

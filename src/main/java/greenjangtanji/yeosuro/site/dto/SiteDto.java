@@ -1,11 +1,9 @@
 package greenjangtanji.yeosuro.site.dto;
 
-import jakarta.persistence.Column;
 import lombok.Getter;
 import lombok.Setter;
-import lombok.ToString;
-
 import java.time.LocalDate;
+import java.time.LocalTime;
 
 public class SiteDto {
 
@@ -17,7 +15,9 @@ public class SiteDto {
         private String latitude;
         private String longitude;
         private String address;
-        private Long visitDate;
+        private LocalDate visitDate;
+        private LocalTime startTime;
+        private LocalTime endTime;
     }
 
     @Getter
@@ -29,7 +29,9 @@ public class SiteDto {
         private String latitude;
         private String longitude;
         private String address;
-        private Long visitDate;
+        private LocalDate visitDate;
+        private LocalTime startTime;
+        private LocalTime endTime;
     }
 
     // Site 개별 조회에서 사용 -> 사용자가 장소만 검색하는 경우
