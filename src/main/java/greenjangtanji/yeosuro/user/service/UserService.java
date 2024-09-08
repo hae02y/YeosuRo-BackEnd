@@ -109,12 +109,12 @@ public class UserService {
 
     //회원 상태 확인
     private User checkUserStatus(UserRequestDto.SignUp signUp) {
-        User existingUser = checkUserByEmail(signUp.getEmail());
+        Optional<User> existingOptUser = userRepository.findByEmail(signUp.getEmail());
 
-        if (existingUser != null) {
+        if (existingOptUser.isPresent()) {
             // 기존 유저가 INACTIVE 상태인지 확인
-            if (existingUser.getUserStatus() == UserStatus.INACTIVE) {
-                return existingUser;
+            if (existingOptUser.get().getUserStatus() == UserStatus.INACTIVE) {
+                return existingOptUser.get();
             } else {
                 throw new BusinessLogicException(ExceptionCode.DUPLICATE_EMAIL_ERROR);
             }
@@ -132,10 +132,9 @@ public class UserService {
 
     //이메일로 회원 확인
     public User checkUserByEmail (String email){
-        User existUser = userRepository.findByEmail(email).orElseThrow(
-                () -> new BusinessLogicException(ExceptionCode.USER_NOT_FOUND));
 
-        return existUser;
+        return userRepository.findByEmail(email).orElseThrow(
+                () -> new BusinessLogicException(ExceptionCode.USER_NOT_FOUND));
 
     }
 
