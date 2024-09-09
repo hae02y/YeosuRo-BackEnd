@@ -57,6 +57,9 @@ public class OAuth2LoginSuccessHandler implements AuthenticationSuccessHandler {
             } else {
                 // 로그인 성공 시 처리
                 loginSuccess(response, oAuth2User);
+                String redirectUrl = "http://localhost:3000/home";
+                response.sendRedirect(redirectUrl);
+
             }
         } catch (Exception e) {
             log.error("Authentication Success Handler Error: ", e);
