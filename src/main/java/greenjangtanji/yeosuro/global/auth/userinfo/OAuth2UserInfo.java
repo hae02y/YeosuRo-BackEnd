@@ -18,6 +18,6 @@ public abstract class OAuth2UserInfo {
 
     // public abstract String getEmail();
 
-    public abstract List<Image> getProfileImageUrl();
+    public abstract String getProfileImageUrl();
 
 }

@@ -46,13 +46,12 @@ public class SecurityConfig {
     private final OAuth2LoginFailureHandler oAuth2LoginFailureHandler;
     private final CustomOAuth2UserService customOAuth2UserService;
     private final CustomAuthenticationEntryPoint customAuthenticationEntryPoint;
-    private final CorsConfigurationSource corsConfigurationSource;
 
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
 
         http
-                .cors(c -> c.configurationSource(corsConfigurationSource))
+                .cors(c -> c.configurationSource(corsConfigurationSource()))
                 .csrf((csrfConfig) ->
                         csrfConfig.disable()
                 ) // csrf 보안 사용 X
@@ -73,7 +72,7 @@ public class SecurityConfig {
 
                 // URL별 권한 관리 옵션
                 .authorizeHttpRequests((auth) -> auth
-                        .requestMatchers("/sign-up/**","/login").permitAll() // 회원가입, 로그인 접근 가능
+                        .requestMatchers("/sign-up/**","/login/**").permitAll() // 회원가입, 로그인 접근 가능
                         .requestMatchers(PathRequest.toStaticResources().atCommonLocations()).permitAll()
                         .requestMatchers("/images/**").authenticated() // 이미지 관련 경로 인증 필수
                         .anyRequest().authenticated() // 위의 경로 이외에는 모두 인증된 사용자만 접근 가능
@@ -102,13 +101,12 @@ public class SecurityConfig {
     @Bean
     CorsConfigurationSource corsConfigurationSource() {
         CorsConfiguration configuration = new CorsConfiguration();
-        configuration.setAllowedOrigins(Arrays.asList("http://localhost:3000"));
-        configuration.setAllowedMethods(Arrays.asList("HEAD", "GET", "POST", "PUT", "PATCH", "DELETE", "OPTIONS"));
-        configuration.setAllowCredentials(true);
-        configuration.setAllowedHeaders(Arrays.asList("Authorization", "Authorization-refresh", "Cache-Control", "Content-Type"));
-
-        /* 응답 헤더 설정 추가*/
-        configuration.setExposedHeaders(Arrays.asList("Authorization", "Authorization-refresh"));
+        configuration.setAllowedOrigins(Arrays.asList("http://localhost:3000")); // 허용할 도메인
+        configuration.setAllowedMethods(Arrays.asList("GET", "POST", "PUT", "DELETE", "PATCH", "OPTIONS"));
+        configuration.setAllowedHeaders(Arrays.asList("Authorization", "Content-Type", "X-Access-Token", "X-Refresh-Token"));
+        configuration.setAllowCredentials(true); // 인증 정보 허용
+        configuration.setMaxAge(3600L);
+        configuration.setExposedHeaders(Arrays.asList("Authorization", "Authorization-refresh", "X-Access-Token", "X-Refresh-Token"));
 
         UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
         source.registerCorsConfiguration("/**", configuration);

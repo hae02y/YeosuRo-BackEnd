@@ -45,6 +45,15 @@ public class UserService {
         return user;
     }
 
+    //소셜 가입자 추가 정보 저장
+    public User patchOauthSignUpInfo(String email, Boolean agree){
+        User user =  checkUserByEmail(email);
+        user.updateAgree(agree);
+        user.updateTier(Tier.SILVER);
+        user.updateRole(Role.USER);
+        return user;
+    }
+
     //회원정보 조회
     public User getUserInfo(Long userId){
         User user =  checkUser(userId);

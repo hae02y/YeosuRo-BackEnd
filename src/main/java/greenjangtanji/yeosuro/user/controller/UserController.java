@@ -1,24 +1,30 @@
 package greenjangtanji.yeosuro.user.controller;
 
-import greenjangtanji.yeosuro.image.entity.ImageType;
-import greenjangtanji.yeosuro.image.service.ImageService;
+import greenjangtanji.yeosuro.global.jwt.service.JwtService;
 import greenjangtanji.yeosuro.user.dto.UserRequestDto;
 import greenjangtanji.yeosuro.user.dto.UserResponseDto;
 import greenjangtanji.yeosuro.user.entity.User;
 import greenjangtanji.yeosuro.user.service.UserService;
+import jakarta.servlet.http.Cookie;
+import jakarta.servlet.http.HttpServletRequest;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.Optional;
+
 @RestController
 @RequestMapping()
 @RequiredArgsConstructor
+@Slf4j
 public class UserController {
 
     private final UserService userService;
+    private final JwtService jwtService;
 
 
     //자체 회원가입
@@ -28,6 +34,26 @@ public class UserController {
         UserResponseDto.DetailUserInfo detailUserInfo = new UserResponseDto.DetailUserInfo(user);
 
         return new ResponseEntity<>(detailUserInfo, HttpStatus.OK);
+    }
+
+    @PatchMapping("/login/oauth")
+    public ResponseEntity updateOauthSignUp (@Valid @RequestBody Boolean agree,
+                                             HttpServletRequest request) {
+        Cookie[] cookies = request.getCookies();
+        if (cookies != null) {
+            for (Cookie cookie : cookies) {
+                if (cookie.getName().equals("accessToken")) {
+                    Optional<String> email = jwtService.extractEmail(cookie.getValue());
+                    log.info("Extracted email from access token: {}", email.get());
+                    User user = userService.patchOauthSignUpInfo(email.get(), agree);
+                }
+            }
+            //User user = userService.patchOauthSignUpInfo(userId, agree);
+            //UserResponseDto.DetailUserInfo detailUserInfo = new UserResponseDto.DetailUserInfo(user);
+
+            return new ResponseEntity<>(HttpStatus.OK);
+        }
+        return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
     }
 
     //비밀번호 변경

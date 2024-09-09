@@ -6,6 +6,7 @@ import greenjangtanji.yeosuro.user.entity.Role;
 import greenjangtanji.yeosuro.user.entity.User;
 import greenjangtanji.yeosuro.user.repostory.UserRepository;
 import jakarta.servlet.ServletException;
+import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
@@ -30,25 +31,39 @@ public class OAuth2LoginSuccessHandler implements AuthenticationSuccessHandler {
             CustomOAuth2User oAuth2User = (CustomOAuth2User) authentication.getPrincipal();
 
             // User의 Role이 GUEST일 경우 처음 요청한 회원이므로 회원가입 페이지로 리다이렉트
-            if(oAuth2User.getRole() == Role.GUEST) {
+            if (oAuth2User.getRole() == Role.GUEST) {
                 String accessToken = jwtService.createAccessToken(oAuth2User.getEmail());
-                response.addHeader(jwtService.getAccessHeader(), "Bearer " + accessToken);
 
-                //TODO: 소셜 회원 가입 후 프론트의 회원가입 추가 정보 입력 폼으로 리다이렉트 주소 수정 필요
-//                response.sendRedirect("oauth2/sign-up");
-//                jwtService.sendAccessAndRefreshToken(response, accessToken, null);
-//                User findUser = userRepository.findByEmail(oAuth2User.getEmail())
-//                                .orElseThrow(() -> new IllegalArgumentException("이메일에 해당하는 유저가 없습니다."));
-//                findUser.authorizeUser();
+                // 쿠키 설정
+                Cookie accessTokenCookie = new Cookie("accessToken", accessToken);
+                accessTokenCookie.setHttpOnly(true); // 자바스크립트에서 접근할 수 없도록 설정
+                accessTokenCookie.setSecure(true); // HTTPS 연결에서만 사용
+                accessTokenCookie.setPath("/"); // 애플리케이션 전체에서 쿠키 접근 가능
+                accessTokenCookie.setMaxAge(3600); // 쿠키 만료 시간 설정 (초 단위)
+
+
+                // 쿠키 응답에 추가
+                response.addCookie(accessTokenCookie);
+
+                // 회원가입 페이지로 리다이렉트
+                String redirectUrl = "http://localhost:3000/login/oauth";
+                response.sendRedirect(redirectUrl); // 프론트엔드의 회원가입 페이지로 리다이렉트
+
+                // 유저 권한 업데이트
+                User findUser = userRepository.findByEmail(oAuth2User.getEmail())
+                        .orElseThrow(() -> new IllegalArgumentException("이메일에 해당하는 유저가 없습니다."));
+                findUser.authorizeUser(); // 유저 권한 업데이트
 
             } else {
-                loginSuccess(response, oAuth2User); // 로그인에 성공한 경우 access, refresh 토큰 생성
+                // 로그인 성공 시 처리
+                loginSuccess(response, oAuth2User);
             }
         } catch (Exception e) {
+            log.error("Authentication Success Handler Error: ", e);
             throw e;
         }
-
     }
+
 
     // TODO : 소셜 로그인 시에도 무조건 토큰 생성하지 말고 JWT 인증 필터처럼 RefreshToken 유/무에 따라 다르게 처리해보기
     private void loginSuccess(HttpServletResponse response, CustomOAuth2User oAuth2User) throws IOException {

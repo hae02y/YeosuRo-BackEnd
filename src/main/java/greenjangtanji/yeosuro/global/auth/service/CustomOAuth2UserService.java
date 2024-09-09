@@ -103,6 +103,7 @@ public class CustomOAuth2UserService implements OAuth2UserService<OAuth2UserRequ
      */
     private User saveUser(OAuthAttributes attributes, SocialType socialType) {
         User createdUser = attributes.toEntity(socialType, attributes.getOauth2UserInfo());
+        createdUser.updateUserStatus(UserStatus.ACTIVE);
         log.info("새로운 사용자 저장: {}", createdUser);
         return userRepository.save(createdUser);
     }
