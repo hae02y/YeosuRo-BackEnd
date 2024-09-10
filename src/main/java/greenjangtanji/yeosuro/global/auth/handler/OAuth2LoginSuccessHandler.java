@@ -33,17 +33,23 @@ public class OAuth2LoginSuccessHandler implements AuthenticationSuccessHandler {
             // User의 Role이 GUEST일 경우 처음 요청한 회원이므로 회원가입 페이지로 리다이렉트
             if (oAuth2User.getRole() == Role.GUEST) {
                 String accessToken = jwtService.createAccessToken(oAuth2User.getEmail());
+                String refreshToken = jwtService.createRefreshToken();
 
                 // 쿠키 설정
                 Cookie accessTokenCookie = new Cookie("accessToken", accessToken);
                 accessTokenCookie.setHttpOnly(true); // 자바스크립트에서 접근할 수 없도록 설정
-                accessTokenCookie.setSecure(true); // HTTPS 연결에서만 사용
+                accessTokenCookie.setSecure(false); // HTTPS 연결에서만 사용
                 accessTokenCookie.setPath("/"); // 애플리케이션 전체에서 쿠키 접근 가능
                 accessTokenCookie.setMaxAge(3600); // 쿠키 만료 시간 설정 (초 단위)
 
+                Cookie refreshTokenCookie = new Cookie("refreshToken", refreshToken);
+                refreshTokenCookie.setHttpOnly(true);
+                refreshTokenCookie.setSecure(false);
+                refreshTokenCookie.setPath("/");
+                refreshTokenCookie.setMaxAge(3600);
 
-                // 쿠키 응답에 추가
                 response.addCookie(accessTokenCookie);
+                response.addCookie(refreshTokenCookie);
 
                 // 회원가입 페이지로 리다이렉트
                 String redirectUrl = "http://localhost:3000/login/oauth";
@@ -57,7 +63,8 @@ public class OAuth2LoginSuccessHandler implements AuthenticationSuccessHandler {
             } else {
                 // 로그인 성공 시 처리
                 loginSuccess(response, oAuth2User);
-                String redirectUrl = "http://localhost:3000/home";
+
+                String redirectUrl = "http://localhost:3000/login/oauth/callback";
                 response.sendRedirect(redirectUrl);
 
             }
@@ -75,8 +82,25 @@ public class OAuth2LoginSuccessHandler implements AuthenticationSuccessHandler {
         response.addHeader(jwtService.getAccessHeader(), "Bearer " + accessToken);
         response.addHeader(jwtService.getRefreshHeader(), "Bearer " + refreshToken);
 
+        // 쿠키 설정
+        Cookie accessTokenCookie = new Cookie("accessToken", accessToken);
+        accessTokenCookie.setHttpOnly(true); // 자바스크립트에서 접근할 수 없도록 설정
+        accessTokenCookie.setSecure(false); // HTTPS 연결에서만 사용
+        accessTokenCookie.setPath("/"); // 애플리케이션 전체에서 쿠키 접근 가능
+        accessTokenCookie.setMaxAge(3600); // 쿠키 만료 시간 설정 (초 단위)
+
+        Cookie refreshTokenCookie = new Cookie("refreshToken", refreshToken);
+        refreshTokenCookie.setHttpOnly(true);
+        refreshTokenCookie.setSecure(false);
+        refreshTokenCookie.setPath("/");
+        refreshTokenCookie.setMaxAge(3600);
+
         jwtService.sendAccessAndRefreshToken(response, accessToken, refreshToken);
         jwtService.updateRefreshToken(oAuth2User.getEmail(), refreshToken);
+
+        response.addCookie(accessTokenCookie);
+        response.addCookie(refreshTokenCookie);
+
     }
 }
 
