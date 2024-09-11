@@ -96,6 +96,8 @@ public class User {
 
     public void updateTier (Tier tier) {this.tier = tier;}
 
+    public void updateRole (Role role) {this.role = role;}
+
     @OneToMany(mappedBy = "user", cascade = {CascadeType.PERSIST,CascadeType.REMOVE})
     private List<Feed> feeds = new ArrayList<>();
 
