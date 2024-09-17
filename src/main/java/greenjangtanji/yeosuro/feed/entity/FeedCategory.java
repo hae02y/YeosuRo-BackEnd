@@ -1,6 +1,6 @@
 package greenjangtanji.yeosuro.feed.entity;
 
 public enum FeedCategory {
-    TRAVEL, FREE_TALK
+    POPULAR, TRAVEL, FREE_TALK, PICK, EVENT, QNA
 
 }

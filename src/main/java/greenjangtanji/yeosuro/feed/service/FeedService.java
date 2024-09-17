@@ -47,7 +47,7 @@ public class FeedService {
         return createFeedResponseDto(feed);
     }
 
-    // 모든 게시글 조회(조회수 기준, 인기글 조회)
+    // 모든 게시글 조회(테스트)
     public List<FeedListResponseDto> findAll() {
         try {
             List<Feed> feedList = feedRepository.findAllByOrderByLikeCountDescCreateAtDesc();
@@ -59,10 +59,19 @@ public class FeedService {
         }
     }
 
-    // 카테고리 별 게시글 조회 (조회수 기준 정렬)
+    // 카테고리 별 게시글 조회 (최신순 기준 정렬)(인기글 카테고리만 좋아요 순 정렬)
     public List<FeedListResponseDto> getFeedsByCategory(FeedCategory feedCategory) {
         try {
-            List<Feed> feedList = feedRepository.findByFeedCategoryOrderByCreateAtDesc(feedCategory);
+            List<Feed> feedList;
+
+            // 카테고리가 'POPULAR'인 경우 좋아요 순으로 정렬
+            if (feedCategory == FeedCategory.POPULAR) {
+                feedList = feedRepository.findAllByOrderByLikeCountDescCreateAtDesc();
+            } else {
+                // 그 외의 카테고리는 최신순으로 정렬
+                feedList = feedRepository.findByFeedCategoryOrderByCreateAtDesc(feedCategory);
+            }
+
             return feedList.stream()
                     .map(this::createFeedListResponseDto)
                     .collect(Collectors.toList());
