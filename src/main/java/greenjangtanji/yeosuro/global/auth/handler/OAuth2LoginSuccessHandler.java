@@ -29,6 +29,8 @@ public class OAuth2LoginSuccessHandler implements AuthenticationSuccessHandler {
         log.info("OAuth2 Login 성공!");
         try {
             CustomOAuth2User oAuth2User = (CustomOAuth2User) authentication.getPrincipal();
+            User findUser = userRepository.findByEmail(oAuth2User.getEmail())
+                    .orElseThrow(() -> new IllegalArgumentException("이메일에 해당하는 유저가 없습니다."));
 
             // User의 Role이 GUEST일 경우 처음 요청한 회원이므로 회원가입 페이지로 리다이렉트
             if (oAuth2User.getRole() == Role.GUEST) {
@@ -51,18 +53,26 @@ public class OAuth2LoginSuccessHandler implements AuthenticationSuccessHandler {
                 response.addCookie(accessTokenCookie);
                 response.addCookie(refreshTokenCookie);
 
+                // 사용자 ID를 포함한 JSON 응답
+                response.setContentType("application/json"); // 응답 형식 설정
+                response.setCharacterEncoding("UTF-8");
+                String jsonResponse = String.format("{\"userId\": %d}", findUser.getId()); // 사용자 ID를 JSON 형식으로 생성
+                response.getWriter().write(jsonResponse); // JSON 응답 작성
+
                 // 회원가입 페이지로 리다이렉트
                 String redirectUrl = "http://localhost:3000/login/oauth";
                 response.sendRedirect(redirectUrl); // 프론트엔드의 회원가입 페이지로 리다이렉트
 
-                // 유저 권한 업데이트
-                User findUser = userRepository.findByEmail(oAuth2User.getEmail())
-                        .orElseThrow(() -> new IllegalArgumentException("이메일에 해당하는 유저가 없습니다."));
-                findUser.authorizeUser(); // 유저 권한 업데이트
 
             } else {
                 // 로그인 성공 시 처리
                 loginSuccess(response, oAuth2User);
+
+                // 사용자 ID를 포함한 JSON 응답
+                response.setContentType("application/json"); // 응답 형식 설정
+                response.setCharacterEncoding("UTF-8");
+                String jsonResponse = String.format("{\"userId\": %d}", findUser.getId()); // 사용자 ID를 JSON 형식으로 생성
+                response.getWriter().write(jsonResponse); // JSON 응답 작성
 
                 String redirectUrl = "http://localhost:3000/login/oauth/callback";
                 response.sendRedirect(redirectUrl);
