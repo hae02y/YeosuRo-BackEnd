@@ -5,6 +5,7 @@ import greenjangtanji.yeosuro.plan.entity.PlanReview;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
+import lombok.ToString;
 
 import java.time.LocalDate;
 import java.time.LocalTime;

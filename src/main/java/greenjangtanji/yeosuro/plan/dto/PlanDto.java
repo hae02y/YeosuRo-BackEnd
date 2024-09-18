@@ -41,6 +41,7 @@ public class PlanDto {
         private String createAt;
         private LocalDate startDate;
         private LocalDate endDate;
+        private Long planId;
         private List<SiteDto.SiteResponseDto> siteList;
     }
 

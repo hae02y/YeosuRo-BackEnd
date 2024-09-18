@@ -1,10 +1,12 @@
 package greenjangtanji.yeosuro.plan.entity;
 
+import greenjangtanji.yeosuro.site.entity.Site;
 import greenjangtanji.yeosuro.site.entity.SiteReview;
 import greenjangtanji.yeosuro.user.entity.User;
 import jakarta.persistence.*;
 import lombok.*;
 
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -14,8 +16,8 @@ import java.util.List;
 @Entity
 @Getter
 @NoArgsConstructor
+@Setter
 @ToString
-@AllArgsConstructor
 public class PlanReview {
 
     @Id
@@ -53,5 +55,4 @@ public class PlanReview {
     //TODO : 키워드 작성 필요
     @Enumerated(EnumType.STRING)
     private KeywordType keywordType;
-
 }

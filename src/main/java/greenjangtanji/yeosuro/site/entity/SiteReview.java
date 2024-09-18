@@ -4,6 +4,7 @@ import greenjangtanji.yeosuro.image.entity.Image;
 import greenjangtanji.yeosuro.plan.entity.PlanReview;
 import jakarta.persistence.*;
 import lombok.Builder;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
@@ -12,6 +13,7 @@ import java.util.List;
 
 @Entity
 @NoArgsConstructor
+@Getter
 @Setter
 public class SiteReview {
 

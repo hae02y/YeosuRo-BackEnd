@@ -102,4 +102,9 @@ public class PlanService {
     public List<PlanReview> getMyPlanReviews(User user) {
         return planReviewRepository.getPlansByUser(user);
     }
+
+    public List<PlanReview> getPlanReviewsByPlanId(Long planId) {
+        Plan plan = planRepository.getPlanById(planId);
+        return planReviewRepository.getPlanReviewByPlan(plan);
+    }
 }
