@@ -78,6 +78,7 @@ public class PlanController {
         long id = userService.extractUserId(auth);
         PlanReview planReview = planMapper.planReviewPostDtoToPlanReview(planReviewPostDto);
         System.out.println("here" + planReviewPostDto.toString());
+        System.out.println("planReview" + planReview.toString());
         planReview.setUser(userService.getUserInfo(id));
         Plan plan = planService.getPlanByPlanId(planId);
         planReview.setPlan(plan);
@@ -85,4 +86,13 @@ public class PlanController {
         return new ResponseEntity<>(HttpStatus.CREATED);
     }
 
+    //여정 후기 조회
+    @GetMapping(value = {"/{planId}/review"})
+    public ResponseEntity<?> getPlanReview(Authentication auth,
+                                           @PathVariable long planId) {
+        long id = userService.extractUserId(auth);
+        List<PlanReviewDto.PlanReviewResponseDto> dto = planMapper.planReviewListToPlanReviewDtoList(planService.getPlanReviewsByPlanId(planId));
+
+        return new ResponseEntity<>(dto, HttpStatus.OK);
+    }
 }

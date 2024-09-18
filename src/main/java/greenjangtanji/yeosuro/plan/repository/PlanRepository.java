@@ -10,4 +10,5 @@ import java.util.List;
 @Repository
 public interface PlanRepository extends JpaRepository<Plan, Long> {
     List<Plan> getPlansByUser(User user);
+    Plan getPlanById(Long id);
 }
