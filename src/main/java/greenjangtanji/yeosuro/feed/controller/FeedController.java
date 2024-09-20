@@ -84,8 +84,8 @@ public class FeedController {
     //게시글 삭제
     @DeleteMapping("{feed-id}")
     public ResponseEntity deleteFeed(@PathVariable("feed-id") Long feedId) {
-        feedService.deleteFeed(feedId);
-        return new ResponseEntity<>(HttpStatus.ACCEPTED);
+        Long feedIdCheck = feedService.deleteFeed(feedId);
+        return new ResponseEntity<>(feedIdCheck, HttpStatus.OK);
     }
 
     //조회수 로직

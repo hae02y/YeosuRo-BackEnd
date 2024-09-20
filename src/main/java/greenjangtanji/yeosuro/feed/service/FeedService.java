@@ -109,9 +109,10 @@ public class FeedService {
 
     // 게시글 삭제
     @Transactional
-    public void deleteFeed(Long feedId) {
+    public Long deleteFeed(Long feedId) {
         checkFeed(feedId);
         feedRepository.deleteById(feedId);
+        return feedId;
     }
 
     //조회수 증가 로직
