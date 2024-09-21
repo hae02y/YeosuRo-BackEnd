@@ -41,6 +41,7 @@ public class ImageService {
         List<String> fileNameList = new ArrayList<>();
 
         multipartFile.forEach(file -> {
+            System.out.println(type);
             String fileName = createFileName(type, file.getOriginalFilename());
             ObjectMetadata objectMetadata = new ObjectMetadata();
             objectMetadata.setContentLength(file.getSize());
@@ -73,6 +74,9 @@ public class ImageService {
      */
     public void updateReferenceIdAndType (Long referenceId, ImageType imageType, List<String> imageUrls) {
         // 해당 URL 목록을 사용하여 이미지 테이블의 레퍼런스 정보 업데이트
+
+        if(imageUrls == null) return;
+
         for (String imageUrl : imageUrls) {
             Image image = imageRepository.findByImageUrl(imageUrl).orElseThrow(
                     () -> new BusinessLogicException(ExceptionCode.FILE_NOT_FOUND));

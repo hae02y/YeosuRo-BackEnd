@@ -1,5 +1,7 @@
 package greenjangtanji.yeosuro.plan.service;
 
+import greenjangtanji.yeosuro.image.entity.ImageType;
+import greenjangtanji.yeosuro.image.service.ImageService;
 import greenjangtanji.yeosuro.plan.entity.Plan;
 import greenjangtanji.yeosuro.plan.entity.PlanReview;
 import greenjangtanji.yeosuro.plan.repository.PlanRepository;
@@ -15,6 +17,7 @@ import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -25,31 +28,46 @@ public class PlanService {
     private final SiteRepository siteRepository;
     private final PlanReviewRepository planReviewRepository;
     private final SiteReviewRepository siteReviewRepository;
+    private final ImageService imageService;
 
     @Autowired
-    public PlanService(PlanRepository planRepository, SiteRepository siteRepository, PlanReviewRepository planReviewRepository, SiteReviewRepository siteReviewRepository) {
+    public PlanService(PlanRepository planRepository,
+                       SiteRepository siteRepository,
+                       PlanReviewRepository planReviewRepository,
+                       SiteReviewRepository siteReviewRepository,
+                       ImageService imageService) {
         this.planRepository = planRepository;
         this.siteRepository = siteRepository;
         this.planReviewRepository = planReviewRepository;
         this.siteReviewRepository = siteReviewRepository;
+        this.imageService = imageService;
     }
 
     @Transactional
-    public void savePlan(Plan savedPlan, List<SiteDto.SitePostDto> sitePostDtos) {
+    public void savePlan(Plan savedPlan, List<SiteDto.SitePostDto> sitePostDtos, List<String> imageUrls) {
         planRepository.save(savedPlan);
         List<Site> sites = sitePostDtos.stream()
                 .map(sitePostDto -> Site.builder()
                         .category(sitePostDto.getCategory())
+                        .name(sitePostDto.getName())
                         .memo(sitePostDto.getMemo())
                         .latitude(sitePostDto.getLatitude())
                         .longitude(sitePostDto.getLongitude())
                         .address(sitePostDto.getAddress())
                         .visitDate(sitePostDto.getVisitDate())
+                        .startTime(sitePostDto.getStartTime())
+                        .endTime(sitePostDto.getEndTime())
                         .plan(savedPlan)
                         .build())
                 .toList();
 
         siteRepository.saveAll(sites);
+
+        imageService.updateReferenceIdAndType(savedPlan.getId(), ImageType.PLAN, imageUrls);
+    }
+
+    public void deletePlanByPlanId(Long planId) {
+        planRepository.deleteById(planId);
     }
 
     public List<Plan> getAllPlan() {

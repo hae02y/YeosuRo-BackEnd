@@ -1,6 +1,7 @@
 package greenjangtanji.yeosuro.plan.entity;
 
 import greenjangtanji.yeosuro.global.config.Timestamped;
+import greenjangtanji.yeosuro.image.entity.Image;
 import greenjangtanji.yeosuro.site.entity.Site;
 import greenjangtanji.yeosuro.user.entity.User;
 import jakarta.persistence.*;
@@ -40,17 +41,24 @@ public class Plan extends Timestamped {
     @JoinColumn(name = "user_id")
     private User user;
 
-    @OneToMany(mappedBy = "plan")
+    @OneToOne(cascade = CascadeType.REMOVE, orphanRemoval = true)
+    private PlanReview planreview;
+
+    @OneToMany(mappedBy = "plan", cascade = CascadeType.REMOVE, orphanRemoval = true)
     private List<Site> sites = new ArrayList<>();
 
+    @OneToMany(mappedBy = "referenceId", fetch = FetchType.LAZY)
+    private List<Image> images = new ArrayList<>();
+
     @Builder
-    public Plan(String title, User user, String content, LocalDate startDate, LocalDate endDate, List<Site> sites){
+    public Plan(String title, User user, String content, LocalDate startDate, LocalDate endDate, List<Site> sites, PlanReview planreview){
         this.title = title;
         this.user = user;
         this.content = content;
         this.startDate = startDate;
         this.endDate = endDate;
         this.sites = sites;
+        this.planreview = planreview;
     }
 
 }

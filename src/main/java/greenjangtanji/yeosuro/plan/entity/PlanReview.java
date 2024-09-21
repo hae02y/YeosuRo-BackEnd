@@ -49,7 +49,7 @@ public class PlanReview {
     @JoinColumn(name = "plan_id")
     private Plan plan;
 
-    @OneToMany(mappedBy = "planReview")
+    @OneToMany(mappedBy = "planReview" ,cascade = CascadeType.REMOVE, orphanRemoval = true)
     private List<SiteReview> siteReviews = new ArrayList<>();
 
     //TODO : 키워드 작성 필요
