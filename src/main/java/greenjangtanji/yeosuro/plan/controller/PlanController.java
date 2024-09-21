@@ -51,13 +51,24 @@ public class PlanController {
         return new ResponseEntity<>(planResponseDtoList, HttpStatus.OK);
     }
 
+    //여정 ID로 조회
+    @GetMapping(value = {"/{planId}"})
+    public ResponseEntity<?> getPlanByPlanId(Authentication auth, @PathVariable Long planId) {
+        long id = userService.extractUserId(auth);
+
+        Plan plan = planService.getPlanByPlanId(planId);
+
+        PlanDto.PlanResponseDto planResponseDto = planMapper.planToPlanResponseDto(plan);
+        return new ResponseEntity<>(planResponseDto, HttpStatus.OK);
+    }
+
     // 나의 여정 등록
     @PostMapping(value = {"/", ""})
     public ResponseEntity<?> postPlan(Authentication auth, @RequestBody PlanDto.PlanPostDto planPostDto) {
         long userId = userService.extractUserId(auth);
         Plan plan = planMapper.planPostDtoToPlan(planPostDto);
         plan.setUser(userService.getUserInfo(userId));
-        planService.savePlan(plan, planPostDto.getSites());
+        planService.savePlan(plan, planPostDto.getSites(),planPostDto.getImageUrls());
         return new ResponseEntity<>(HttpStatus.CREATED);
     }
 
@@ -67,6 +78,13 @@ public class PlanController {
         long id = userService.extractUserId(auth);
         System.out.printf(String.valueOf(id));
         return new ResponseEntity<>(id, HttpStatus.OK);
+    }
+
+    @DeleteMapping(value = {"/{planId}"})
+    public ResponseEntity<?> deletePlan(Authentication authentication, @PathVariable(value = "planId") Long planId){
+        planService.deletePlanByPlanId(planId);
+
+        return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
 
 

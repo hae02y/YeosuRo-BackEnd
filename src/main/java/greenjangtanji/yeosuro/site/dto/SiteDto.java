@@ -4,6 +4,7 @@ import lombok.Getter;
 import lombok.Setter;
 import java.time.LocalDate;
 import java.time.LocalTime;
+import java.util.List;
 
 public class SiteDto {
 
@@ -11,6 +12,8 @@ public class SiteDto {
     @Getter
     public static class SitePostDto {
         private String category;
+        private String name;
+        private List<String> imageUrls;
         private String memo;
         private String latitude;
         private String longitude;
@@ -25,6 +28,8 @@ public class SiteDto {
     public static class SiteResponseDto{
         private Long id;
         private String category;
+        private String name;
+        private List<String> imageUrls;
         private String memo;
         private String latitude;
         private String longitude;
@@ -39,6 +44,8 @@ public class SiteDto {
     @Setter
     public static class SiteResponseDtoNoDate{
         private Long id;
+        private String name;
+        private List<String> imageUrls;
         private String category;
         private String memo;
         private String latitude;
