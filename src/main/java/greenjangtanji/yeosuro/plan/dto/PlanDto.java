@@ -18,6 +18,7 @@ public class PlanDto {
     public static class PlanPostDto {
         private String title;
         private String content;
+        private List<String> imageUrls;
         private List<SiteDto.SitePostDto> sites;
         private LocalDate startDate;
         private LocalDate endDate;
@@ -29,6 +30,7 @@ public class PlanDto {
     public static class PlanPatchDto {
         private String title;
         private String content;
+        private List<String> imageUrls;
     }
 
     @Getter
@@ -36,11 +38,13 @@ public class PlanDto {
     @NoArgsConstructor
     public static class PlanResponseDto {
         private Long userId;
+        private List<String> imageUrls;
         private String title;
         private String content;
         private String createAt;
         private LocalDate startDate;
         private LocalDate endDate;
+        private Long planId;
         private List<SiteDto.SiteResponseDto> siteList;
     }
 

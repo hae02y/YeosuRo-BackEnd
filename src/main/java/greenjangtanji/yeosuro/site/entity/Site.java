@@ -1,5 +1,6 @@
 package greenjangtanji.yeosuro.site.entity;
 
+import greenjangtanji.yeosuro.image.entity.Image;
 import greenjangtanji.yeosuro.plan.entity.Plan;
 import jakarta.persistence.*;
 import lombok.Builder;
@@ -7,6 +8,8 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import java.time.LocalDate;
 import java.time.LocalTime;
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 @Getter
@@ -18,6 +21,9 @@ public class Site {
 
     @Column
     private String category;
+
+    @Column
+    private String name;
 
     @Column
     private String memo;
@@ -44,20 +50,19 @@ public class Site {
     @JoinColumn(name = "plan_id")
     private Plan plan;
 
+    @OneToMany(mappedBy = "referenceId", fetch = FetchType.LAZY)
+    private List<Image> images = new ArrayList<>();
 
     @Builder
-    public Site(String category, String memo, String latitude, String longitude, String address, LocalDate visitDate, LocalTime startTime, LocalTime endTime, Plan plan) {
+    public Site(String category, String name, String memo, String latitude, String longitude, String address, LocalDate visitDate, LocalTime startTime, LocalTime endTime, Plan plan) {
         this.category = category;
+        this.name = name;
         this.memo = memo;
         this.latitude = latitude;
         this.longitude = longitude;
         this.address = address;
         this.visitDate = visitDate;
         this.startTime = startTime;
-        System.out.println(visitDate);
-        System.out.println(startTime);
-        System.out.println(endTime);
-        System.out.println(this.startTime);
         this.endTime = endTime;
         this.plan = plan;
     }
