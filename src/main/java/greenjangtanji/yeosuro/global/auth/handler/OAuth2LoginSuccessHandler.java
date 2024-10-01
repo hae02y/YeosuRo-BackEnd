@@ -60,21 +60,20 @@ public class OAuth2LoginSuccessHandler implements AuthenticationSuccessHandler {
                 response.getWriter().write(jsonResponse); // JSON 응답 작성
 
                 // 회원가입 페이지로 리다이렉트
-                String redirectUrl = "http://localhost:3000/login/oauth";
+                String redirectUrl = "https://yeosuro.vercel.app/login/oauth";
                 response.sendRedirect(redirectUrl); // 프론트엔드의 회원가입 페이지로 리다이렉트
 
 
             } else {
                 // 로그인 성공 시 처리
                 loginSuccess(response, oAuth2User);
+                String redirectUrl = "https://yeosuro.vercel.app/login/oauth/callback";
 
                 // 사용자 ID를 포함한 JSON 응답
                 response.setContentType("application/json"); // 응답 형식 설정
                 response.setCharacterEncoding("UTF-8");
                 String jsonResponse = String.format("{\"userId\": %d}", findUser.getId()); // 사용자 ID를 JSON 형식으로 생성
                 response.getWriter().write(jsonResponse); // JSON 응답 작성
-
-                String redirectUrl = "http://localhost:3000/login/oauth/callback";
                 response.sendRedirect(redirectUrl);
 
             }
