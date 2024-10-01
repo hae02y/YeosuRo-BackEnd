@@ -52,7 +52,7 @@ public class OAuth2LoginSuccessHandler implements AuthenticationSuccessHandler {
                 response.addCookie(refreshTokenCookie);
 
                 // 회원가입 페이지로 리다이렉트
-                String redirectUrl = "http://localhost:3000/login/oauth";
+                String redirectUrl = "https://yeosuro.vercel.app/login/oauth";
                 response.sendRedirect(redirectUrl); // 프론트엔드의 회원가입 페이지로 리다이렉트
 
                 // 유저 권한 업데이트
@@ -64,7 +64,7 @@ public class OAuth2LoginSuccessHandler implements AuthenticationSuccessHandler {
                 // 로그인 성공 시 처리
                 loginSuccess(response, oAuth2User);
 
-                String redirectUrl = "http://localhost:3000/login/oauth/callback";
+                String redirectUrl = "https://yeosuro.vercel.app/login/oauth/callback";
                 response.sendRedirect(redirectUrl);
 
             }
